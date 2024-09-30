@@ -1,37 +1,37 @@
-# OPEA Frequently Asked Questions 
+# Поширені запитання з OPEA
 
-## What is OPEA's mission? 
-OPEA’s mission is to offer a validated enterprise-grade GenAI (Generative Artificial Intelligence) RAG reference implementation. This will simplify GenAI development and deployment, thereby accelerating time-to-market.
+## У чому полягає місія OPEA? 
+Місія OPEA полягає в тому, щоб запропонувати перевірену еталонну реалізацію RAG GenAI (генеративного штучного інтелекту) корпоративного рівня. Це спростить розробку та розгортання GenAI, тим самим прискорюючи час виходу на ринок.
 
-## What is OPEA? 
-The project currently consists of a technical conceptual framework that enables GenAI implementations to meet enterprise-grade requirements. The project offers a set of reference implementations for a wide range of enterprise use cases that can be used out-of-the-box. Additionally, the project provides a set of validation and compliance tools to ensure the reference implementations meet the needs outlined in the conceptual framework. This enables new reference implementations to be contributed and validated in an open manner. Partnering with the LF AI & Data places it in the perfect spot for multi-partner development, evolution, and expansion.
+## Що таке OPEA? 
+Наразі проект складається з технічної концептуальної основи, яка дозволяє реалізаціям GenAI відповідати вимогам корпоративного рівня. Проект пропонує набір еталонних реалізацій для широкого спектру корпоративних сценаріїв використання, які можна використовувати «з коробки». Крім того, проект надає набір інструментів перевірки та відповідності, щоб забезпечити відповідність еталонних реалізацій потребам, викладеним у концептуальній структурі. Це дає змогу створювати нові еталонні реалізації та перевіряти їх у відкритий спосіб. Партнерство з LF AI & Data робить його ідеальним місцем для багатостороннього розвитку, еволюції та розширення.
 
-## What problems are faced by GenAI deployments within the enterprise? 
-Enterprises face a myriad of challenges in the development and deployment of GenAI. The development of new models, algorithms, fine-tuning techniques, detecting and resolving bias, and how to deploy large solutions at scale continues to evolve at a rapid pace. One of the biggest challenges enterprises come up against is a lack of standardized software tools and technologies from which to choose. Additionally, enterprises want the flexibility to innovate rapidly, extend functionality to meet their business needs while ensuring the solution is secure and trustworthy. The lack of a framework that encompasses both proprietary and open solutions impedes enterprises from charting their destiny. This results in an enormous investment of time and money, impacting the time-to-market advantage. OPEA answers the need for a multi-provider, ecosystem-supported framework that enables the evaluation, selection, customization, and trusted deployment of solutions that businesses can rely on.
+## З якими проблемами стикаються при розгортанні GenAI на підприємстві? 
+Підприємства стикаються з безліччю проблем при розробці та розгортанні GenAI. Розробка нових моделей, алгоритмів, методів точного налаштування, виявлення та усунення упередженості, а також способів масштабного розгортання великих рішень продовжує розвиватися швидкими темпами. Однією з найбільших проблем, з якою стикаються підприємства, є відсутність стандартизованих програмних інструментів і технологій, з яких можна було б вибирати. Крім того, підприємствам потрібна гнучкість для швидкого впровадження інновацій, розширення функціональності відповідно до бізнес-потреб, а також безпека та надійність рішення. Відсутність середовища, яке охоплює як пропрієтарні, так і відкриті рішення, заважає підприємствам планувати свою долю. Це призводить до величезних витрат часу та грошей, що впливає на час виходу на ринок. OPEA відповідає на потребу в багатосторонній екосистемній платформі, яка дозволяє оцінювати, обирати, налаштовувати та надійно розгортати рішення, на які може покластися бізнес.
 
-## Why now? 
-The major adoption and deployment cycle of robust, secure, enterprise-grade GenAI solutions across all industries is in its early stages. Enterprise-grade solutions will require collaboration in the open ecosystem. The time is now for the ecosystem to come together and accelerate GenAI deployments across enterprises by offering a standardized set of tools and technologies while supporting three key tenets – openness, security, and scalability. This will require the ecosystem to work together to build reference implementations that are performant, trustworthy, and enterprise-grade ready.
+## Чому зараз? 
+Основний цикл впровадження та розгортання надійних, безпечних рішень GenAI корпоративного рівня в усіх галузях знаходиться на початковій стадії. Рішення корпоративного рівня вимагатимуть співпраці у відкритій екосистемі. Настав час для екосистеми об'єднатися і прискорити розгортання GenAI на підприємствах, пропонуючи стандартизований набір інструментів і технологій, підтримуючи при цьому три ключові принципи - відкритість, безпеку і масштабованість. Це вимагатиме від екосистеми спільної роботи над створенням еталонних реалізацій, які будуть ефективними, надійними та готовими до використання на рівні підприємств.
 
-## How does it compare to other options for deploying Gen AI solutions within the enterprise? 
-There is no alternative that brings the entire ecosystem together in a vendor-neutral manner and delivers on the promise of openness, security, and scalability. This is our primary motivation for creating the OPEA project.
+## Як це порівняно з іншими варіантами розгортання рішень Gen AI на підприємстві? 
+Не існує альтернативи, яка б об'єднувала всю екосистему в нейтральний до постачальників спосіб і забезпечувала відкритість, безпеку і масштабованість. Це наша основна мотивація для створення проекту OPEA.
 
-## Will OPEA reference implementations work with proprietary components? 
-Like any other open-source project, the community will determine which components are needed by the broader ecosystem. Enterprises can always extend the OPEA project with other multi-vendor proprietary solutions to achieve their business goals.
+## Чи працюватимуть еталонні реалізації OPEA з пропрієтарними компонентами? 
+Як і будь-який інший проект з відкритим вихідним кодом, спільнота визначатиме, які компоненти потрібні ширшій екосистемі. Підприємства завжди можуть розширити проект OPEA за рахунок інших пропрієтарних рішень від різних постачальників для досягнення своїх бізнес-цілей.
 
-## What does OPEA acronym stand for?  
+## Що означає абревіатура OPEA?  
 Open Platform for Enterprise AI.
 
-## How do I pronounce OPEA? 
-It is pronounced ‘OH-PEA-AY.’
+## Як вимовляється слово OPEA?? 
+Це вимовляється як ‘OH-PEA-AY.’
 
 ## What initial companies and open-source projects joined OPEA?
 AnyScale, Cloudera, DataStax, Domino Data Lab, HuggingFace, Intel, KX, MariaDB Foundation, MinIO, Qdrant, Red Hat, SAS, VMware by Broadcom, Yellowbrick Data, Zilliz.
 
-## What is Intel contributing? 
-OPEA is to be defined jointly by several community partners, with a call for broad ecosystem contribution, under the well-established LF AI & Data Foundation. As a starting point, Intel has contributed a Technical Conceptual Framework that shows how to construct and optimize curated GenAI pipelines built for secure, turnkey enterprise deployment. At launch, Intel contributed several reference implementations on Intel hardware across Intel® Xeon® 5, Intel® Xeon® 6, and Intel® Gaudi® 2, which you can see in a GitHub repo here. Over time we intend to add to that contribution, including a software infrastructure stack to enable fully containerized AI workload deployments, as well as potentially implementations of those containerized workloads. 
+## Який внесок робить Intel? 
+OPEA буде визначено спільно кількома партнерами спільноти, із закликом до широкої участі в екосистемі, в рамках добре створеного Фонду LF AI & Data Foundation. Для початку Intel надала Технічну концептуальну основу, яка показує, як будувати та оптимізувати кураторські  трубопроводи GenAI, створені для безпечного розгортання «під ключ» на підприємствах. На початку Intel надала кілька еталонних реалізацій на апаратному забезпеченні Intel на базі Intel® Xeon® 5, Intel® Xeon® 6 та Intel® Gaudi® 2, які можна переглянути в репозиторії GitHub за цим посиланням. Згодом ми плануємо доповнити цей внесок, включно зі стеком програмної інфраструктури, щоб уможливити розгортання повністю контейнерних робочих навантажень ШІ, а також потенційні реалізації цих контейнерних робочих навантажень.
 
-## When you say Technical Conceptual Framework, what components are included?
-The models and modules can be part of an OPEA repository or be published in a stable, unobstructed repository (e.g., Hugging Face) and cleared for use by an OPEA assessment. These include:
+## Коли ви говорите про Технічну концептуальну основу, які компоненти входять до неї??
+Моделі та модулі можуть бути частиною репозиторію OPEA або публікуватися в стабільному, безперешкодному репозиторії (наприклад, Hugging Face) і бути допущеними до використання за результатами оцінки OPEA. До них відносяться:
 
 * Ingest/Data Processing 
 * Embedding Models/Services 
@@ -41,25 +41,25 @@ The models and modules can be part of an OPEA repository or be published in a st
 * Guardrails 
 * Memory systems 
 
-## What are the different ways partners can contribute to OPEA? 
-There are different ways partners can contribute to this project: 
+## Яким чином партнери можуть зробити свій внесок в ОPЕА? 
+Партнери можуть зробити свій внесок у цей проект різними способами: 
 
-* Join the project and contribute assets in terms of use cases, code, test harness, etc. 
-* Provide technical leadership  
-* Drive community engagement and evangelism 
-* Offer program management for various projects 
-* Become a maintainer, committer, and adopter 
-* Define and offer use cases for various industry verticals that shape OPEA project 
-* Build the infrastructure to support OPEA projects 
+* Приєднатися до проекту та надати ресурси у вигляді кейсів використання, коду, тестових харнесів тощо. 
+* Забезпечити технічне керівництво  
+* Сприяти залученню спільноти та поширенню 
+* Запропонувати управління програмами для різних проектів 
+* Стати розробником, компілятором і користувачем 
+* Визначити і запропонувати варіанти використання для різних галузевих вертикалей, які формують проект OPEA 
+* Розбудовувати інфраструктуру для підтримки проектів OPEA 
 
-## Where can partners see the latest draft of the Conceptual Framework spec? 
-A version of the spec is available in the documentation (["docs"](https://github.com/opea-project/docs)) repository within this project. 
+## Де партнери можуть ознайомитися з останнім проектом специфікації Концептуальних засад? 
+Версія специфікації доступна у репозиторії документації (["docs"](https://github.com/opea-project/docs)) цього проекту. 
 
-## Is there a cost for joining? 
-There is no cost for anyone to join and contribute to the OPEA project. 
+## Чи потрібно платити за приєднання?? 
+Приєднання до проекту OPEA є безкоштовним для всіх, хто бажає зробити свій внесок. 
 
-## Do I need to be a Linux Foundation member to join?
-Anyone can join and contribute. You don’t need to be a Linux Foundation member. 
+## Чи потрібно бути членом Linux Foundation, щоб приєднатися??
+Будь-хто може приєднатися і зробити свій внесок. Вам не потрібно бути членом Linux Foundation. 
 
-## Where can I report a bug or vulnerability?
-Vulnerability reports and bug submissions can be sent to [info@opea.dev](mailto:info@opea.dev).
+## Куди я можу повідомити про баг або вразливість?
+Звіти про уразливості та повідомлення про помилки можна надсилати на адресу [info@opea.dev](mailto:info@opea.dev).

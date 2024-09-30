@@ -1,9 +1,9 @@
-# Reporting a Vulnerability
+# Повідомлення про вразливість
 
-Report any security vulnerabilities in this project by following these [Linux Foundation security guidelines](https://www.linuxfoundation.org/security).
+Повідомляйте про будь-які уразливості безпеки в цьому проекті за наступною адресою [Linux Foundation security guidelines](https://www.linuxfoundation.org/security).
 
-## Script Usage Notice
+## Повідомлення про використання скриптів
 
-SCRIPT USAGE NOTICE: By downloading and using any script file included with the associated software package (such as files with .bat, .cmd, or .JS extensions, Dockerfiles, or any other type of file that, when executed, automatically downloads and/or installs files onto your system)
-(the “Script File”), it is your obligation to review the Script File to understand what files (e.g., other software, AI models, AI Datasets) the Script File will download to your system (“Downloaded Files”).
-Furthermore, by downloading and using the Downloaded Files, even if they are installed through a silent install, you agree to any and all terms and conditions associated with such files, including but not limited to, license terms, notices, or disclaimers.
+ЗАСТЕРЕЖЕННЯ ЩОДО ВИКОРИСТАННЯ СКРИПТІВ: Завантажуючи та використовуючи будь-який файл сценарію, що входить до складу відповідного програмного забезпечення (наприклад, файли з розширенням .bat, .cmd або .JS, Docker-файли або будь-який інший тип файлів, які при виконанні автоматично завантажують та/або встановлюють файли у вашу систему)
+(«Script File»), ви зобов'язані ознайомитися з ним, щоб зрозуміти, які файли (наприклад, інше програмне забезпечення, моделі ШІ, набори даних ШІ) файл сценарію завантажить у вашу систему («Downloaded Files»).
+Крім того, завантажуючи та використовуючи Завантажені файли, навіть якщо вони встановлюються за допомогою «тихої установки», ви погоджуєтеся з усіма умовами та положеннями, пов'язаними з такими файлами, включаючи, але не обмежуючись ними, ліцензійні умови, повідомлення або відмову від відповідальності.

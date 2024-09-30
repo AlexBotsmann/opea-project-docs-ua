@@ -1,28 +1,27 @@
-# OPEA Project
+# Проєкт OPEA
 
-**Mission**: Create an open platform project that enables the creation of open, multi-provider, robust, and composable GenAI solutions that harness the best innovation across the ecosystem.
+**Місія**: Створити проект з відкритою платформою, яка дозволить створювати відкриті, багатопрофільні, надійні та комбіновані рішення GenAI, що використовують найкращі інновації в екосистемі.
 
-Here are useful OPEA sites within the Linux Foundation AI & Data Organization:
+Ось корисні сайти OPEA в рамках Linux Foundation AI & Data Organization:
 
-* Website: [https://opea.dev](https://opea.dev)
+* Сайт: [https://opea.dev](https://opea.dev)
 * X/Twitter: [https://twitter.com/opeadev](https://twitter.com/opeadev)
 * Linkedin: [https://www.linkedin.com/company/opeadev](https://www.linkedin.com/company/opeadev)
 * Github: [https://github.com/opea-project](https://github.com/opea-project)
-* Contact us at: [info@opea.dev](mailto:info@opea.dev)
+* Зв'яжиться з нами: [info@opea.dev](mailto:info@opea.dev)
 
-The OPEA platform includes:
+Платформа OPEA включає в себе:
 
-- Composable building blocks for state-of-the-art generative AI systems
-  including LLMs, data stores, and prompt engines
-- Architectural blueprints of retrieval-augmented generative AI end-to-end workflows
-- A four-step assessment for grading generative AI systems around performance,
-  features, trustworthiness, and enterprise-grade readiness
+- Комбіновані будівельні блоки для найсучасніших генеративних систем ШІ, включаючи LLM, сховища даних і механізми підказок
+- Архітектурні схеми наскрізних робочих процесів генеративного ШІ, доповненого пошуком
+- Чотириступенева оцінка для класифікації генеративних систем ШІ за продуктивністю,
+  функцій, надійності та готовності до роботи на рівні підприємства
 
-Check out the
-[LF AI & Data Press Release](https://lfaidata.foundation/blog/2024/04/16/lf-ai-data-foundation-launches-open-platform-for-enterprise-ai-opea-for-groundbreaking-enterprise-ai-collaboration/) and
+Зайдіть на
+[LF AI & Data Press Release](https://lfaidata.foundation/blog/2024/04/16/lf-ai-data-foundation-launches-open-platform-for-enterprise-ai-opea-for-groundbreaking-enterprise-ai-collaboration/) і
 [Intel's blog post](https://www.intel.com/content/www/us/en/developer/articles/news/introducing-the-open-platform-for-enterprise-ai.html).
 
-## Technical Steering Committee
+## Технічний наглядовий комітет
 
 - [Ke Ding](https://www.linkedin.com/in/dingke/),	Senior Prinicipal AI Engineer,	Intel
 - [Malini Bhandaru](https://www.linkedin.com/in/malinibhandaru/),	Senior Principal Engineer,	Intel (Chair)
@@ -34,7 +33,7 @@ Check out the
 - [Justin Cormack](https://www.linkedin.com/in/justincormack/), CTO,	Docker
 - [Melissa Mckay](https://www.linkedin.com/in/melissajmckay/), Head of Developer Relations, JFrog 
 
-## Member companies at launch:
+## Компанії-члени на старті:
 
 * Anyscale
 * Cloudera

@@ -2,30 +2,30 @@
 
 Guardrails Gateway
 
-## Author
+## Автори
 
 [zhxie](https://github.com/zhxie), [Forrest-zhao](https://github.com/Forrest-zhao), [ruijin-intel](https://github.com/ruijin-intel)
 
-## Status
+## Статус
 
-Under Review
+Під розглядом
 
-## Objective
+## Мета
 
-Deploy opt-in guardrails in gateway on deployment environment.
+Розгортання опціональних захисних екранів на шлюзі в середовищі розгортання.
 
-## Motivation
+## Мотивація
 
-- Reduce latency in network transmission and protocol encoding/decoding.
-- Support stateful guardrails.
-- Enhance Observability.
-- Leverage OpenVINO for AI acceleration instructions including AVX, AVX512 and AMX.
+- Зменшити затримки при передачі даних мережею та кодуванні/декодуванні протоколів.
+- Підтримати бар'єри з підтримкою стану (stateful guardrails).
+- Покращення спостережливості.
+- Використовуйте OpenVINO для інструкцій з прискорення ШІ, включаючи AVX, AVX512 і AMX.
 
-## Design Proposal
+## Проектна пропозиція
 
-### Inference In Place
+### Висновок на місці
 
-The LangChain-like workflow is presented below.
+Робочий процес, подібний до LangChain, представлений нижче.
 
 ```mermaid
 graph LR
@@ -42,9 +42,9 @@ graph LR
   LLM-->Gateway
 ```
 
-All services use RESTful API calling to communicate. There is overhead in network transmission and protocol encoding/decoding. Early studies have shown that each hop adds a 3ms of latency, which can be even longer when mTLS is turned on for security reason in inter-nodes deployment.
+Всі сервіси використовують RESTful API виклики для зв'язку. Існують накладні витрати на мережеву передачу та кодування/декодування протоколів. Попередні дослідження показали, що кожне перемикання додає 3 мс затримки, яка може бути ще більшою, якщо mTLS увімкнено з міркувань безпеки при розгортанні між вузлами.
 
-The opt-in guardrails in gateway works in the architecture given below.
+Бар'єри, що вмикаються, в шлюзах працюють в архітектурі, наведеній нижче.
 
 ```mermaid
 graph LR
@@ -59,9 +59,9 @@ graph LR
   LLM-->Gateway
 ```
 
-The gateway can host multiple guardrails without extra network transmission or protocol encoding/decoding. In the real world deployment, there may be many guardrails in all perspectives, and the gateway is the best place to provide guardrails for the system.
+Шлюз може розміщувати кілька захисних бар'єрів без додаткової передачі даних по мережі або кодування/декодування протоколів. У реальних умовах розгортання може бути багато меж безпеки з усіх точок зору, і шлюз є найкращим місцем для забезпечення меж безпеки системи.
 
-The gateway consists of 2 basic components, inference runtime and guardrails.
+Шлюз складається з 2 основних компонентів, часу виконання виводу та захисних бар'єрів.
 
 ```mermaid
 graph TD
@@ -75,11 +75,11 @@ graph TD
   Guardrails---Access[Access Control]
 ```
 
-A unified inference runtime API provides a general interface for inference runtimes. Any inference runtime can be integrated into the system including OpenVINO. The guardrails leverages the inferece runtime and decides if the request/reponse is valid.
+Уніфікований API середовища виконання виводу надає загальний інтерфейс для середовищ виконання виводу. Будь-яке середовище виконання виводу може бути інтегроване у систему, включаючи OpenVINO. Бар'єри використовують середовище виконання виводу і вирішують, чи є запит/відповідь дійсними.
 
-### Stateful Guardrails
+### Бар'єри з підтримкою стану
 
-The traditional workflow from ingress to egress is presented below.
+Традиційний робочий процес від входу до виходу представлений нижче.
 
 ```mermaid
 flowchart LR
@@ -91,13 +91,13 @@ flowchart LR
   LLM-->GuardrailsB["Guardrails\nAnti-Profanity"]
 ```
 
-Guardrails service provides certain protection for LLM, such as anti-jailbreaking, anti-poisoning for the input side, anti-toxicity, factuality check for the output side, and PII detection for both input and output side.
+Бар'єрний сервіс забезпечує певний захист для LLM, наприклад, захист від злому, отруєння для вхідної сторони, антитоксичність, перевірку фактів для вихідної сторони та виявлення PII як для вхідної, так і для вихідної сторони.
 
-Guardrails can also be spliited into 2 types, stateless and stateful. Guardrails including anti-jailbreaking, anti-toxicity and PII detection are considered as stateless guards, since they do not rely on both prompt input and response output, while anti-hallucination is regarded as a stateful guard, it needs both input and ouput for the relativity between.
+Охоронні бар'єри також можна розділити на 2 типи: без та з підтримкою стану. Бар'єри, що включають в себе захист від втечі з в'язниці, антитоксичність і виявлення PII, вважаються без підтриски стану, оскільки вони не покладаються на швидкий вхід і вихід відповіді, в той час як захист від галюцинацій вважається з підтримкою стану, він потребує як входу, так і виходу для забезпечення відносності між ними.
 
-[Guardrails Microservice](https://github.com/xuechendi/GenAIComps/tree/pii_detection/comps/guardrails) provides certain guardrails as microservice, but due to the limitation microservice, it is not able to track requests for responses, leading to difficulty in providing stateless guard ability.
+[Guardrails Microservice](https://github.com/xuechendi/GenAIComps/tree/pii_detection/comps/guardrails) надає певні засоби захисту як мікросервіс, але через обмеження мікросервісу він не може відстежувати запити на відповіді, що призводить до труднощів у впровадженні охорони без підтримки стану.
 
-The opt-in guardrails in gateway works in the architecture given below.
+Бар'єри, що вмикаються, в шлюзах працюють в архітектурі, наведеній нижче.
 
 ```mermaid
 flowchart LR
@@ -113,19 +113,19 @@ flowchart LR
   LLM-->GuardrailsB["Guardrails\nAnti-Profanity"]
 ```
 
-As a alternative choice, the gateway will also provide guardrails ability, no matter stateful or stateless.
+В якості альтернативного варіанту, шлюз також впроваджує  охоронну зданність, незалежно від того, чи є він з або без підтримки стану.
 
-### Observability
+### Спостережливість
 
-Envoy is the most popular proxy in cloud native, which contains out-of-box access log, stats and metrics, and can be integrated into observability platform including OpenTelemetry and Prometheus naturally.
+Envoy - найпопулярніший хмарний проксі-сервер, який містить вбудований журнал доступу, статистику та метрики, а також може бути інтегрований у платформу спостереження, включаючи OpenTelemetry і Prometheus, місцево.
 
-Guardrails in gateway will leverages these abilities about observability to meet potential regulartory and compliance needs.
+Бар'єри в шлюзі будуть використовувати ці можливості спостереження для задоволення потенційних нормативних вимог і вимог до відповідності.
 
-### Multi-Services Deployment
+### Розгортання мультисервісів
 
-Let's say the embedding and LLM services are AI-powered and require guardrails protection.
+Припустимо, сервіси вбудовування та LLM працюють на основі ШІ і потребують бар'єрного захисту.
 
-The opt-in gateway can be deployed as a gateway or sidecar services.
+Опціональний шлюз може бути розгорнутий як шлюз або як додаткова послуга.
 
 ```mermaid
 graph LR
@@ -141,7 +141,7 @@ graph LR
   end
 ```
 
-The gateway can also work with guardrails microservices.
+Шлюз також може працювати з мікросервісами бар'єрів.
 
 ```mermaid
 graph LR
@@ -158,17 +158,17 @@ graph LR
   end
 ```
 
-## Alternatives Considered
+## Розглянуті альтернативи
 
-[Guardrails Microservice](https://github.com/xuechendi/GenAIComps/tree/pii_detection/comps/guardrails): has provided certain guardrails, however it only supports stateless guardrails.
+[Guardrails Microservice](https://github.com/xuechendi/GenAIComps/tree/pii_detection/comps/guardrails): передбачив певні засоби захисту, однак він підтримує лише засоби захисту без підтримки стану.
 
-## Compatibility
+## Сумісність
 
 N/A
 
 ## Miscs
 
-- TODO
+- Зробити
 
-  - [ ] API definitions for meta service deployment and Kubernetes deployment
-  - [ ] Envoy inference framework and guardrails HTTP filter
+  - [ ] Визначення API для розгортання мета-сервісів і розгортання Kubernetes
+  - [ ] Фреймворк виводу Envoy і захисні екрани HTTP-фільтр

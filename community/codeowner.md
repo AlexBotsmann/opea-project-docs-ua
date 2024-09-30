@@ -1,23 +1,20 @@
 # OPEA Project Code Owners
 
-These tables list the GitHub code owners, as found in the CODEOWNERS file in the
-corresponding OPEA repository. Code owners are responsible for code and
-documentation in a repository. They are automatically requested for
-review when someone opens a pull request (PR) that modifies code or
-documentation that they own.
+У цих таблицях перераховані власники коду GitHub, які можна знайти у файлі CODEOWNERS у відповідному репозиторії OPEA.
+Власники коду несуть відповідальність за код і
+документацію у репозиторії. Вони автоматично запитуються на перевірку, коли хтось відкриває pull-запит (PR), який змінює код або документацію, що їм належить.
 
-Select or contact the corresponding area owner for a PR review or questions
-about content within a repository.
+Виберіть або зв'яжіться з власником відповідної області для PR-огляду або запитань щодо контенту в репозиторії.
 
-<!-- codeowners.txt is generated at docbuild time from the CODEOWNERS files from each repo -->
+<!-- codeowners.txt генерується під час побудови docbuild з файлів CODEOWNERS кожного репозиторію. -->
 ```{include} codeowners.txt
 ```
 
 -----
 
-## Continuous Integration (CICD) owners
+## Continuous Integration (CI/CD) owners
 
-CI/CD processing is defined and managed by these owners:
+CI/CD обробка визначається й управляється цими власниками:
 
 * chensuyue, daisy-ycguo, ashahba, preethivenkatesh
 

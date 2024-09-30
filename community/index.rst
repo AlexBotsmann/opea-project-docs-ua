@@ -1,50 +1,38 @@
 .. _OPEA_community:
 
-OPEA Community
+Спільнота OPEA
 ##############
 
-Community Support
-*****************
+Підтримка спільноти
+*******************
 
-Welcome to the OPEA project community!
+Ласкаво просимо до спільноти проекту OPEA!
 
-The OPEA Community includes developers from member organizations and the general
-community all joining in the development of the project. Members contribute and
-discuss ideas, submit bugs and bug fixes, and improve documentation. They also
-help those in need through the community's forums and mailing lists. Anyone can
-join the developer community and the community is always willing to help its
-members and the User Community to get the most out of OPEA.
+Спільнота OPEA включає розробників з організацій-членів і широкої громадськості, які долучаються до розвитку проекту. Учасники роблять свій внесок і
+обговорюють ідеї, повідомляють про помилки та їх виправлення, а також покращують документацію. Вони також
+допомагають тим, хто цього потребує, через форуми та списки розсилки спільноти. Будь-хто може
+приєднатися до спільноти розробників, і спільнота завжди готова допомогти своїм
+і спільнота завжди готова допомогти своїм членам і спільноті користувачів отримати максимальну користь від OPEA.
 
-Resources
-*********
+Ресурси
+*******
 
-Here's a quick summary of resources to find your way around the OPEA Project
-support systems:
+Ось короткий огляд ресурсів, які допоможуть вам зорієнтуватися в системах підтримки проекту OPEA:
 
-* **OPEA Project Website**: The https://opea.dev website is the
-  central source of information about what's going on with OPEA.
-  On this site, you'll
-  find background and current information about the project as well as
-  relevant links to project material.
+* **OPEA Project Website**: Веб-сайт https://opea.dev є основним джерелом інформації про те, що відбувається в рамках проекту OPEA. На ньому ви знайдете довідкову та поточну інформацію про проект, а також відповідні посилання на матеріали проекту.
 
-* **Source Code in GitHub**: OPEA Project source code is maintained on a
-  public GitHub repository at https://github.com/opea-project.
-  You'll find information about getting access to the repository and how to
-  contribute to the project in this :doc:`Contribution Guide <CONTRIBUTING>`.
+* **Source Code in GitHub**: Вихідний код проекту OPEA підтримується на публічному репозиторії GitHub за адресою https://github.com/opea-project.
+  Ви знайдете інформацію про те, як отримати доступ до репозиторію та як зробити свій внесок у проект у цьому документі :doc:`Contribution Guide <CONTRIBUTING>`.
 
-* **Documentation**: Project technical documentation is developed
-  along with the project's code, and can be found at
-  https://opea-project.github.io.
+* **Documentation**: Технічна документація проекту розробляється разом з кодом проекту, і її можна знайти на сайті https://opea-project.github.io.
 
-* **Issue Reporting and Tracking**: Requirements and Issue tracking is done in
-  the Github issues system within each of the major repositories such as: https://github.com/opea-project/GenAIComps/issues.
-  You can browse through the reported issues and submit issues of your own.
+* **Issue Reporting and Tracking**: Вимоги та відстеження проблем здійснюється в системі проблем Github в кожному з основних репозиторіїв, таких як: https://github.com/opea-project/GenAIComps/issues. Ви можете переглядати повідомлені проблеми та надсилати свої власні проблеми.
 
 * **Mailing List**: TBD
 
 
-Contributing Guides
-*******************
+Інструкції щодо вкладу
+**********************
 
 .. toctree::
    :maxdepth: 1
@@ -57,8 +45,8 @@ Contributing Guides
    ../developer-guides/docbuild
    ../developer-guides/graphviz
 
-Roadmaps
-********
+Дорожня мапа
+************
 
 .. toctree::
    :maxdepth: 1
@@ -67,8 +55,8 @@ Roadmaps
    ../roadmap/*
 
 
-Project Governance
-******************
+Управління проєктом
+*******************
 
 .. toctree::
    :maxdepth: 1
@@ -78,8 +66,8 @@ Project Governance
    CODE_OF_CONDUCT
    SECURITY
 
-RFC Proposals
-*************
+Пропозиції RFC
+**************
 
 .. toctree::
    :maxdepth: 1

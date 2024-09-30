@@ -2,8 +2,8 @@
 
 .. _page-not-found:
 
-Page Not Found
-##############
+Сторінка не знайдена
+####################
 
 .. rst-class:: rst-columns2
 
@@ -11,13 +11,14 @@ Page Not Found
       :align: left
       :width: 320px
 
-   Sorry. The page you requested was not found on this site.
+   Вибачте. Сторінку, яку ви запитували, не знайдено на цьому сайті.
 
-   Check the address for misspellings.
-   It's also possible we've removed or renamed the page you're looking for.
+   Перевірте адресу на наявність помилок.
+   Можливо, ми видалили або перейменували сторінку, яку ви шукаєте.
 
-   Try using the navigation links on the left of this page to navigate
-   the major sections of our site, or use the document search box.
+   Спробуйте скористатися навігаційними посиланнями зліва на цій сторінці,
+   щоб перейти до основних розділів нашого сайту,
+   або скористайтеся вікном пошуку документів.
 
 .. raw:: html
 

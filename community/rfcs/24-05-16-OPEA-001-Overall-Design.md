@@ -1,93 +1,93 @@
 # 24-05-16 OPEA-001 Overall Design
 
-## Author
+## Автори
 
 [ftian1](https://github.com/ftian1), [lvliang-intel](https://github.com/lvliang-intel), [hshen14](https://github.com/hshen14)
 
-## Status
+## Статус
 
-Under Review
+На розляді
 
-## Objective
+## Мета
 
-Have a stable, extensible, secure, and easy-of-use orchestration framework design for OPEA users to quickly build their own GenAI applications.
+Стабільний, розширюваний, безпечний і простий у використанні фреймворк оркестрування, що дозволяє користувачам OPEA швидко створювати власні додатки GenAI.
 
-The requirements include but not limited to:
+Вимоги включають, але не обмежуються:
 
-1. orchestration planner
+1. планувальник оркестрування
 
-    have the ability of offer config-based definition or low-code for constructing complex LLM applications.
+    має можливість запропонувати визначення на основі конфігурації або низькорівневий код для побудови складних LLM-додатків.
 
-2. component registry
+2. реєстр компонентів
 
-    allow user to register new service for building complex GenAI applications
+    дозволяє користувачеві зареєструвати новий сервіс для створення складних GenAI-додатків
 
-3. monitoring
+3. моніторинг
 
-    allow user to trace the working flow, including logging, execution status, execution time, and so on.
+   дозволяє користувачеві відстежувати робочий процес, включаючи ведення журналу, статус виконання, час виконання тощо.
 
-4. scalability
+4. масштабованість
 
-    easily scale within K8S or other deployment techs at on-premis and cloud environment.
+    легко масштабувати за допомогою K8S або інших технологій розгортання в локальному та хмарному середовищі.
 
-## Motivation
+## Мотивація
 
-This RFC is used to present the OPEA overall design philosophy, including overall architecture, working flow, component design, for community discussion.
+Цей RFC використовується для представлення загальної філософії проектування OPEA, включаючи загальну архітектуру, робочий процес, дизайн компонентів, для обговорення спільнотою.
 
 ## Design Proposal
 
-The proposed overall architecture is
+Запропонована загальна архітектура виглядає наступним чином
 
 ![OPEA Architecture](opea_architecture.png "OPEA Architecture")
 
 1. GenAIComps
 
-    The suite of microservices, leveraging a service composer to assemble a mega-service tailored for real-world Enterprise AI applications.
+    Набір мікросервісів, що використовує композитор сервісів для створення мегасервісу, пристосованого до реальних застосунків корпоративного штучного інтелекту.
 
 2. GenAIExamples
 
-    The collective list of Generative AI (GenAI) and Retrieval-Augmented Generation (RAG) examples, targeting for demonstrating the whole orchestration pipeline.
+    Колективний список прикладів генеративного ШІ (GenAI) і генерації з розширенням пошуку (RAG), призначений для демонстрації всього трубопроводу оркестрування.
 
 3. GenAIInfra
 
-    The containerization and cloud native suite for OPEA, including artifacts to deploy GenAIExamples in a cloud native way, which can be used by enterprise users to deploy to their own cloud.
+    Набір для контейнеризації та хмарного розгортання для OPEA, включаючи артефакти для розгортання GenAIExamples у хмарному середовищі, які можуть бути використані корпоративними користувачами для розгортання у власній хмарі.
 
 4. GenAIEval
 
-    The evaluation, benchmark, and scorecard suite for OPEA, targeting for performance on throughput and latency, accuracy on popular evaluation harness, safety, and hallucination.
+    Набір оцінок, критеріїв і показників для OPEA, орієнтований на продуктивність, пропускну здатність і затримку, точність на популярних засобах оцінки, безпеку і галюцинації.
 
-The proposed OPEA workflow is
+Пропонований робочий процес OPEA виглядає наступним чином
 
 ![OPEA Workflow](opea_workflow.png "OPEA Workflow")
 
-1. Microservice
+1. Мікросервіс
 
-    Microservices are akin to building blocks, offering the fundamental services for constructing RAG (Retrieval-Augmented Generation) applications. Each microservice is designed to perform a specific function or task within the application architecture. By breaking down the system into smaller, self-contained services, microservices promote modularity, flexibility, and scalability. This modular approach allows developers to independently develop, deploy, and scale individual components of the application, making it easier to maintain and evolve over time. Additionally, microservices facilitate fault isolation, as issues in one service are less likely to impact the entire system.
+    Мікросервіси подібні до будівельних блоків, пропонуючи фундаментальні послуги для побудови додатків RAG (Retrieval-Augmented Generation). Кожен мікросервіс призначений для виконання певної функції або завдання в архітектурі програми. Розбиваючи систему на менші, автономні сервіси, мікросервіси сприяють модульності, гнучкості та масштабованості. Такий модульний підхід дозволяє розробникам самостійно розробляти, розгортати та масштабувати окремі компоненти програми, що полегшує її підтримку та розвиток з часом. Крім того, мікросервіси полегшують ізоляцію несправностей, оскільки проблеми в одному сервісі з меншою ймовірністю вплинуть на всю систему.
 
-2. Megaservice
+2. Мегасервіс
 
-    A megaservice is a higher-level architectural construct composed of one or more microservices, providing the capability to assemble end-to-end applications. Unlike individual microservices, which focus on specific tasks or functions, a megaservice orchestrates multiple microservices to deliver a comprehensive solution. Megaservices encapsulate complex business logic and workflow orchestration, coordinating the interactions between various microservices to fulfill specific application requirements. This approach enables the creation of modular yet integrated applications, where each microservice contributes to the overall functionality of the megaservice.
+    Мегасервіс - це архітектурна конструкція вищого рівня, що складається з одного або декількох мікросервісів і надає можливість збирати наскрізні додатки. На відміну від окремих мікросервісів, які зосереджені на конкретних завданнях або функціях, мегасервіс організовує кілька мікросервісів для надання комплексного рішення. Мегасервіси інкапсулюють складну бізнес-логіку та організацію робочих процесів, координуючи взаємодію між різними мікросервісами для виконання конкретних вимог додатків. Такий підхід дозволяє створювати модульні, але інтегровані додатки, де кожен мікросервіс робить свій внесок у загальну функціональність мегасервісу.
 
-3. Gateway
+3. Шлюз
 
-    The Gateway serves as the interface for users to access the megaservice, providing customized access based on user requirements. It acts as the entry point for incoming requests, routing them to the appropriate microservices within the megaservice architecture. Gateways support API definition, API versioning, rate limiting, and request transformation, allowing for fine-grained control over how users interact with the underlying microservices. By abstracting the complexity of the underlying infrastructure, gateways provide a seamless and user-friendly experience for interacting with the megaservice.
+    Шлюз слугує інтерфейсом для доступу користувачів до мегасервісу, забезпечуючи персоналізований доступ на основі вимог користувача. Він діє як точка входу для вхідних запитів, спрямовуючи їх до відповідних мікросервісів в рамках архітектури мегасервісу. Шлюзи підтримують визначення API, версіювання API, обмеження швидкості та трансформацію запитів, що дозволяє тонко контролювати взаємодію користувачів з базовими мікросервісами. Абстрагуючись від складності базової інфраструктури, шлюзи забезпечують безперебійну та зручну взаємодію з мегасервісом.
 
-## Alternatives Considered
+## Розглянуті альтернативи
 
 n/a
 
-## Compatibility
+## Сумісність
 
 n/a
 
 ## Miscs
 
-- TODO List:
+- Список справ:
 
-  - [ ] Micro Service specification
-  - [ ] Mega Service specification
-  - [ ] static cloud resource allocator vs dynamic cloud resource allocator
-  - [ ] open telemetry support
-  - [ ] authentication and trusted env
+  - [ ] Специфікація мікросервісу
+  - [ ] Специфікація мегасервісу
+  - [ ] статичний розподільник хмарних ресурсів проти динамічного розподільника хмарних ресурсів
+  - [ ] підтримка відкритої телеметрії
+  - [ ] автентифікація та довірене середовище
 
 

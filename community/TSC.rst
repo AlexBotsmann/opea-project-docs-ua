@@ -1,28 +1,22 @@
-Technical Steering Committee (TSC)
+Технічний наглядовий комітет (TSC)
 ##################################
 
-As defined in the :doc:`OPEA Charter <charter>`, the Technical Steering
-Committee is responsible for all technical oversight of the OPEA project
-including:
+Як визначено в :doc:`OPEA Charter <charter>`, Технічний наглядовий комітет відповідає за технічний нагляд за проєктом OPEA.
+Комітет відповідає за весь технічний нагляд за проєктом OPEA включаючи:
 
-* coordinating the technical direction of the OPEA project;
-* approving project or system proposals
-* creating committees or working groups (for example, an executive or
-  architectural committee or end-user advisory committee) to support the
-  OPEA project;
-* appointing representatives to work with other open source or open standards
-  communities;
-* establishing community norms, workflows, issuing releases, and security issue
-  reporting policies;
-* approving and implementing policies and processes for contributing
-* discussions, seeking consensus, and where necessary, voting on technical
-  matters relating to the code base that affect multiple sub-projects;
-* coordinating any marketing, events, or communications regarding the OPEA project.
+* координація технічного напрямку проєкту OPEA;
+* затвердження проектних або системних пропозицій;
+* створення комітетів або робочих груп (наприклад, виконавчого чи архітектурного комітету або консультативного комітету кінцевого споживача) для підтримки проєкту OPEA;
+* призначення представників для роботи з іншими спільнотами з відкритим кодом або відкритими стандартами;
+* встановлення норм спільноти, робочих процесів, випуску релізів та політик звітування про проблеми з безпекою;
+* затвердження та впровадження політик і процесів для здійснення внесків
+* обговорення, пошук консенсусу і, за необхідності, голосування з технічних питань, пов'язаних з кодовою базою, які впливають на кілька підпроєктів;
+* координація будь-якого маркетингу, заходів або комунікацій, що стосуються проєкту OPEA.
 
-Refer to the :doc:`OPEA Charter <charter>` for more details.
+Зверніться до :doc:`OPEA Charter <charter>` для більш детальної інформації.
 
-Technical Steering Committee Members
-************************************
+Члени Технічного наглядового комітету
+*************************************
 
 .. list-table:: TSC Members (as of September 6, 2024)
    :header-rows: 1

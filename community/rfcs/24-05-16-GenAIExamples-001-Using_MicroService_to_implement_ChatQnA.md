@@ -1,47 +1,44 @@
 # 24-05-16 GenAIExamples-001 Using MicroService to Implement ChatQnA
 
-## Author
+## Автори
 [lvliang-intel](https://github.com/lvliang-intel), [ftian1](https://github.com/ftian1), [hshen14](https://github.com/hshen14), [Spycsh](https://github.com/Spycsh), [letonghan](https://github.com/letonghan)
 
-## Status
-Under Review
+## Статус
+На розгляді
 
-## Objective
-This RFC aims to introduce the OPEA microservice design and demonstrate its application to Retrieval-Augmented Generation (RAG). The objective is to address the challenge of designing a flexible architecture for Enterprise AI applications by adopting a microservice approach. This approach facilitates easier deployment, enabling one or multiple microservices to form a megaservice. Each megaservice interfaces with a gateway, allowing users to access services through endpoints exposed by the gateway. The architecture is general and RAG is the first example that we want to apply.
+## Мета
+Цей RFC має на меті представити мікросервісний дизайн OPEA та продемонструвати його застосування до розширеного покоління пошуку (RAG). Мета полягає у вирішенні проблеми розробки гнучкої архітектури для корпоративних додатків штучного інтелекту за допомогою мікросервісного підходу. Цей підхід полегшує розгортання, дозволяючи одному або декільком мікросервісам формувати мегасервіс. Кожен мегасервіс взаємодіє зі шлюзом, дозволяючи користувачам отримувати доступ до сервісів через кінцеві точки, відкриті шлюзом. Архітектура є загальною, і RAG є першим прикладом, який ми хочемо застосувати.
 
+## Мотивація
+Використання архітектури мікросервісів при розробці корпоративних додатків штучного інтелекту дає значні переваги, особливо при обробці великих обсягів запитів користувачів. Розбиваючи систему на модульні мікросервіси, кожен з яких відповідає за певну функцію, ми можемо досягти значного підвищення продуктивності завдяки можливості масштабування окремих компонентів. Така масштабованість гарантує, що система може ефективно управляти високим попитом, розподіляючи навантаження між кількома екземплярами кожного мікросервісу за потреби.
 
-## Motivation
-In designing the Enterprise AI applications, leveraging a microservices architecture offers significant advantages, particularly in handling large volumes of user requests. By breaking down the system into modular microservices, each dedicated to a specific function, we can achieve substantial performance improvements through the ability to scale out individual components. This scalability ensures that the system can efficiently manage high demand, distributing the load across multiple instances of each microservice as needed.
+Архітектура мікросервісів різко контрастує з монолітними підходами, такими як тісно пов'язана структура модулів у LangChain. У таких монолітних конструкціях всі модулі взаємозалежні, що створює значні проблеми з розгортанням і обмежує масштабованість. Будь-яка зміна або вимога масштабування в одному модулі вимагає перерозгортання всієї системи, що призводить до потенційних простоїв і збільшення складності.
 
-The microservices architecture contrasts sharply with monolithic approaches, such as the tightly coupled module structure found in LangChain. In such monolithic designs, all modules are interdependent, posing significant deployment challenges and limiting scalability. Any change or scaling requirement in one module necessitates redeploying the entire system, leading to potential downtime and increased complexity.
+## Проєктна пропозиція
 
+### Мікросервіс
 
-## Design Proposal
+Мікросервіси подібні до будівельних блоків, пропонуючи фундаментальні послуги для побудови додатків RAG (Retrieval-Augmented Generation). Кожен мікросервіс призначений для виконання певної функції або завдання в архітектурі програми. Розбиваючи систему на менші, автономні сервіси, мікросервіси сприяють модульності, гнучкості та масштабованості. Такий модульний підхід дозволяє розробникам самостійно розробляти, розгортати та масштабувати окремі компоненти програми, що полегшує її підтримку та розвиток з часом. Крім того, мікросервіси полегшують ізоляцію несправностей, оскільки проблеми в одному сервісі з меншою ймовірністю вплинуть на всю систему.
 
-### Microservice
+### Мегасервіс
 
-Microservices are akin to building blocks, offering the fundamental services for constructing RAG (Retrieval-Augmented Generation) applications. Each microservice is designed to perform a specific function or task within the application architecture. By breaking down the system into smaller, self-contained services, microservices promote modularity, flexibility, and scalability. This modular approach allows developers to independently develop, deploy, and scale individual components of the application, making it easier to maintain and evolve over time. Additionally, microservices facilitate fault isolation, as issues in one service are less likely to impact the entire system.
+Мегасервіс - це архітектурна конструкція вищого рівня, що складається з одного або декількох мікросервісів і надає можливість збирати наскрізні додатки. На відміну від окремих мікросервісів, які зосереджені на конкретних завданнях або функціях, мегасервіс організовує кілька мікросервісів для надання комплексного рішення. Мегасервіси інкапсулюють складну бізнес-логіку та організацію робочих процесів, координуючи взаємодію між різними мікросервісами для виконання конкретних вимог додатків. Такий підхід дозволяє створювати модульні, але інтегровані додатки, де кожен мікросервіс робить свій внесок у загальну функціональність мегасервісу.
 
-### Megaservice
+### Шлюз
 
-A megaservice is a higher-level architectural construct composed of one or more microservices, providing the capability to assemble end-to-end applications. Unlike individual microservices, which focus on specific tasks or functions, a megaservice orchestrates multiple microservices to deliver a comprehensive solution. Megaservices encapsulate complex business logic and workflow orchestration, coordinating the interactions between various microservices to fulfill specific application requirements. This approach enables the creation of modular yet integrated applications, where each microservice contributes to the overall functionality of the megaservice.
+Шлюз слугує інтерфейсом для доступу користувачів до мегасервісу, забезпечуючи персоналізований доступ на основі вимог користувача. Він діє як точка входу для вхідних запитів, спрямовуючи їх до відповідних мікросервісів в рамках архітектури мегасервісу. Шлюзи підтримують визначення API, версіювання API, обмеження швидкості та трансформацію запитів, що дозволяє тонко контролювати взаємодію користувачів з базовими мікросервісами. Абстрагуючись від складності базової інфраструктури, шлюзи забезпечують безперебійну та зручну взаємодію з мегасервісом.
 
-### Gateway
+### Пропозиція
+Запропонована архітектура програми ChatQnA передбачає створення двох мегасервісів. Перший мегасервіс функціонує як основний конвеєр, що складається з чотирьох мікросервісів: embedding, retriever, reranking та LLM. Цей мегасервіс розкриває ChatQnAGateway, що дозволяє користувачам запитувати систему через кінцеву точку `/v1/chatqna`. Другий мегасервіс керує зберіганням даних користувача у VectorStore і складається з одного мікросервісу dataprep. Цей мегасервіс надає шлюз DataprepGateway, що дозволяє користувачеві отримати доступ через кінцеву точку `/v1/dataprep`.
 
-The Gateway serves as the interface for users to access the megaservice, providing customized access based on user requirements. It acts as the entry point for incoming requests, routing them to the appropriate microservices within the megaservice architecture. Gateways support API definition, API versioning, rate limiting, and request transformation, allowing for fine-grained control over how users interact with the underlying microservices. By abstracting the complexity of the underlying infrastructure, gateways provide a seamless and user-friendly experience for interacting with the megaservice.
-
-
-### Proposal
-The proposed architecture for the ChatQnA application involves the creation of two megaservices. The first megaservice functions as the core pipeline, comprising four microservices: embedding, retriever, reranking, and LLM. This megaservice exposes a ChatQnAGateway, allowing users to query the system via the `/v1/chatqna` endpoint. The second megaservice manages user data storage in VectorStore and is composed of a single microservice, dataprep. This megaservice provides a DataprepGateway, enabling user access through the `/v1/dataprep` endpoint.
-
-The Gateway class facilitates the registration of additional endpoints, enhancing the system's flexibility and extensibility. The /v1/dataprep endpoint is responsible for handling user documents to be stored in VectorStore under a predefined database name. The first megaservice will then query the data from this predefined database.
+Клас Gateway полегшує реєстрацію додаткових кінцевих точок, підвищуючи гнучкість і розширюваність системи. Кінцева точка /v1/dataprep відповідає за обробку користувацьких документів, які зберігатимуться у VectorStore під попередньо визначеним ім'ям бази даних. Потім перший мегасервіс буде запитувати дані з цієї попередньо визначеної бази даних.
 
 ![architecture](https://i.imgur.com/YdsXy46.png)
 
 
-#### Example Python Code for Constructing Services
+#### Приклад коду Python для побудови сервісів
 
-Users can use `ServiceOrchestrator` class to build the microservice pipeline and add a gateway for each megaservice.
+Користувачі можуть використовувати клас `ServiceOrchestrator` для побудови трубопроводу мікросервісів і додавання шлюзу для кожного мегасервісу.
 
 ```python
 class ChatQnAService:
@@ -113,9 +110,9 @@ if __name__ == "__main__":
     chatqna.start_service()
 ```
 
-#### Constructing Services with yaml
+#### Побудова сервісів за допомогою yaml
 
-Below is an example of how to define microservices and megaservices using YAML for the ChatQnA application. This configuration outlines the endpoints for each microservice and specifies the workflow for the megaservices.
+Нижче наведено приклад визначення мікросервісів і мегасервісів за допомогою YAML для програми ChatQnA. Ця конфігурація окреслює кінцеві точки для кожного мікросервісу і визначає робочий процес для мегасервісів.
 
 ```yaml
 opea_micro_services:
@@ -148,7 +145,7 @@ opea_mega_service:
     - dataprep
 ```
 
-The following Python code demonstrates how to use the YAML configurations to initialize the microservices and megaservices, and set up the gateways for user interaction.
+Наступний код на Python демонструє, як використовувати конфігурації YAML для ініціалізації мікросервісів і мегасервісів, а також налаштування шлюзів для взаємодії з користувачами.
 
 ```python
 from comps import ServiceOrchestratorWithYaml
@@ -162,9 +159,9 @@ rag_gateway.start()
 data_gateway.start()
 ```
 
-#### Example Code for Customizing Gateway
+#### Приклад коду для налаштування шлюзу
 
-The Gateway class provides a customizable interface for accessing the megaservice. It handles requests and responses, allowing users to interact with the megaservice. The class defines methods for adding custom routes, stopping the service, and listing available services and parameters. Users can extend this class to implement specific handling for requests and responses according to their requirements.
+Клас Gateway надає інтерфейс для доступу до мегасервісу, що налаштовується. Він обробляє запити та відповіді, дозволяючи користувачам взаємодіяти з мегасервісом. Клас визначає методи для додавання користувацьких маршрутів, зупинки сервісу та переліку доступних сервісів і параметрів. Користувачі можуть розширити цей клас, щоб реалізувати специфічну обробку запитів і відповідей відповідно до своїх вимог.
 
 ```python
 class Gateway:
@@ -213,14 +210,14 @@ class Gateway:
     ...
 ```
 
-## Alternatives Considered
-An alternative approach could be to design a monolithic application for RAG instead of a microservice architecture. However, this approach may lack the flexibility and scalability offered by microservices. Pros of the proposed microservice architecture include easier deployment, independent scaling of components, and improved fault isolation. Cons may include increased complexity in managing multiple services.
+## Розглянуті альтернативи
+Альтернативним підходом може бути розробка монолітного додатку для RAG замість мікросервісної архітектури. Однак такому підходу може бракувати гнучкості та масштабованості, які пропонують мікросервіси. Переваги запропонованої мікросервісної архітектури включають легше розгортання, незалежне масштабування компонентів та покращену ізоляцію несправностей. До мінусів можна віднести підвищену складність в управлінні декількома сервісами.
 
-## Compatibility
-Potential incompatible interface or workflow changes may include adjustments needed for existing clients to interact with the new microservice architecture. However, careful planning and communication can mitigate any disruptions.
+## Сумісність
+Потенційні несумісні зміни в інтерфейсі або робочому процесі можуть включати коригування, необхідні для взаємодії існуючих клієнтів з новою архітектурою мікросервісів. Однак ретельне планування та комунікація можуть пом'якшити будь-які збої.
 
 ## Miscs
-Performance Impact: The microservice architecture may impact performance metrics, depending on factors such as network latency. But for large-scale user access, scaling out microservices can enhance responsiveness, thereby significantly improving performance compared to monolithic designs.
+Вплив на продуктивність: Архітектура мікросервісів може впливати на показники продуктивності, залежно від таких факторів, як затримка в мережі. Але для широкомасштабного доступу користувачів масштабування мікросервісів може підвищити швидкість реагування, тим самим значно покращуючи продуктивність порівняно з монолітними конструкціями.
 
-By adopting this microservice architecture for RAG, we aim to enhance the flexibility, scalability, and maintainability of the Enterprise AI application deployment, ultimately improving the user experience and facilitating future development and enhancements.
+Застосовуючи цю мікросервісну архітектуру для RAG, ми прагнемо підвищити гнучкість, масштабованість і ремонтопридатність розгортання корпоративних додатків штучного інтелекту, що в кінцевому підсумку покращить взаємодію з користувачем і полегшить майбутній розвиток і вдосконалення.
 

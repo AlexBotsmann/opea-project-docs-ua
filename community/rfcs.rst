@@ -1,7 +1,7 @@
 .. _rfcs:
 
-Request for Comments (RFCs)
-###########################
+Запит на коментарі (RFCs)
+#########################
 
 .. include:: rfcs/README.md
    :parser: myst_parser.sphinx_
@@ -17,11 +17,10 @@ _____
 
 -----
 
-RFC Template
-************
+Шаблон RFC
+**********
 
-When creating a new RFC, follow the existing RFCs as an example, or use this
-template:
+При створенні нового RFC дотримуйтесь існуючих RFC як приклад, або використовуйте цей шаблон:
 
 .. include:: rfcs/rfc_template.txt
    :code:

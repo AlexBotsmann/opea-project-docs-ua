@@ -1,18 +1,17 @@
 .. _opea_home:
 
-OPEA Project Documentation
+Документація проєкту OPEA
 ##########################
 
-Welcome to the OPEA Project (|version|) documentation published |today|.
-OPEA streamlines the implementation of enterprise-grade Generative AI by efficiently
-integrating secure, performant, and cost-effective Generative AI workflows into business processes.
+Ласкаво просимо до проєкту OPEA (|version|) документацію опубліковано |today|.
+OPEA спрощує впровадження генеративного ШІ корпоративного рівня, ефективно інтегруючи безпечні, продуктивні та економічно ефективні робочі процеси генеративного ШІ в бізнес-процеси..
 
-Source code for the OPEA Project is maintained in the
+Вихідний код проекту OPEA зберігається в
 `OPEA Project GitHub repository`_.
 
-.. comment The links in this grid display can't use :ref: because we're
-   using raw html.  There's a risk of broken links if referenced content is
-   moved.
+.. коментар Посилання у цій сітці не можуть використовувати :ref:, тому що ми
+   використовуємо raw html.  Існує ризик непрацюючих посилань, якщо вміст,
+   на який посилаються, буде переміщено.
 
 .. raw:: html
 

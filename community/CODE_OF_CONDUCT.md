@@ -1,130 +1,88 @@
 # Contributor Covenant Code of Conduct
 
-## Our Pledge
+## Наша обіцянка
 
-We as members, contributors, and leaders pledge to make participation in our
-community a harassment-free experience for everyone, regardless of age, body
-size, visible or invisible disability, ethnicity, sex characteristics, gender
-identity and expression, level of experience, education, socio-economic status,
-nationality, personal appearance, race, caste, color, religion, or sexual
-identity and orientation.
+Ми, як члени, учасники та лідери, зобов'язуємося зробити участь у нашій спільноті вільною від утисків для всіх, незалежно від віку, розміру тіла, видимої чи невидимої інвалідності, етнічної приналежності, статевих ознак, гендерної ідентичності та самовираження, рівня досвіду, освіти, соціально-економічного статусу, національності, зовнішності, раси, касти, кольору шкіри, віросповідання, сексуальної ідентичності та орієнтації.
 
-We pledge to act and interact in ways that contribute to an open, welcoming,
-diverse, inclusive, and healthy community.
+ Ми зобов'язуємося діяти та взаємодіяти таким чином, щоб сприяти створенню відкритої, доброзичливої, різноманітної, інклюзивної та здорової спільноти.
 
-## Our Standards
+## Наші стандарти
 
-Examples of behavior that contributes to a positive environment for our
-community include:
+Приклади поведінки, яка сприяє створенню позитивного середовища для нашої спільноти, включають:
 
-- Demonstrating empathy and kindness toward other people
-- Being respectful of differing opinions, viewpoints, and experiences
-- Giving and gracefully accepting constructive feedback
-- Accepting responsibility and apologizing to those affected by our mistakes,
-  and learning from the experience
-- Focusing on what is best not just for us as individuals, but for the overall
-  community
+- Демонструвати емпатію та доброту до інших людей
+- Поважати різні думки, точки зору та досвід 
+- Надавати та ввічливо приймати конструктивний зворотній зв'язок 
+- Приймати відповідальність та вибачатися перед тими, хто постраждав від наших помилок, а також вчитися на власному досвіді 
+- Зосереджуватися на тому, що є найкращим не лише для нас як особистостей, але й для всієї спільноти в цілому
 
-Examples of unacceptable behavior include:
+Приклади неприйнятної поведінки включають:
 
-- The use of sexualized language or imagery, and sexual attention or advances of
-  any kind
-- Trolling, insulting or derogatory comments, and personal or political attacks
-- Public or private harassment
-- Publishing others' private information, such as a physical or email address,
-  without their explicit permission
-- Other conduct which could reasonably be considered inappropriate in a
-  professional setting
+- Використання сексуалізованої мови або образів, а також сексуальної уваги або залицянь будь-якого роду 
+- Тролінг, образливі або принизливі коментарі, особисті або політичні нападки 
+- Публічні або приватні домагання 
+- Публікація приватної інформації інших осіб, наприклад, фізичної або електронної адреси, без їхнього явного дозволу 
+- Інша поведінка, яка може обґрунтовано вважатися неприйнятною в професійному середовищі.
 
-## Enforcement Responsibilities
+## Відповідальність за дотримання законодавства
 
-Community leaders are responsible for clarifying and enforcing our standards of
-acceptable behavior and will take appropriate and fair corrective action in
-response to any behavior that they deem inappropriate, threatening, offensive,
-or harmful.
+Лідери спільнот несуть відповідальність за роз'яснення та дотримання наших стандартів прийнятної поведінки, а також вживають належних і справедливих коригувальних заходів у відповідь на будь-яку поведінку, яку вони вважають недоречною, загрозливою, образливою або шкідливою.
 
-Community leaders have the right and responsibility to remove, edit, or reject
-comments, commits, code, wiki edits, issues, and other contributions that are
-not aligned to this Code of Conduct, and will communicate reasons for moderation
-decisions when appropriate.
+Лідери спільноти мають право і несуть відповідальність за видалення, редагування або відхилення коментарів, коммітів, коду, редагувань вікі, питань та інших внесків, які не відповідають цьому Кодексу поведінки, а також повідомлятимуть причини своїх рішень щодо модерації, коли це доречно.
 
-## Scope
+## Сфера застосування
 
-This Code of Conduct applies within all community spaces, and also applies when
-an individual is officially representing the community in public spaces.
-Examples of representing our community include using an official e-mail address,
-posting via an official social media account, or acting as an appointed
-representative at an online or offline event.
+Цей Кодекс поведінки діє у всіх суспільних просторах, а також у випадках, коли
+особа офіційно представляє спільноту в публічних місцях.
+Прикладами представлення нашої спільноти є використання офіційної електронної адреси, публікація повідомлень через офіційний акаунт у соціальних мережах, або дія в якості призначеного представника на онлайн чи офлайн заході.
 
-## Enforcement
+## Правозастосування
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders.
-All complaints will be reviewed and investigated promptly and fairly.
+Про випадки образливої, агресивної чи іншої неприйнятної поведінки можна повідомляти лідерам спільноти. Усі скарги будуть розглянуті та розслідувані швидко та справедливо.
 
-All community leaders are obligated to respect the privacy and security of the
-reporter of any incident.
+Усі лідери спільноти зобов'язані поважати приватність і безпеку особи, яка повідомила про будь-який інцидент.
 
-## Enforcement Guidelines
+## Керівні принципи правозастосування
 
-Community leaders will follow these Community Impact Guidelines in determining
-the consequences for any action they deem in violation of this Code of Conduct:
+Лідери спільнот дотримуватимуться цих Керівних принципів впливу на спільноту, визначаючи наслідки будь-яких дій, які вони вважають такими, що порушують цей Кодекс поведінки:
 
-### 1. Correction
+### 1. Виправлення
 
-**Community Impact**: Use of inappropriate language or other behavior deemed
-unprofessional or unwelcome in the community.
+**Вплив на спільноту**: Використання неприйнятної мови або іншої поведінки, яка вважається непрофесійною або небажаною в спільноті.
 
-**Consequence**: A private, written warning from community leaders, providing
-clarity around the nature of the violation and an explanation of why the
-behavior was inappropriate. A public apology may be requested.
+**Наслідок**: Приватне письмове попередження від лідерів спільноти, що містить
+ясність щодо характеру порушення та пояснення, чому поведінка була неприйнятною. Можна вимагати публічних вибачень.
 
-### 2. Warning
+### 2. Попередження
 
-**Community Impact**: A violation through a single incident or series of
-actions.
+**Вплив на спільноту**: Порушення через один інцидент або серію дій.
 
-**Consequence**: A warning with consequences for continued behavior. No
-interaction with the people involved, including unsolicited interaction with
-those enforcing the Code of Conduct, for a specified period of time. This
-includes avoiding interactions in community spaces as well as external channels
-like social media. Violating these terms may lead to a temporary or permanent
-ban.
+**Наслідок**: Попередження з наслідками для подальшої поведінки. Не взаємодіяти з причетними особами, в тому числі небажана взаємодія з особами, які забезпечують дотримання Кодексу поведінки, протягом певного періоду часу. Це включає уникнення взаємодії в суспільних місцях, а також через зовнішні канали таких як соціальні мережі. Порушення цих умов може призвести до тимчасової або постійної
+заборони.
 
-### 3. Temporary Ban
+### 3. Тимчасовий бан
 
-**Community Impact**: A serious violation of community standards, including
-sustained inappropriate behavior.
+**Вплив на спільноту**: Серйозне порушення стандартів спільноти, включаючи тривалу неналежну поведінку.
 
-**Consequence**: A temporary ban from any sort of interaction or public
-communication with the community for a specified period of time. No public or
-private interaction with the people involved, including unsolicited interaction
-with those enforcing the Code of Conduct, is allowed during this period.
-Violating these terms may lead to a permanent ban.
+**Наслідок**: Тимчасова заборона на будь-яку взаємодію чи публічну комунікацію зі спільнотою на певний період часу. Протягом цього періоду забороняється будь-яка публічна або приватна взаємодія з залученими особами, включно з небажаною взаємодією з тими, хто забезпечує дотримання Кодексу поведінки. Порушення цих умов може призвести до постійної заборони.
 
-### 4. Permanent Ban
+### 4. Перманентний бан
 
-**Community Impact**: Demonstrating a pattern of violation of community
-standards, including sustained inappropriate behavior, harassment of an
-individual, or aggression toward or disparagement of classes of individuals.
+**Вплив на спільноту**: Демонстрація систематичного порушення стандартів спільноти, включаючи постійну неналежну поведінку, переслідування особи, агресію або зневагу до певних категорій осіб.
 
-**Consequence**: A permanent ban from any sort of public interaction within the
-community.
+**Наслідок**: Постійна заборона на будь-яку публічну взаємодію всередині спільноти.
 
-## Attribution
+## Авторство
 
-This Code of Conduct is adapted from the [Contributor Covenant][homepage],
-version 2.1, available at
+Цей Кодекс поведінки адаптовано з [Contributor Covenant][homepage],
+version 2.1, доступна за адресою
 [https://www.contributor-covenant.org/version/2/1/code_of_conduct.html][v2.1].
 
-Community Impact Guidelines were inspired by
+Настанови щодо впливу на спільноту були натхненні
 [Mozilla's code of conduct enforcement ladder][Mozilla CoC].
 
-For answers to common questions about this code of conduct, see the FAQ at
-[https://www.contributor-covenant.org/faq][FAQ]. Translations are available at
+Відповіді на поширені запитання про цей кодекс поведінки дивіться у розділі поширених запитань за посиланням
+[https://www.contributor-covenant.org/faq][FAQ]. Переклади доступні за посиланням
 [https://www.contributor-covenant.org/translations][translations].
 
-[homepage]: https://www.contributor-covenant.org
-[v2.1]: https://www.contributor-covenant.org/version/2/1/code_of_conduct.html
-[Mozilla CoC]: https://github.com/mozilla/diversity
-[FAQ]: https://www.contributor-covenant.org/faq
+

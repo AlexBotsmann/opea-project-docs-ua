@@ -1,13 +1,13 @@
-# Contribution Guidelines
+# Посібник із здійснення внесків
 
-Thanks for considering contributing to OPEA project. The contribution process is similar with other open source projects on Github, involving an amount of open discussion in issues and feature requests between the maintainers, contributors and users.
+Дякуємо, що розглядаєте можливість долучитися до проєкту OPEA. Процес участі подібний до інших проєктів з відкритим вихідним кодом на Github, що передбачає відкрите обговорення проблем і запитів на доопрацювання між супровідниками, дописувачами і користувачами.
 
 
-## All The Ways To Contribute
+## Всі способи зробити внесок
 
-### Contribute a GenAI Component
+### Запропонувати компонент GenAI
 
-1. Navigate to [OPEA GenAIComps](https://github.com/opea-project/GenAIComps) and locate the component folder your integration belongs to. If the microservice type already exists, review the [OPEA microservice API](https://opea-project.github.io/latest/developer-guides/OPEA_API.html#opea-micro-service-api) and follow it in your implementation. Otherwise, if you are contributing a brand new microservice type, you need to define and contribute first its API specification. Please start by submitting an RFC to get community feedback.
+1. Перейдіть до [OPEA GenAIComps] (https://github.com/opea-project/GenAIComps) і знайдіть папку компонентів, до якої належить ваша інтеграція. Якщо тип мікросервісу вже існує, перегляньте [OPEA microservice API](https://opea-project.github.io/latest/developer-guides/OPEA_API.html#opea-micro-service-api) і дотримуйтесь його у своїй реалізації. В іншому випадку, якщо ви створюєте абсолютно новий тип мікросервісу, вам потрібно спочатку визначити і внести його специфікацію API. Будь ласка, почніть з подання RFC, щоб отримати зворотній зв'язок від спільноти.
 
 
     ```
@@ -59,7 +59,7 @@ Thanks for considering contributing to OPEA project. The contribution process is
         └── web_retrievers
     ```
 
-2. Follow the folder structure in the TEI embedding component below:
+2. Дотримуйтесь структури папок у компоненті вбудовування TEI:
 
     ```
     GenAIComps
@@ -85,29 +85,29 @@ Thanks for considering contributing to OPEA project. The contribution process is
 
     ```
 
-    - **File Descriptions**:
-      - `embedding_tei.py`: This file defines and registers the microservice. It serves as the entrypoint of the Docker container. Refer to [whisper ASR](https://github.com/opea-project/GenAIComps/tree/main/comps/asr/whisper/README.md) for a simple example or [TGI](https://github.com/opea-project/GenAIComps/blob/main/comps/llms/text-generation/tgi/llm.py) for a more complex example that required adapting to the OpenAI API.
-      - `requirements.txt`: This file is used by Docker to install the necessary dependencies.
-      - `Dockerfile`: Used to generate the service container image. Please follow naming conventions:
+    - **Описи файлів**:
+      - `embedding_tei.py`: Цей файл визначає та реєструє мікросервіс. Він слугує точкою входу до контейнера Docker. Зверніться до [whisper ASR](https://github.com/opea-project/GenAIComps/tree/main/comps/asr/whisper/README.md) для простого прикладу або [TGI](https://github.com/opea-project/GenAIComps/blob/main/comps/llms/text-generation/tgi/llm.py) для більш складного прикладу, який вимагав адаптації до OpenAI API.
+      - `requirements.txt`: Цей файл використовується Docker для встановлення необхідних залежностей.
+      - `Dockerfile`: Використовується для створення зображення службового контейнера. Будь ласка, дотримуйтесь правил іменування:
         - Dockerfile: `Dockerfile.[vendor]_[hardware]`, vendor and hardware in lower case (i,e Dockerfile.amd_gpu)
         - Docker Image: `opea/[microservice type]-[microservice sub type]-[library name]-[vendor]-[hardware]:latest` all lower case (i,e opea/llm-vllm-intel-hpu, opea/llm-faqgen-tgi-intel-hpu-svc)
 
-      - `tests/[microservices type]/` : contains end-to-end test for microservices Please refer to an example [test_asr_whisper.sh](https://github.com/opea-project/GenAIComps/blob/main/tests/asr/test_asr_whisper.sh). Please follow naming convention:`test_[microservice type]_[microservice sub type]_[library name]_on_[vendor]_[hardware].sh`
-      - `tests/cores/` : contains Unit Tests (UT) for the core python components (orchestrator, gateway...). Please follow the naming convention:`test_[core component].sh`
+      - `tests/[microservices type]/` : містить наскрізний тест для мікросервісів Зверніться до прикладу [test_asr_whisper.sh](https://github.com/opea-project/GenAIComps/blob/main/tests/asr/test_asr_whisper.sh). Будь ласка, дотримуйтесь правил іменування: `test_[microservice type]_[microservice sub type]_[library name]_on_[vendor]_[hardware].sh`
+      - `tests/cores/` : cзберігає модульні тести (UT) для основних компонентів python (оркестратор, шлюз...). Будь ласка, дотримуйтесь правил іменування:`test_[core component].sh`
 
-      - `README.md`: at minimum it should include: microservice description, build, and start commands and a curl command with expected output.
+      - `README.md`: Як мінімум, він повинен містити: опис мікросервісу, команди збірки та запуску, а також команду curl з очікуваним результатом.
 
-4. Now you have created all the required files, and validated your service. Last step is to modify the `README.md` at the component level `GenAIComps/comps/[microservice type]` to list your new component. Now you are ready to file your PR! Once your PR is merged, in the next release the project  release maintainers will publish the Docker Image for the same to the Docker Hub.
+4. Тепер ви створили всі необхідні файли і перевірили ваш сервіс. Останнім кроком буде зміна файлу `README.md` на рівні компонента `GenAIComps/comps/[тип мікросервісу]`, щоб перерахувати ваш новий компонент. Тепер ви готові подати свій PR! Після того, як ваш PR буде об'єднано, у наступному випуску супровідники проекту опублікують Docker-образ для нього на Docker Hub.
 
-5. After your component has been merged, you are likely interested in building an application with it, and perhaps contributing it also to OPEA! Please continue on to the [Contribute a GenAI Example](#contribute-a-genai-example) guide.
+5. Після того, як ваш компонент буде об'єднано, ви, ймовірно, зацікавитесь створенням програми на його основі, і, можливо, також внесете його до OPEA! Будь ласка, перейдіть до посібника [Contribute a GenAI Example] (#contribute-a-genai-example).
 
-### Contribute a GenAI Example
+### Вклад в GenAI Example
 
-Each of the samples in OPEA GenAIExamples are a common oft used solution. They each have scripts to ease deployment, and have been tested for performance and scalability with Docker compose and Kubernetes. When contributing an example, a Docker Compose deployment is the minimum requirement. However, since OPEA is intended for enterprise applications, supporting Kubernetes deployment is highly encouraged. You can find [examples for Kubernetes deployment](https://github.com/opea-project/GenAIExamples/tree/main/README.md#deploy-examples) using manifests, Helms Charts, and the [GenAI Microservices Connector (GMC)](https://github.com/opea-project/GenAIInfra/tree/main/microservices-connector/README.md). GMC offers additional enterprise features, such as the ability to dynamically adjust pipelines on Kubernetes (e.g., switching to a different LLM on the fly, adding guardrails), composing pipeleines that include external services hosted in public cloud or on-premisees via URL, and supporting sequential, parallel and conditional flows in the pipelines.
+Кожен із прикладів в OPEA GenAIExamples є поширеним рішенням, що часто використовується. Кожен з них має скрипти для полегшення розгортання і був протестований на продуктивність і масштабованість за допомогою Docker compose і Kubernetes. Мінімальною вимогою при наданні прикладу є розгортання Docker Compose. Однак, оскільки OPEA призначено для корпоративних додатків, підтримка розгортання Kubernetes настійно рекомендується. Ви можете знайти [приклади розгортання Kubernetes](https://github.com/opea-project/GenAIExamples/tree/main/README.md#deploy-examples) за допомогою маніфестів, діаграм Helms та [GenAI Microservices Connector (GMC)](https://github.com/opea-project/GenAIInfra/tree/main/microservices-connector/README.md). GMC пропонує додаткові корпоративні функції, такі як можливість динамічного налаштування конвеєрів на Kubernetes (наприклад, перемикання на інший LLM на льоту, додавання захисних екранів), складання конвеєрів, які включають зовнішні сервіси, розміщені в публічній хмарі або локально через URL, а також підтримку послідовних, паралельних і умовних потоків в конвеєрах.
 
-- Navigate to [OPEA GenAIExamples](https://github.com/opea-project/GenAIExamples/tree/main/README.md) and check the catalog of examples. If you find one that is very similar to what you are looking for, you can contribute your variation of it to that particular example folder. If you are bringing a completly new application you will need to create a separate example folder.
+- Перейдіть до [OPEA GenAIExamples] (https://github.com/opea-project/GenAIExamples/tree/main/README.md) і перегляньте каталог прикладів. Якщо ви знайдете приклад, який дуже схожий на той, що ви шукаєте, ви можете додати свій варіант до цієї папки з прикладами. Якщо ви приносите абсолютно нову програму, вам потрібно буде створити окрему папку з прикладами.
 
-- Before stitching together all the microservices to build your application, let's make sure all the required building blocks are available!. Take a look at this **ChatQnA Flow Chart**:
+- Перш ніж з'єднати всі мікросервіси для створення вашого додатку, давайте переконаємося, що всі необхідні будівельні блоки доступні! Погляньте на цю блок-схему **ChatQnA Flow Chart**:
 
 ```mermaid
 ---
@@ -191,9 +191,9 @@ flowchart LR
 
 ```
 
-- OPEA uses gateways to handle requests and route them to the corresponding megaservices (unless you have an agent that will otherwise handle the gateway function). If you are just making small changes to the application, like swaping one DB for another, you can reuse the existing Gateway but if you are contributing a completely new application, you will need to add a Gateway class. Navigate to [OPEA GenAIComps Gateway](https://github.com/opea-project/GenAIComps/blob/main/comps/cores/mega/gateway.py) and implement how Gateway should handle requests for your application. Note that Gateway implementation is moving to GenAIExamples in future release.
+- OPEA використовує шлюзи для обробки запитів і перенаправлення їх до відповідних мегасервісів (якщо у вас немає агента, який виконує функцію шлюзу). Якщо ви вносите невеликі зміни до програми, наприклад, замінюєте одну БД на іншу, ви можете повторно використовувати існуючий шлюз, але якщо ви створюєте абсолютно нову програму, вам потрібно буде додати клас шлюзу. Перейдіть до [OPEA GenAIComps Gateway] (https://github.com/opea-project/GenAIComps/blob/main/comps/cores/mega/gateway.py) і визначте, як шлюз повинен обробляти запити для вашої програми. Зауважте, що реалізація шлюзу буде перенесена до GenAIExamples у майбутньому випуску.
 
-- Follow the folder structure in the ChatQA example below:
+- Дотримуйтесь структури папок у прикладі ChatQA нижче:
 
     ```
     ├── assets
@@ -253,111 +253,113 @@ flowchart LR
 
     ```
 
-    - **File Descriptions**:
-      - `chatqna.py`: application definition using microservice, megaservice and gateway. There could be multiple .py in the folder based on slight modification of the example application.
-      - `docker_build_image/build.yaml`: builds necessary images pointing to the Dockerfiles in the GenAIComp repository.
-      - `docker_compose/vendor/device/compose.yaml`: defines pipeline for  Docker compose deployment. For selectng docker image name please follow the naming convention:
-        - Docker Image: `opea/[example name]-[feature name]:latest` all lower case (i,e: opea/chatqna, opea/codegen-react-ui)
-      - `kubernetes/vendor/device/manifests/chatqna.yaml`: used for K8s deployemnt
-      - `kubernetes/vendor/device/gmc/chatqna.yaml`: (optional) used for deployment with GMC
-      - `tests/`: at minimum you need to provide an E2E test with Docker compose. If you are contritbutng K8s manifests and GMC yaml, you should also provide test for those. Please follow naming convention:
+    - **Описи файлів**:
+      - `chatqna.py`: визначення додатків з використанням мікросервісу, мегасервісу та шлюзу. У теці може бути декілька .py-файлів на основі невеликої модифікації прикладу програми.
+      - `docker_build_image/build.yaml`: збирає необхідні образи, вказуючи на Docker-файли у репозиторії GenAIComp.
+      - `docker_compose/vendor/device/compose.yaml`: визначає конвеєр для розгортання Docker compose. Для вибору імені образу докера, будь ласка, дотримуйтесь правил іменування:
+        - Docker Image: `opea/[example name]-[feature name]:latest` всі нижчі кейси (i.e: opea/chatqna, opea/codegen-react-ui)
+      - `kubernetes/vendor/device/manifests/chatqna.yaml`: використовується для розгортання K8
+      - `kubernetes/vendor/device/gmc/chatqna.yaml`: (опціонально) використовується для розгортання з GMC
+      - `tests/`: Як мінімум, вам потрібно забезпечити E2E-тест з Docker compose. Якщо ви вносите зміни до маніфестів K8s та GMC yaml, ви також повинні надати тест для них. Будь ласка, дотримуйтесь правил іменування:
         - Docker compose test: `tests/test_compose_on_[hardware].sh`
         - K8s test: `tests/test_manifest_on_[hardware].sh`
         - K8s with GMC test: `tests/test_gmc_on_[hardware].sh`
-      - `ui`: (optional)
-      - `assets`: nice to have an application flow diagram
+      - `ui`: (опціонально)
+      - `assets`: приємно мати схему роботи програми
 
-#### Additional steps if your contribution is Hardware Specific
+#### Додаткові кроки, якщо ваш внесок стосується конкретного обладнання
 
-You will need additional steps to configure the CI/CD for first testing and then deploying your merged  GenAIComp or GenAIExample.
+Вам знадобляться додаткові кроки для налаштування CI/CD, щоб спочатку протестувати, а потім розгорнути об'єднаний GenAIComp або GenAIExample.
 
-- Connect hardware into OPEA GitHub Actions ([GHA](https://docs.github.com/en/actions)) as a self-hosted runner
-- Contribute test scripts for the new hardware
-- Dockerfile for the Component (i,e `GenAIComp/comps/llm/text-generation/tgi/Dockerfile.[vendor]_[hardware]` )
-- Update the image build yaml for new images
-- Update the CI/CD workflow to identify and deploy new test
+- Підключіть обладнання до OPEA GitHub Actions ([GHA](https://docs.github.com/en/actions)) як саморозміщений пускач
+- Створення тестових скриптів для нового обладнання
+- Докер-файл для компонента (i,e `GenAIComp/comps/llm/text-generation/tgi/Dockerfile.[vendor]_[hardware]` )
+- Оновлення yaml збірки зображень для нових зображень
+- Оновлення робочого процесу CI/CD для визначення та розгортання нового тесту
 
-OPEA maintainer [@chensuyue](mailto://suyue.chen@intel.com) can assist in this process.
+Супровідник OPEA [@chensuyue] (mailto://suyue.chen@intel.com) може допомогти в цьому процесі.
 
-### Community Discussions
+### Обговорення в спільноті
 
-Developers are encouraged to participate in discussions by opening an issue in one of the GitHub repos at https://github.com/opea-project. Alternatively, they can send an email to [info@opea.dev](mailto://info@opea.dev) or subscribe to [X/Twitter](https://twitter.com/opeadev) and [LinkedIn Page](https://www.linkedin.com/company/opeadev/posts/?feedView=all) to get latest updates about the OPEA project.
+Розробники можуть взяти участь в обговоренні, відкривши тему в одному з репозиторіїв GitHub за адресою https://github.com/opea-project. Крім того, вони можуть надіслати електронного листа на адресу [info@opea.dev](mailto://info@opea.dev) або підписатися на [X/Twitter](https://twitter.com/opeadev) та [LinkedIn Page](https://www.linkedin.com/company/opeadev/posts/?feedView=all), щоб отримувати останні новини про проект OPEA.
 
-### Documentation
+### Документація
 
-The quality of OPEA project's documentation can have a huge impact on its success. We reply on OPEA maintainers and contributors to build clear, detailed and update-to-date documentation for user.
+Якість документації проекту OPEA може мати величезний вплив на його успіх. Ми закликаємо супровідників і дописувачів OPEA створювати чітку, детальну й актуальну документацію для користувачів..
 
-### Reporting Issues
+### Звітування про проблеми
 
-If OPEA user runs into some unexpected behavior, reporting the issue to the `Issues` page under the corresponding github project is the proper way to do. Please ensure there is no similar one already existing on the issue list). Please follow the Bug Report template and supply as much information as you can, and any additional insights you might have. It's helpful if the issue submitter can narrow down the problematic behavior to a minimal reproducible test case.
+Якщо користувач OPEA зіткнувся з якоюсь несподіваною поведінкою, найкраще повідомити про проблему на сторінці `Issues` у відповідному проекті на github. Будь ласка, переконайтеся, що у списку проблем немає подібної проблеми. Будь ласка, дотримуйтесь шаблону повідомлення про помилку і надайте якомога більше інформації, а також будь-які додаткові відомості, які ви можете мати. Буде корисно, якщо автор проблеми зможе звузити проблемну поведінку до мінімального відтворюваного тестового кейсу.
 
-### Proposing New Features
+### Пропонування нових функцій
 
-OPEA communities use the RFC (request for comments) process for collaborating on substantial changes to OPEA projects. The RFC process allows the contributors to collaborate during the design process, providing clarity and validation before jumping to implementation.
+Спільноти OPEA використовують процес RFC (запит на коментарі) для спільної роботи над суттєвими змінами до проектів OPEA. Процес RFC дозволяє учасникам співпрацювати під час процесу розробки, забезпечуючи ясність і перевірку перед тим, як переходити до реалізації.
 
-*When the RFC process is needed?*
+*Коли потрібен процес RFC?*
 
-The RFC process is necessary for changes which have a substantial impact on end users, workflow, or user facing API. It generally includes:
+Процес RFC необхідний для внесення змін, які мають значний вплив на кінцевих користувачів, робочий процес або API, орієнтований на користувача. Зазвичай він включає в себе:
 
-- Changes to core workflow.
-- Changes with significant architectural implications.
-- changes which modify or introduce user facing interfaces.
+- Зміни в основному робочому процесі.
+- Зміни зі значними архітектурними наслідками.
+- зміни, які модифікують або впроваджують інтерфейси, орієнтовані на користувача.
 
-It is not necessary for changes like:
+Це не обов'язково для таких змін, як:
 
-- Bug fixes and optimizations with no semantic change.
-- Small features which doesn't involve workflow or interface change, and only impact a narrow use case.
+- Виправлення помилок і оптимізація без семантичних змін.
+- Невеликі функції, які не передбачають зміни робочого процесу або інтерфейсу, і впливають лише на вузьке коло користувачів.
 
-#### Step-by-Step guidelines
+#### Покрокові інструкції
 
-- Follow this RFC Template to propose your idea (found in the docs repo community/rfcs/rfc_template.txt):
+- Щоб запропонувати свою ідею, використовуйте цей шаблон RFC (знаходиться в docs repo community/rfcs/rfc_template.txt):
 
-  ```{literalinclude} rfcs/rfc_template.txt
   ```
+  {literalinclude} rfcs/rfc_template.txt
+   ```
 
-- Submit the proposal to the `Issues` page of the corresponding OPEA github repository.
-- Reach out to your RFC's assignee if you need any help with the RFC process.
-- Amend your proposal in response to reviewer's feedback.
+- Подати пропозицію на сторінку `Issues` відповідного репозиторію OPEA на github.
+- Якщо вам потрібна допомога з процесом створення RFC, зверніться до його правонаступника.
+- Внести зміни у вашу заявку у відповідь на відгуки рецензента.
 
-### Submitting Pull Requests
+### Подання pull-запитів
 
-#### Create Pull Request
+#### Створення Pull-запитів
 
-If you have improvements to OPEA projects, send your pull requests to each project for review.
-If you are new to GitHub, view the pull request [How To](https://help.github.com/articles/using-pull-requests/).
+Якщо у вас є ідеї щодо покращення проектів OPEA, надсилайте свої запити до кожного проекту на розгляд.
+Якщо ви новачок на GitHub, перегляньте запит [Як це зробити](https://help.github.com/articles/using-pull-requests/).
 
-##### Step-by-Step guidelines
+##### Покрокові інструкції
 
-- Star this repository using the button `Star` in the top right corner.
-- Fork the corresponding OPEA repository using the button `Fork` in the top right corner.
-- Clone your forked repository to your pc by running `git clone "url to your repo"`
-- Create a new branch for your modifications by running `git checkout -b new-branch`
-- Add your files with `git add -A`, commit `git commit -s -m "This is my commit message"` and push `git push origin new-branch`.
-- Create a `pull request` for the project you want to contribute.
+- Поставте "зірку" цьому репозиторію використовуючи кнопку `Star` в верхньому правому кутку.
+- Зробіть форк відповідного репозиторію OPEA за допомогою кнопки `Fork` у верхньому правому кутку.
+- Клонуйте ваш форкований репозиторій на ваш ПК, виконавши `git clone "url to your repo"`.
+- Створіть нову гілку для ваших змін, виконавши `git checkout -b new-branch`.
+- Додайте файли командою `git add -A`, зафіксуйте `git commit -s -m "Це моє повідомлення про фіксацію"` і проштовхніть `git push origin new-branch`.
+- Створіть "pull request" для проекту, до якого ви хочете долучитися.
 
-#### Pull Request Template
+#### Шаблон Pull-запиту
 
-When you submit a PR, you'll be presented with a PR template that looks
-something like this:
+Коли ви подаєте PR, вам буде представлений шаблон PR, який виглядає
+приблизно так:
 
-```{literalinclude} pull_request_template.txt
+```
+{literalinclude} pull_request_template.txt
 ```
 
-#### Pull Request Acceptance Criteria
+#### Критерії прийняття Pull-Запиту
 
-- At least two approvals from reviewers
+- Щонайменше два схвалення від рецензентів
 
-- All detected status checks pass
+- Проходження всіх виявлених перевірок стану
 
-- All conversations solved
+- Всі розмови вирішені
 
-- Third-party dependency license compatible
+- Сумісність із ліцензіями сторонніх розробників
 
-#### Pull Request Status Checks Overview
+#### Огляд перевірок стану Pull-Запиту
 
-The OPEA projects use GitHub Action for CI test.
+Проєкти OPEA використовують GitHub Action для тестування CI.
 
-| Test Name          | Test Scope                                | Test Pass Criteria |
+| Назва тесту          | Сфера тестування                               | Критерії проходження тесту |
 |--------------------|-------------------------------------------|--------------------|
 | DCO                | Use `git commit -s` to sign off           | PASS               |
 | Code Format Scan   | pre-commit.ci [Bot]                       | PASS               |
@@ -365,18 +367,20 @@ The OPEA projects use GitHub Action for CI test.
 | Unit Test          | Unit test under test folder               | PASS               |
 | End to End Test    | End to end test workflow                  | PASS               |
 
-- [Developer Certificate of Origin (DCO)](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin), the PR must agree to the terms of Developer Certificate of Origin by signing off each of commits with `-s`, e.g. `git commit -s -m 'This is my commit message'`.
-- Unit Test, the PR must pass all unit tests and without coverage regression.
-- End to End Test, the PR must pass all end to end tests.
+- [Developer Certificate of Origin (DCO)](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin), PR повинен погодитися з умовами Developer Certificate of Origin, підписавши кожну з коммітів за допомогою `-s`, наприклад,
 
-#### Pull Request Review
-You can add reviewers from [the code owners list](../codeowner.md) to your PR.
+   `git commit -s -m 'This is my commit message'`.
+- Юніт-тест, PR повинен пройти всі юніт-тести і без регресії покриття.
+- Наскрізний тест, PR повинен пройти всі наскрізні тести.
 
-## Support
+#### Огляд pull-запиту
+Ви можете додати рецензентів зі [списку власників коду](../codeowner.md) до свого PR.
 
-- Feel free to reach out to [OPEA maintainers](mailto://info@opea.dev) for support.
-- Submit your questions, feature requests, and bug reports to the GitHub issues page.
+## Підтримка
 
-## Contributor Covenant Code of Conduct
+- Не соромтеся звертатися за підтримкою до [супровідників OPEA](mailto://info@opea.dev).
+- Надсилайте свої запитання, запити на розробку та повідомлення про помилки на сторінку проблем GitHub.
 
-This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant Code of Conduct](./CODE_OF_CONDUCT.md).
+## Кодекс поведінки учасника Угоди про вклад
+
+Цей проєкт має на меті стати безпечним, гостинним простором для співпраці, і очікується, що його учасники дотримуватимуться наступних правил [Contributor Covenant Code of Conduct](./CODE_OF_CONDUCT.md).

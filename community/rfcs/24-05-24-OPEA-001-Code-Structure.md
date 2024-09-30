@@ -1,25 +1,24 @@
 # 24-05-24 OPEA-001 Code Structure
 
-## Author
+## Автори
 
 [ftian1](https://github.com/ftian1), [lvliang-intel](https://github.com/lvliang-intel), [hshen14](https://github.com/hshen14)
 
-## Status
+## Статус
 
-Under Review
+На розгляді
 
-## Objective
+## Мета
 
-Define a clear criteria and rule of adding new codes into OPEA projects.
+Визначити чіткі критерії та правила додавання нових кодів до проектів OPEA.
 
-## Motivation
+## Мотивація
 
-OPEA project consists of serveral repos, including GenAIExamples, GenAIInfra, GenAICompos, and so on. We need a clear definition on where the new code for a given feature should be put for a consistent and well-orgnized code structure.
+Проект OPEA складається з серверних репозиторіїв, включаючи GenAIExamples, GenAIInfra, GenAICompos тощо. Нам потрібне чітке визначення того, куди слід поміщати новий код для певної функції, щоб мати послідовну і добре організовану структуру коду.
 
+## Проєктна пропозиція
 
-## Design Proposal
-
-The proposed code structure of GenAIInfra is:
+Запропонована структура коду GenAIInfra має такий вигляд:
 
 ```
 GenAIInfra/
@@ -28,7 +27,7 @@ GenAIInfra/
 └── scripts/
 ```
 
-The proposed code structure of GenAIExamples is:
+Запропонована структура коду GenAIExamples має такий вигляд:
 
 ```
 GenAIExamples/
@@ -44,7 +43,7 @@ GenAIExamples/
     └── README.md
 ```
 
-The proposed code structure of GenAIComps is:
+Запропонована структура коду GenAIComps має такий вигляд:
 
 ```
 GenAIComps/

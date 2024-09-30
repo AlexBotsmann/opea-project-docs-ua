@@ -1,152 +1,150 @@
 # 24-08-07 OPEA-001 OPEA GenAIStudio
 
-## Author
+## Автори
 
 [ongsoonee](https://github.com/OngSoonEe)
 [chinyixiang](https://github.com/chinyixiang)
 
-## Status
+## Статус
 
-Under Review
+На розгляді
 
-## RFC Content
+## Зміст RFC 
 
-### Objective
+### Мета
 
-The purpose of this RFC is to propose the creation of GenAI Studio, a platform designed to facilitate the development of custom large language model (LLM) applications, leveraging insights from the playground experimentation phase. GenAI Studio will enable users to construct, evaluate, and benchmark their LLM applications through a user-friendly no-code/low-code interface. The platform also provide the capability to export the developed application as a ready-to-deploy package for immediate enterprise integration. This initiative aims to streamline the transition from concept to production, ensuring a seamless deployment process for day-0 enterprise applications.
+Мета цього RFC - запропонувати створення GenAI Studio, платформи, призначеної для полегшення розробки користувацьких додатків на основі великих мовних моделей (LLM), використовуючи ідеї, отримані на етапі експериментів на ігровому майданчику. GenAI Studio дозволить користувачам створювати, оцінювати та порівнювати свої LLM-додатки за допомогою зручного інтерфейсу без коду/з низьким вмістом коду. Платформа також надає можливість експортувати розроблений додаток як готовий до розгортання пакет для негайної інтеграції на підприємстві. Ця ініціатива спрямована на спрощення переходу від концепції до виробництва, забезпечуючи безперебійний процес розгортання корпоративних додатків "з нуля".
 
-### Motivation
+### Мотивація
 
-This RFC outlines the creation of the Enterprise GenAI Assembly Framework, a streamlined platform for OPEA users. The framework's key goals include:
-- Assembly and Configuration: Simplify the process of assembling and configuring GenAI components, such as GenAIComps, with an interactive interface for crafting functional applications.
-- Benchmarking and Evaluation: Perform benchmarking and evaluation on the application for tuning and optimization, including use of [GenAIEval](https://github.com/opea-project/GenAIEval) facilities.
-- Enterprise Deployment Package Creation: Provide tools to create ready-to-deploy Enterprise Packages, including integration of [GenAIInfra](https://github.com/opea-project/GenAIInfra).
+Цей RFC описує створення Enterprise GenAI Assembly Framework, спрощеної платформи для користувачів OPEA. Ключові цілі фреймворку включають:
+- Збірка та конфігурація: Спростіть процес складання та конфігурації компонентів GenAI, таких як GenAIComps, за допомогою інтерактивного інтерфейсу для створення функціональних додатків.
+- Бенчмаркінг та оцінка: Проведення порівняльне тестування та оцінку програми для налаштування та оптимізації, включаючи використання засобів [GenAIEval](https://github.com/opea-project/GenAIEval).
+- Створення пакету розгортання підприємства: Надання інструментів для створення готових до розгортання корпоративних пакетів, включно з інтеграцією [GenAIInfra](https://github.com/opea-project/GenAIInfra).
 
-The framework is designed to democratize development, evaluation, and deployment of GenAI applications for OPEA users, promoting innovation and operational efficiency in the enterprise AI landscape with OPEA.
+Фреймворк призначений для демократизації розробки, оцінки і розгортання додатків GenAI для користувачів OPEA, сприяючи інноваціям і підвищенню операційної ефективності в корпоративному ландшафті ШІ з OPEA.
 
-### Value Proposition
-#### Current Approach
+### Ціннісна пропозиція
+#### Поточний підхід
 ![Current Approach of GenAI Solution for enterprise](https://github.com/user-attachments/assets/adb10f29-b506-46d6-abd3-ed5f70049bee)
 
-Days/weeks before 1st working solution
+Днів/тижнів до 1-го робочого рішення
 
-#### GenAI Studio Approach
+#### Підхід GenAI Studio
 ![Proposed GenAIStudio Approach](https://github.com/user-attachments/assets/e0c59dd2-0ff5-4deb-9561-8cba4ab5defe)
 
-A Day-0 solution that offers users a foundational skeleton, allowing them to focus on business use-cases rather than building the basic framework.
+Рішення Day-0, яке пропонує користувачам фундаментальний скелет, що дозволяє їм зосередитися на бізнес-кейсах, а не на створенні базового фреймворку.
 
-### Persona
-OPEA is a framework designed to streamline the automation of enterprise processes through a series of microservices. The GenAI Studio enhances OPEA by enabling users to develop, deploy, and optimize AI-driven solutions. This scenario demonstrates how different personas—OPEA Developers, Enterprise Users (DevOps), and End Users—can leverage the GenAI Studio to build and deploy enterprise-ready solutions efficiently.
+### Особа
+OPEA - це фреймворк, призначений для оптимізації автоматизації процесів на підприємстві за допомогою низки мікросервісів. GenAI Studio розширює можливості OPEA, дозволяючи користувачам розробляти, розгортати та оптимізувати рішення на основі штучного інтелекту. Цей сценарій демонструє, як різні особи - розробники OPEA, корпоративні користувачі (DevOps) та кінцеві користувачі - можуть використовувати GenAI Studio для ефективного створення та розгортання готових рішень для підприємств.
 
-Scenarios:
+Сценарії:
 
-1. Developer Persona
-   - Objective: Develop and integrate GenAI Application for specific business use-case within OPEA microservice architecture.
-   - Use of the Studio:
-     - The OPEA Developer uses the GenAI Studio to create a GenAI model help enhances business use-case
-     - The Studio's advanced development tools allow the developer to fine-tune the model based on enterprise-specific data, ensuring optimal performance.
-     - After development, the Studio automatically generates a ready-to-use enterprise deployment package that includes all necessary components, such as configurations and resource management tools, ensuring seamless integration with the existing OPEA infrastructure.
-     - This package is designed to be easily deployable at the customer’s site, minimizing the need for additional configuration and setup.
+1. Особа Розробник
+   - Мета:Розробка та інтеграція додатку GenAI для конкретного бізнес-кейсу в рамках мікросервісної архітектури OPEA.
+   - Використання Studio:
+     - Розробник OPEA використовує GenAI Studio для створення моделі GenAI, яка допомагає покращити бізнес-кейс використання.
+     - Просунуті інструменти розробки Studio дозволяють розробнику точно налаштовувати модель на основі специфічних даних підприємства, забезпечуючи оптимальну продуктивність.
+     - Після розробки Studio автоматично генерує готовий до використання корпоративний пакет розгортання, який включає всі необхідні компоненти, такі як конфігурації та інструменти управління ресурсами, що забезпечує безперешкодну інтеграцію з існуючою інфраструктурою OPEA.
+     - Цей пакет розроблений таким чином, щоб його можна було легко розгорнути на сайті замовника, мінімізуючи потребу в додатковій конфігурації та налаштуванні.
 
-2. Enterprise User Persona
-   - Objective: Optimize and deploy the GenAI application with OPEA microservices to meet specific enterprise needs.
-   - Use of the Studio:
-     - The enterprise user uses the GenAI Studio to test and optimize the deployment package generated.
-     - With the Studio’s benchmarking tools, they evaluate the AI model's performance from both inference and compute perspectives, ensuring it meets the enterprise's operational requirements.
-     - The Studio provides insights into resource allocation, helping DevOps fine-tune the deployment to achieve the best possible performance. Once optimized, the deployment package is easily launched, allowing the enterprise to immediately benefit from the AI enhancements.
+2. Особа Користувач на підприємстві
+   - Мета: Оптимізація та розгортання додатку GenAI з мікросервісами OPEA для задоволення конкретних потреб підприємства.
+   - Використання Studio:
+     - Користувач на підприємстві використовує GenAI Studio для тестування та оптимізації згенерованого пакета розгортання.
+     - За допомогою інструментів бенчмаркінгу Studio вони оцінюють продуктивність ШІ-моделі як з точки зору висновків, так і з точки зору обчислень, щоб переконатися, що вона відповідає операційним вимогам підприємства.
+     - Studio надає інформацію про розподіл ресурсів, допомагаючи DevOps точно налаштувати розгортання для досягнення найкращої продуктивності. Після оптимізації пакет розгортання легко запускається, дозволяючи підприємству негайно отримати вигоду від удосконалень ШІ.
 
-3. End User Persona
-   - Objective: Implement and utilize the AI-enhanced OPEA solution for specific business tasks.
-   - Use of the Studio:
-     - The End User accesses the GenAI Studio to explore the ready-to-use deployment package provided by the DevOps team.
-     - The Studio offers tools to evaluate the solution's performance in real-world scenarios, ensuring it aligns with the business’s objectives.
-     - With minimal setup, the End User can deploy the AI-enhanced solution in their environment, automating complex workflows and optimizing resource usage to achieve business goals more efficiently.
+3. Особа Кінцевий користувач
+   - Мета: Впровадження і використання рішень OPEA зі штучним інтелектом для конкретних бізнес-завдань.
+   - Використання Studio:
+     - Кінцевий користувач отримує доступ до GenAI Studio, щоб вивчити готовий до використання пакет розгортання, наданий командою DevOps.
+     - Студія пропонує інструменти для оцінки продуктивності рішення в реальних сценаріях, щоб переконатися, що воно відповідає цілям бізнесу.
+     - Після мінімального налаштування кінцевий користувач може розгорнути рішення зі штучним інтелектом у своєму середовищі, автоматизуючи складні робочі процеси та оптимізуючи використання ресурсів для більш ефективного досягнення бізнес-цілей.
 
-The Generative AI Studio empowers Developers, Enterprise User, and End Users to create, optimize, and deploy AI-driven enterprise solutions effortlessly. By providing tools to generate ready-to-use deployment packages and benchmark performance, the Studio ensures that AI solutions are not only powerful but also easy to deploy and maintain, making them highly effective for business applications.
+Generative AI Studio дозволяє розробникам, корпоративним користувачам і кінцевим користувачам створювати, оптимізувати і розгортати корпоративні рішення на основі штучного інтелекту без особливих зусиль. Надаючи інструменти для створення готових до використання пакетів розгортання та тестування продуктивності, студія гарантує, що рішення на основі штучного інтелекту не лише потужні, але й прості у розгортанні та обслуговуванні, що робить їх високоефективними для бізнес-застосунків.
 
-### Stragegy and Scope of Work
+### Стратегія та обсяг робіт
 
-Not reinventing the wheel - leverage existing work from OPEA, open-source and EasyData foundation works.
-- GMC on configuration/deploy
-- Langflow/flowise.ai for app configuration
-- Suites of performance evaluation (VictoriaMetric, OpenTelemetry (Otel), Tempo, Loki, Grafana)
-- Istio for workload management
+Не вигадуйте колесо - використовуйте вже існуючі напрацювання OPEA, відкриті джерела та фундаментальні напрацювання EasyData.
+- GMC на конфігурацію/розгортання
+- Langflow/flowise.ai для налаштування додатку
+- Пакети для оцінки продуктивності (VictoriaMetric, OpenTelemetry (Otel), Tempo, Loki, Grafana)
+- Istio для управління навантаженням
 
-Scope of model development/optimization
+Обсяг розробки/оптимізації моделі
 
-| Scope of Work | Status |
+| Обсяг роботи | Статус |
 | --- | --- |
-| Prompt engineering, RAG | In scope |
-| Model Finetune | Stretch Goal |
-| Model Pre-train | Out of Scope |
+| Prompt engineering, RAG | За обсягом |
+| Model Finetune | Пряма ціль |
+| Model Pre-train | Поза сферою дії |
 
-### GenAI Studio High Level Architecture
+### Архітектура високого рівня GenAI Studio
 ![OPEA GenAI Studio Architecture](https://github.com/user-attachments/assets/fa55aeae-158b-4035-8325-25821c24a27f)
 
-### Design Proposal
+### Проєктна пропозиція
 
-### Design Space
-Providing a interactive user interface for user to build, configure, test and generate final deployment package.
-User may utilize the yaml data file for creation and modification of studio project, as an alternate to GUI.
+### Проєктний простір
+Надання інтерактивного користувацького інтерфейсу для створення, налаштування, тестування і генерації остаточного пакета розгортання. Користувач може використовувати файл даних yaml для створення та модифікації студійного проекту, як альтернативу графічному інтерфейсу.
 
-#### Part 1: Application Build and Configuration
-User to build GenAI application with configuration, such as
-- model selection
-- model parameter setting (temp, top-p, top-k, max response)
-- system instruction
+#### Частина 1: Побудова та конфігурація додатку
+Користувач може створити додаток GenAI з такою конфігурацією, як
+- вибір моделі
+- встановлення параметрів моделі (temp, top-p, top-k, max response)
+- системна інструкція
 
-Provides 2 mode of configuration
-- Wizard Mode: User is guided through step-by-step process to create an application
-    - ![screenshot sample of wizard mode](https://github.com/user-attachments/assets/1c780be1-d6dc-47fb-8a23-5229392ab45b)
-- Drag-n-drop Workflow Mode: Allow user to create their own flow from available components (leverage Flowise AI)
+Забезпечує 2 режими конфігурації
+- Режим Wizard: Користувач отримує покрокову інструкцію щодо створення додатку
+    ![screenshot sample of wizard mode](https://github.com/user-attachments/assets/1c780be1-d6dc-47fb-8a23-5229392ab45b)
+- Режим робочого процесу Drag-n-Drop: Дозволяє користувачеві створити власний потік з доступних компонентів (використовуючи Flowise AI)
     - Utilize Flowise AI - https://docs.flowiseai.com/
-    - Note: Need further feasibility study on
-        - Ease of customization or adding new UI components
-        - Connectivity and integration to Mega Service (HelmChart, DockerCompose, GMC)
+    - Примітка: Потребує подальшої доцільності навчання в області
+        - Простота налаштування або додавання нових компонентів інтерфейсу
+        - Підключення та інтеграція з Мегасервісом (HelmChart, DockerCompose, GMC)
 
 
 
-#### Part 2: Benchmark and Evaluation
-A. Inference Performance
-- General Benchmarking
+#### Частина 2: Порівняльний аналіз та оцінка
+A. Продуктивність виведення
+- Загальний бенчмаркінг
     - GLUE/SuperGLUE
     - GPQA
     - SQuAD
     - ImageNet
     - MLPerf
-- Halucination
-- Vertical/Domain Specific Benchmarking (with ground truth)
-- Finetuning – next phase
+- Галюцинація
+- Вертикальний/доменний бенчмаркінг (з базовою інформацією)
+- Доопрацювання - наступний етап
 
-B. Model Compute Performance
-- token-per-sec (TPS)
-- 1st token latency
-- Throughput
-- RAG performance
+B. Модель обчислювальної продуктивності
+- токенів на секунду (TPS)
+- затримка 1-го токена
+- пропускна здатність
+- продуктивність RAG
 
-C. Resource Monitoring - CPU utilization, memory utilization
+C. Моніторинг ресурсів - завантаження процесора, пам'яті
 ![Diagram on resource monitoring architecture](https://github.com/user-attachments/assets/0fe9fed7-0979-4325-b242-fcd753b19f09)
 
-Enablement of components for compute performance evaluation
-- VictoriaMetric: as metrics store for resource utilization
-- OpenTelemetry (Otel): tracing probing mechanism
-- Tempo: Trace store for OpenTelemetry
-- Loki: log store for pod/Kubernetes
-- Grafana: visualization of metrics, trace and logs
+Включення компонентів для оцінки продуктивності обчислень
+- VictoriaMetric: як сховище метрик для використання ресурсів
+- OpenTelemetry (Otel): механізм трасування датчиків
+- Tempo: сховище трас для OpenTelemetry
+- Loki:  зберігання логів для pod/Kubernetes
+- Grafana: візуалізація метрик, трасування та логів
 - Prometheus
 
-#### Part 3: Enterprise Deployment
-Generate Enterprise Deployment Package base on the applicaiton with enterprise facilities features, including,
-Features:
-- Application UI
-- user management (login, create, update, delete)
-- Session management (e.g. Chat sessions)
-- inference parameter setting (top-p, top-k, temperature)
+#### Частина 3: Розгортання на підприємстві
+Створіть базу корпоративного пакета розгортання на основі програми з функціями корпоративних об'єктів, включно з функціями:
+- Інтерфейс додатку
+- Керування користувачами (вхід, створення, покращення, видалення)
+- Керування сеансами (наприклад, сеансами чату)
+- налаштування параметрів виведення (top-p, top-k, температура)
 - Vector Store
-- token generation
-- API access
+- Генерація токенів
+- Доступ до API
 
-Applications:
+Додатки:
 - QnA
 - AudioChat
 - VisualChat
@@ -155,21 +153,21 @@ Applications:
 - CodeTrans
 - Summarizer
 
-Deployment configuration - Sample UI
-- OS
-- Cloud/ OnPrem
-- Cluster /single Machine
-- Feature selection (API access, user management etc)
-- Monitoring dashboard for Resource Management
+Конфігурація розгортання - Зразок інтерфейсу
+- ОС
+- Хмара/ OnPrem
+- Кластер /одна машина
+- Вибір функцій (API доступ, Керування користувачами тощо)
+- Моніторингова панель для управління ресурсами
 
 ![GenAI Deployment Package Configuration](https://github.com/user-attachments/assets/8dd43bff-26a6-4c3e-a80c-127bccdff7f3)
 
-Generated Deployment Package generally contains the follow parts:
-- Ansible playbooks - Ansible playbooks will be used to setup and initialize important services such as K8s, SQL Database, local image registry, etc.
-- App UI codes
-- App backend server codes
-- Other OPEA microservice component images can be pulled from OPEA registry directly during setup.
+Згенерований пакунок розгортання зазвичай складається з таких частин:
+- Плейбуки Ansible - Плейбуки Ansible будуть використовуватися для налаштування та ініціалізації важливих служб, таких як K8s, база даних SQL, локальний реєстр образів тощо.
+- Коди інтерфейсу додатку
+- Внутрішні коди серверів додатків
+- Інші образи компонентів мікросервісу OPEA можна отримати з реєстру OPEA безпосередньо під час налаштування.
 
 
-### Compatibility
-This RFC will require a feasibility study on tools to use for Part 1 Drag-n-Drop Workflow Mode design. Flowise AI is a good candidate but it needs to run as a separate service which will add to the complexity of the UI/UX design.
+### Сумісність
+Цей RFC вимагатиме проведення техніко-економічного обґрунтування щодо інструментів, які слід використовувати для проектування режиму Drag-n-Drop Workflow у Частині 1. Flowise AI є хорошим кандидатом, але його потрібно запускати як окремий сервіс, що додасть складності до UI/UX дизайну.

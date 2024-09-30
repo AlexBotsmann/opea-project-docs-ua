@@ -1,77 +1,77 @@
-# Technical Charter (the “Charter”) for OPEA a Series of LF Projects, LLC
+# Технічна угода («Угода») для OPEA як частина проєктів LF Projects, LLC
 
 
-Adopted April 12, 2024
+Прийнята 12 квітня 2024 року
 
-This Charter sets forth the responsibilities and procedures for technical contribution to, and oversight of, the OPEA open source project, which has been established as OPEA a Series of LF Projects, LLC (the “Project”).  LF Projects, LLC (“LF Projects”) is a Delaware series limited liability company. All contributors (including committers, maintainers, and other technical positions) and other participants in the Project (collectively, “Collaborators”) must comply with the terms of this Charter.
+Ця Угода визначає обов'язки та процедури технічного сприяння і нагляду за Проєктом OPEA з відкритим вихідним кодом, який було створено як частина проєктів LF Projects, LLC («Проєкт»).  LF Projects, LLC («LF Projects») є товариством з обмеженою відповідальністю, зареєстрованим у штаті Делавер. Всі учасники (в тому числі розробники, супровідники та інші технічні працівники) та інші учасники Проєкту (разом - «Співробітники») повинні дотримуватися умов цієї Угоди.
 
 
-## 1. Mission and Scope of the Project
+## 1. Місія й обсяг проєкту
 
-  1. The mission of the Project is to develop an ecosystem orchestration framework to efficiently integrate performant GenAI technologies and workflows leading to quicker GenAI adoption and business value.
-  2. The scope of the Project includes collaborative development under the Project License (as defined herein) supporting the mission, including documentation, testing, integration and the creation of other artifacts that aid the development, deployment, operation or adoption of the open source project.
+  1. Місія проєкту полягає в розробці системи оркестрування екосистеми для ефективної інтеграції ефективних технологій GenAI та робочих процесів, що сприятиме швидшому впровадженню GenAI та підвищенню цінності бізнесу.
+  2. Обсяг Проєкту включає спільну розробку за Ліцензією Проєкту (як визначено в цьому документі), що підтримує місію, включаючи документацію, тестування, інтеграцію та створення інших артефактів, які допомагають розробці, розгортанню, експлуатації або прийняттю Проєкту з відкритим вихідним кодом.
 
-## 2. Technical Steering Committee
+## 2. Технічний наглядовий комітет
 
-   1. The Technical Steering Committee (the “TSC”) will be responsible for all technical oversight of the open source Project.
-   2. The TSC voting members are initially those individuals listed as voting members of the TSC in the GOVERNANCE.MD file in the Project’s governance repo (moved to community/TSC.rst in the docs repo). At the inception of the project, the Maintainers of the Project will be as set forth within the “CONTRIBUTING” file within the Project’s code repository. The TSC may choose an alternative approach for determining the voting members of the TSC, and any such alternative approach will be documented in the GOVERNANCE file (now the TSC.rst file).  The Project intends to determine additional details on composition of the TSC to enable increased diversity of organizations represented on the TSC within 12 months following the inception of the Project, or such other time as determined by the TSC (the “Steady State Transition”).  The TSC expects to have no one company employing more than 50% of the voting members of the TSC by the Steady State Transition.  It is expected that the terms of TSC voting members will vary initially (with roughly half 1 year and the remainder 2 years)  so that elections will be staggered.  Any meetings of the Technical Steering Committee are intended to be open to the public, and can be conducted electronically, via teleconference, or in person.
-   3. TSC projects generally will involve Contributors and Maintainers. The TSC may adopt or modify roles so long as the roles are documented in the CONTRIBUTING file. Unless otherwise documented:
-      1. Contributors include anyone in the technical community that contributes code, documentation, or other technical artifacts to the Project;
-      2. Maintainers are Contributors who have earned the ability to modify (“commit” or merge pull requests) source code, documentation or other technical artifacts in a project’s repository; and
-      3. A Contributor may become a Maintainer by a majority approval of the existing Maintainers. A Maintainer may be removed by a majority approval of the other existing Maintainers.
-   4. Participation in the Project through becoming a Contributor and Maintainer is open to anyone so long as they abide by the terms of this Charter.
-   5. The TSC may (1) establish workflow procedures for the submission, approval, and closure/archiving of sub-projects, (2) set requirements for the promotion of Contributors to Maintainer status, as applicable, and (3) amend, adjust, refine and/or eliminate the roles of Contributors, and Maintainers, and create new roles, and publicly document any TSC roles, as it sees fit.
-   6. The TSC may elect a TSC Chair, who will preside over meetings of the TSC and will serve until their resignation or replacement by the TSC.  The TSC Chair, or any other TSC member so designated by the TSC, will serve as the primary communication contact between the Project and LF AI & Data Foundation, a directed fund of The Linux Foundation.
-   7. Responsibilities: The TSC will be responsible for all aspects of technical oversight relating to the Project, which may include:
-      1. coordinating the technical direction of the Project;
-      2. approving project or system proposals (including, but not limited to, incubation, deprecation, and changes to a sub-project’s scope);
-      3. organizing sub-projects and removing sub-projects;
-      4. creating committees or working groups (for example, an executive or architectural committee or end-user advisory committee) to support the Project;
-      5. appointing representatives to work with other open source or open standards communities;
-      6. establishing community norms, workflows, issuing releases, and security issue reporting policies;
-      7. approving and implementing policies and processes for contributing (to be published in the CONTRIBUTING file) and coordinating with the series manager of the Project (as provided for in the Series Agreement, the “Series Manager”) to resolve matters or concerns that may arise as set forth in Section 7 of this Charter;
-      8. discussions, seeking consensus, and where necessary, voting on technical matters relating to the code base that affect multiple sub-projects; and
-      9. coordinating any marketing, events, or communications regarding the Project.
+   1. Технічний наглядовий комітет («TSC») відповідатиме за весь технічний нагляд за Проєктом з відкритим вихідним кодом.
+   2. Членами з правом голосу в TSC спочатку є особи, перелічені як члени з правом голосу в TSC у файлі GOVERNANCE.MD у репозиторії управління Проєктом (переміщений до community/TSC.rst у репозиторії docs). На початку проєкту склад супровідників проєкту буде визначено у файлі «CONTRIBUTING» у репозиторії коду Проєкту. КРК може обрати альтернативний підхід до визначення членів КРК з правом голосу, і будь-який такий альтернативний підхід буде задокументований у файлі «GOVERNANCE» (зараз це файл TSC.rst).  Проєкт має намір визначити додаткові деталі щодо складу TSC з метою забезпечення більшої різноманітності організацій, представлених у КРК, протягом 12 місяців після початку реалізації Проєкту або в інший термін, визначений TSC («Перехід до сталого стану»).  Координаційний комітет очікує, що на момент переходу до сталого стану жодна компанія не матиме більше 50% працівників, які мають право голосу в Координаційному комітеті.  Очікується, що терміни повноважень членів TSC з правом голосу спочатку будуть різними (приблизно половина - 1 рік, а решта - 2 роки), тому вибори відбуватимуться поетапно.  Засідання Технічного наглядового комітету мають бути відкритими для громадськості і можуть проводитися в електронному вигляді, за допомогою телеконференцій або особисто.
+   3. У проєктах TSC, як правило, беруть участь Дописувачі та Мейнтейнери. TSC може приймати або змінювати ролі, якщо вони задокументовані у файлі CONTRIBUTING. Якщо не задокументовано інше:
+      1. Дописувачі - це будь-хто з технічної спільноти, хто надає код, документацію або інші технічні артефакти до проєкту;
+      2. Мейнтейнери - це Учасники, які отримали можливість змінювати ("фіксувати" або об'єднувати pull-запити) вихідний код, документацію або інші технічні артефакти в репозиторії проєкту; і
+      3. Дописувач може стати Мейнтейнером за умови схвалення більшістю існуючих мейнтейнерів. Виключення з числа учасників можливе за умови схвалення більшістю голосів інших учасників.
+   4. Участь у Проєкті, ставши Дописувачем або Мейнтейнером, є відкритою для всіх, хто дотримується умов цієї Угоди.
+   5. TSC може (1) встановлювати робочі процедури для подання, затвердження та закриття/архівування підпроектів, (2) встановлювати вимоги для підвищення статусу Дописувачів до статусу Мейтейнера, у відповідних випадках, та (3) змінювати, коригувати, уточнювати та/або скасовувати ролі Дописувачів та Мейтейнерів, а також створювати нові ролі та публічно документувати будь-які ролі TSC, якщо вважатиме за потрібне.
+   6. TSC може обрати Голову TSC, який головуватиме на засіданнях TSC і виконуватиме свої обов'язки до його відставки або заміни TSC.  Голова TSC або будь-який інший член TSC, призначений TSC, слугуватиме основним комунікаційним контактом між Проєктом і LF AI & Data Foundation, цільовим фондом The Linux Foundation.
+   7. Обов'язки: TSC відповідатиме за всі аспекти технічного нагляду, пов'язані з Проєктом, які можуть включати:
+      1. координує технічний напрямок Проєкту;
+      2. затвердження проєктних або системних пропозицій (включаючи, але не обмежуючись, інкубацію, списання та зміну обсягу субпроєкту);
+      3. організація субпроєктів і видалення субпроєктів;
+      4. створення комітетів або робочих груп (наприклад, виконавчого чи архітектурного комітету або консультативного комітету кінцевого споживача) для підтримки проекту;
+      5. призначення представників для роботи з іншими спільнотами з відкритим кодом або відкритими стандартами;
+      6. встановлення норм спільноти, робочих процесів, випуску релізів та політик звітування про проблеми з безпекою;
+      7. затвердження і впровадження політики та процедур щодо внесків (які будуть опубліковані у файлі CONTRIBUTING) і координації з менеджером серії Проєкту (як передбачено в Series Agreement, «Series Manager») для вирішення питань або проблем, які можуть виникнути, як зазначено в Розділі 7 цієї Угоди;
+      8. обговорення, пошук консенсусу і, за необхідності, голосування з технічних питань, пов'язаних з кодовою базою, які впливають на кілька субпроєктів; і
+      9. координація будь-якого маркетингу, заходів або комунікацій, пов'язаних з Проєктом.
 
-## 3. TSC Voting
+## 3. Голосування в TSC
 
-   1. While the Project aims to operate as a consensus-based community, if any TSC decision requires a vote to move forward, the voting members of the TSC will vote on a one vote per voting member basis.
-   2. Quorum for TSC meetings requires at least fifty percent of all voting members of the TSC to be present. The TSC may continue to meet if quorum is not met but will be prevented from making any decisions at the meeting.
-   3. Except as provided in Section 7.c. and 8.a, decisions by vote at a meeting require a majority vote of those voting members in attendance, provided quorum is met. Decisions made by electronic vote without a meeting require a majority vote of all voting members of the TSC.
-   4. In the event a vote cannot be resolved by the TSC, any voting member of the TSC may refer the matter to the Series Manager for assistance in reaching a resolution.
+   1. Хоча Проєкт прагне працювати як спільнота, заснована на консенсусі, якщо будь-яке рішення TSC потребує голосування, члени TSC, які мають право голосу, голосуватимуть за принципом один голос на одного члена TSC, який має право голосу.
+   2. Кворум для проведення засідань TSC вимагає присутності щонайменше п'ятдесяти відсотків усіх членів TSC які мають право голосу. За відсутності кворуму TSC може продовжувати засідання, але не може приймати жодних рішень на засіданні.
+   3. За винятком випадків, передбачених у розділах 7.c. та 8.a, для прийняття рішень шляхом голосування на зборах необхідна більшість голосів присутніх членів, які мають право голосу, за умови наявності кворуму. Рішення, прийняті шляхом електронного голосування без проведення засідання, потребують більшості голосів усіх членів TSC, які мають право голосу..
+   4. У випадку, якщо TSC не може прийняти рішення щодо голосування, будь-який член TSC з правом голосу може передати питання на розгляд Series Manager для отримання допомоги у прийнятті рішення.
 
-## 4. Compliance with Policies
+## 4. Дотримання Політик
 
-   1. This Charter is subject to the Series Agreement for the Project and the Operating Agreement of LF Projects. Contributors will comply with the policies of LF Projects as may be adopted and amended by LF Projects, including, without limitation the policies listed at https://lfprojects.org/policies/.
-   2. The TSC may adopt a Project-specific code of conduct (“CoC”) for the Project, which is subject to approval by the Series Manager.  In the event that a Project-specific CoC has not been approved, the LF Projects Code of Conduct listed at https://lfprojects.org/policies will apply for all Collaborators in the Project.
-   3. When amending or adopting any policy applicable to the Project, LF Projects will publish such policy, as to be amended or adopted, on its web site at least 30 days prior to such policy taking effect; provided, however, that in the case of any amendment of the Trademark Policy or Terms of Use of LF Projects, any such amendment is effective upon publication on LF Project’s web site.
-   4. All Collaborators must allow open participation from any individual or organization meeting the requirements for contributing under this Charter and any policies adopted for all Collaborators by the TSC, regardless of competitive interests. Put another way, the Project community must not seek to exclude any participant based on any criteria, requirement, or reason other than those that are reasonable and applied on a non-discriminatory basis to all Collaborators in the Project community.
-   5. The Project will operate in a transparent, open, collaborative, and ethical manner at all times. The output of all Project discussions, proposals, timelines, decisions, and status should be made open and easily visible to all. Any potential violations of this requirement should be reported immediately to the Series Manager.
+   1. Ця Угода регулюється Серійною угодою Проєкту та Операційною угодою LF Projects. Донори зобов'язуються дотримуватися політик LF Projects, які можуть бути прийняті та змінені LF Projects, включаючи, без обмежень, політики, перелічені на сайті https://lfprojects.org/policies/.
+   2. TSC може прийняти кодекс поведінки («CoC») для конкретного Проєкту, який підлягає затвердженню Series Manager.  У випадку, якщо Кодекс поведінки для конкретного Проєкту не був затверджений, для всіх Співробітників Проєкту застосовується Кодекс поведінки для LF Projects Code of Conduct, розміщений на веб-сайті https://lfprojects.org/policies.
+   3. При внесенні змін або прийнятті будь-якої політики, що застосовується до Проєкту, LF Projects опублікує таку політику в редакції, що підлягає зміні або прийняттю, на своєму веб-сайті щонайменше за 30 днів до набрання чинності такою політикою; за умови, однак, що в разі внесення будь-яких змін до Політики щодо торговельних марок або Умов використання LF Projects, будь-яка така зміна набуває чинності з моменту публікації на веб-сайті LF Projects.
+   4. Усі Співучасники повинні дозволяти відкриту участь будь-якій особі чи організації, що відповідає вимогам до внеску згідно з цією Угодою та будь-якими політиками, прийнятими TSC для всіх Співучасників, незалежно від конкурентних інтересів, незалежно від того, чи є вони учасниками Проєкту. Іншими словами, спільнота Проєкту не повинна намагатися виключити будь-якого учасника на підставі будь-яких критеріїв, вимог або причин, окрім тих, що є обґрунтованими та застосовуються на недискримінаційній основі до всіх Співучасників у спільноті Проекту.
+   5. Проєкт завжди працюватиме у прозорий, відкритий, спільний та етичний спосіб. Результати всіх обговорень, пропозицій, графіків, рішень і статусу проекту повинні бути відкритими і легко видимими для всіх. Про будь-які потенційні порушення цієї вимоги слід негайно повідомляти Series Manager..
 
-## 5. Community Assets
+## 5. Активи спільноти
 
-   1. LF Projects will hold title to all trade or service marks used by the Project (“Project Trademarks”), whether based on common law or registered rights.  Project Trademarks will be transferred and assigned to LF Projects to hold on behalf of the Project. Any use of any Project Trademarks by Collaborators in the Project will be in accordance with the license from LF Projects and inure to the benefit of LF Projects.
-   2. The Project will, as permitted and in accordance with such license from LF Projects, develop and own all Project GitHub and social media accounts, and domain name registrations created by the Project community.
-   3. Under no circumstances will LF Projects be expected or required to undertake any action on behalf of the Project that is inconsistent with the tax-exempt status or purpose, as applicable, of the Joint Development Foundation or LF Projects, LLC.
+   1. LF Projects матиме право власності на всі торгові марки або знаки обслуговування, що використовуються Проєктом («Торгові марки Проекту»), незалежно від того, чи засновані вони на загальному праві, чи на зареєстрованих правах.  Торгові марки Проєкту будуть передані та закріплені за LF Projects для використання від імені Проєкту. Будь-яке використання будь-яких Торгових марок Проєкту Співробітниками в рамках Проекту буде здійснюватися відповідно до ліцензії від LF Projects і діятиме на користь LF Projects.
+   2. Проєкт, з дозволу та відповідно до такої ліцензії від LF Projects, розроблятиме та володітиме всіма акаунтами Проєкту на GitHub та в соціальних мережах, а також реєстраціями доменних імен, створених спільнотою Проєкту..
+   3. За жодних обставин від LF Projects не очікується і не вимагається вчинення будь-яких дій від імені Проєкту, які є несумісними з неоподатковуваним статусом або метою, залежно від обставин, Фонду спільного розвитку або ТОВ «ЛФ Проджектс»..
 
-## 6. General Rules and Operations.
+## 6. Загальні правила та операції.
 
-   1. The Project will:
-      1. engage in the work of the Project in a professional manner consistent with maintaining a cohesive community, while also maintaining the goodwill and esteem of LF Projects, Joint Development Foundation and other partner organizations in the open source community; and
-      2. respect the rights of all trademark owners, including any branding and trademark usage guidelines.
+   1. В рамках проєкту буде:
+      1. брати участь у роботі Проєкту на професійному рівні, що відповідає підтримці згуртованої спільноти, зберігаючи при цьому доброзичливість та повагу до LF Projects, Фонду Спільного Розвитку та інших партнерських організацій у спільноті відкритого коду; а також
+      2. поважати права всіх власників торгових марок, включаючи будь-які рекомендації щодо брендингу та використання торгових марок.
 
-## 7. Intellectual Property Policy
+## 7. Політика інтелектуальної власності
 
-   1. Collaborators acknowledge that the copyright in all new contributions will be retained by the copyright holder as independent works of authorship and that no contributor or copyright holder will be required to assign copyrights to the Project.
-   2. Except as described in Section 7.c., all contributions to the Project are subject to the following:
-      1. All new inbound code contributions to the Project must be made using Apache License, Version 2.0 available at http://www.apache.org/licenses/LICENSE-2.0  (the “Project License”).
-      2. All new inbound code contributions must also be accompanied by a Developer Certificate of Origin (http://developercertificate.org) sign-off in the source code system that is submitted through a TSC-approved contribution process which will bind the authorized contributor and, if not self-employed, their employer to the applicable license;
-      3. All outbound code will be made available under the Project License.
-      4. Documentation will be received and made available by the Project under the Creative Commons Attribution 4.0 International License (available at http://creativecommons.org/licenses/by/4.0/).
-      5. The Project may seek to integrate and contribute back to other open source projects (“Upstream Projects”). In such cases, the Project will conform to all license requirements of the Upstream Projects, including dependencies, leveraged by the Project.  Upstream Project code contributions not stored within the Project’s main code repository will comply with the contribution process and license terms for the applicable Upstream Project.
-   3. The TSC may approve the use of an alternative license or licenses for inbound or outbound contributions on an exception basis. To request an exception, please describe the contribution, the alternative open source license(s), and the justification for using an alternative open source license for the Project. License exceptions must be approved by a two-thirds vote of the entire TSC.
-   4. Contributed files should contain license information, such as SPDX short form identifiers, indicating the open source license or licenses pertaining to the file.
+   1. Учасники визнають, що авторські права на всі нові внески зберігатимуться за власником авторських прав як незалежні авторські твори, і що жоден учасник або власник авторських прав не повинен передавати авторські права на Проєкт.
+   2. За винятком випадків, описаних у Розділі 7.c., всі внески до Проєкту підлягають наступним умовам:
+      1. Всі нові вхідні внески коду до Проєкту повинні бути зроблені з використанням Ліцензії Apache, версія 2.0, доступної за адресою http://www.apache.org/licenses/LICENSE-2.0 ("Ліцензія Проєкту");
+      2. Всі нові вхідні внески коду повинні також супроводжуватися сертифікатом походження розробника (http://developercertificate.org), який підписується в системі вихідного коду, що подається в рамках затвердженого TSC процесу внесення внесків, який зв'язує уповноваженого учасника і, якщо він не є самозайнятою особою, його роботодавця, з відповідною ліцензією.;
+      3. Весь вихідний код буде доступний за ліцензією Проєкту;
+      4. Документація буде отримана та надана Проектом на умовах ліцензії Creative Commons Attribution 4.0 International License (доступна за посиланням http://creativecommons.org/licenses/by/4.0/);
+      5. Проєкт може прагнути інтегруватися в інші проєкти з відкритим вихідним кодом ("Попередні проєкти") та робити свій внесок у них. У таких випадках Проєкт відповідатиме всім ліцензійним вимогам вищих проєктів, включно із залежністю від них, які використовуються Проєктом. Внески коду до висхідних проєктів, які не зберігаються в основному сховищі коду Проекту, мають відповідати процесу внесення та умовам ліцензії для відповідного висхідного проєкту.
+   3. TSC може схвалити використання альтернативної ліцензії або ліцензій для вхідних або вихідних внесків на основі винятків. Щоб подати запит на виняток, будь ласка, опишіть внесок, альтернативну(і) ліцензію(ї) відкритого коду та обґрунтування використання альтернативної ліцензії відкритого коду для Проєкту. Винятки з ліцензії мають бути схвалені двома третинами голосів усіх членів TSC.
+   4. Надані файли повинні містити інформацію про ліцензію, наприклад, короткі ідентифікатори SPDX, що вказують на ліцензію відкритого коду або ліцензії, що стосуються файлу..
 
-## 8. Amendments
+## 8. Зміни та доповнення
 
-   1. This charter may be amended by a two-thirds vote of each of the entire TSC and is subject to approval by LF Projects.
+   1. Зміни до цієї Угоди можуть бути внесені двома третинами голосів кожного з членів TSC та підлягають затвердженню LF Projects.

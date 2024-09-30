@@ -1,25 +1,25 @@
 # 24-08-02-OPEA-AIAvatarChatbot
 
-A RAG-Powered Human-Like AI Avatar Audio Chatbot integrated with OPEA AudioQnA
+Людиноподібний чат-бот зі штучним інтегрованим інтелектом RAG, інтегрований з OPEA AudioQnA
 <!-- The short description of the feature you want to contribute -->
 
-## Author
+## Автори
 <!-- List all contributors of this RFC. -->
 [ctao456](https://github.com/ctao456), [alexsin368](https://github.com/alexsin368), [YuningQiu](https://github.com/YuningQiu), [louie-tsai](https://github.com/louie-tsai)
 
-## Status
+## Статус
 <!-- Change the PR status to Under Review | Rejected | Accepted. -->
-v0.1 - ASMO Team sharing on Fri 6/28/2024  
-[GenAIComps pr #400](https://github.com/opea-project/GenAIComps/pull/400) (Under Review)  
-[GenAIExamples pr #523](https://github.com/opea-project/GenAIExamples/pull/523) (Under Review)
+v0.1 - Команда ASMO поділилася 28 червня 2024 р.  
+[GenAIComps pr #400](https://github.com/opea-project/GenAIComps/pull/400) (на розгляді)  
+[GenAIExamples pr #523](https://github.com/opea-project/GenAIExamples/pull/523) (на розгляді)
 
-## Objective
+## Мета
 <!-- List what problem will this solve? What are the goals and non-goals of this RFC? -->
-* "Digital humans will resolutionize industry". Given breakthroughs in LLMs and neural graphics, there emerged a surge in demand for human-computer interaction and conversational AI applications. To meet this demand, we need intent-driven computing where interacting with computers is as natural as interacting with humans. Yet all existing OPEA applications (ChatQnA, AudioQnA, SearchQnA, etc.) are text-based and lack interactive visual elements.
+* "Цифрові люди стануть вирішальною силою в індустрії". З огляду на прориви в галузі ШІ та нейронної графіки, різко зріс попит на людино-комп'ютерну взаємодію та розмовні додатки ШІ. Щоб задовольнити цей попит, нам потрібні обчислення, керовані намірами, де взаємодія з комп'ютером буде такою ж природною, як і взаємодія з людиною. Проте всі існуючі програми OPEA (ChatQnA, AudioQnA, SearchQnA тощо) є текстовими і не містять інтерактивних візуальних елементів.
 
-* Also worthnoting, the majority of existing OPEA applications lack multimodal features, i.e., they do not process both audio and visual inputs. Whereas enterprises are increasingly looking for multimodal AI solutions that can process both audio and visual inputs, to build lip-synchronized and face-animated chatbot solutions that are more engaging and human-like.
+* Варто також зазначити, що більшості існуючих програм OPEA бракує мультимодальних функцій, тобто вони не обробляють аудіо- та візуальні дані. У той час як підприємства все частіше шукають мультимодальні рішення зі штучним інтелектом, які можуть обробляти як аудіо, так і візуальні дані, щоб створювати чат-ботів із синхронізацією губ та обличчям, які будуть більш привабливими та схожими на людей.
 
-* Due to above reasons, we're hereby introducing a new microservice, animation, that generates animated avatars from audio and image/video inputs; and a new megaservice, AvatarChatbot, that integrates the animation microservice with the existing AudioQnA service to build a human-like AI audio chatbot.
+* У зв'язку з вищезазначеними причинами, ми представляємо новий мікросервіс, анімацію, який генерує анімовані аватари з аудіо та зображень/відео; і новий мегасервіс, AvatarChatbot, який інтегрує мікросервіс анімації з існуючим сервісом AudioQnA для створення людиноподібного аудіо чат-бота зі штучним інтелектом.
 
 <!--<p align="left">
   <img src="assets/avatar4.png" alt="Image 1" width="130"/>
@@ -32,39 +32,39 @@ v0.1 - ASMO Team sharing on Fri 6/28/2024
 
 ![avatars chatbot](assets/avatars-chatbot.png)
 
-The chatbot will:
-* Be able to understand and respond to user text and audio queries, with a backend LLM model
-* Synchronize audio response chunks with image/video frames, to generate a high-quality video of the avatar speaking in real-time
-* Present the animated avatar response to the user in a user-friendly UI
-* Use multimodal retrieval-augmented generation (RAG) to generate more accurate, in-domain responses, in v0.2
+Чат-бот буде:
+* Вміти розуміти та відповідати на текстові та аудіо запити користувачів, використовуючи бекенд модель LLM
+* Синхронізувати фрагменти аудіо-відповіді з кадрами зображення/відео, щоб створити високоякісне відео, на якому аватар розмовляє в режимі реального часу
+* Представляти відповіді користувача у вигляді анімованого аватара у зручному для користувача інтерфейсі
+*Використовувати мультимодальне генерування з доповненим пошуком (RAG) для генерування більш точних відповідей у доменній області у версії 0.2
 
-New microservices include:
-* animation 
+Нові мікросервіси включають:
+* анімацію 
 
-New megaservices include:
+Нові мегасервіси включають:
 * AvatarChatbot
 
-## Motivation
+## Мотивація
 <!-- List why this problem is valuable to solve? Whether some related work exists? -->
-* Enterprises in medical, finance, education, entertainment, etc. industries are increasingly adopting AI chatbots to improve customer service and user experience. Yet existing OPEA applications (ChatQnA, AudioQnA, SearchQnA, etc.) are text-based and lack interactive visual elements.
-* Enterprises look for multimodal AI solutions that can process both audio and visual inputs, to build lip-synchronized and face-animated chatbots that are more engaging and human-like.
-* This RFC aims to fill these gaps by introducing a new microservice, animation, that can be integrated seamlessly with existing micro- and mega-services in OPEA, to enhance the platform's capabilities in multimodal AI, human-computer interaction, and digital human graphics.
+* Підприємства в медичній, фінансовій, освітній, розважальній та інших галузях все частіше використовують чат-боти зі штучним інтелектом для покращення обслуговування клієнтів та якості обслуговування. Проте існуючі програми OPEA (ChatQnA, AudioQnA, SearchQnA тощо) є текстовими і не містять інтерактивних візуальних елементів.
+* Підприємства шукають мультимодальні рішення ШІ, які можуть обробляти як аудіо, так і візуальні дані, щоб створювати чат-ботів із синхронізованою мімікою та обличчям, які будуть більш привабливими та схожими на людей.
+* Цей RFC має на меті заповнити ці прогалини шляхом введення нового мікросервісу, анімації, який може бути легко інтегрований з існуючими мікро- і мегасервісами в OPEA, щоб розширити можливості платформи в області мультимодального ШІ, взаємодії людини з комп'ютером і цифрової людської графіки.
 
-Overall, this project adds to the OPEA platform a new microservice block that animates the chatbot appearance, and integrates it with the existing chatbot pipelines such as [ChatQnA](https://github.com/opea-project/GenAIExamples/tree/2e312f44edbcbf89bf00bc21d9e9c847405ecae8/ChatQnA), [AudioQnA](https://github.com/opea-project/GenAIExamples/tree/2e312f44edbcbf89bf00bc21d9e9c847405ecae8/AudioQnA), [SearchQnA](https://github.com/opea-project/GenAIExamples/tree/2e312f44edbcbf89bf00bc21d9e9c847405ecae8/SearchQnA), etc., to build new chatbot megaservices that can interact with users in a more human-like way.
+Загалом, цей проект додає до платформи OPEA новий блок мікросервісів, який анімацію зовнішнього вигляду чат-бота, та інтегрує його з існуючими трубопроводами чат-ботів, такими як [ChatQnA](https://github.com/opea-project/GenAIExamples/tree/2e312f44edbcbf89bf00bc21d9e9c847405ecae8/ChatQnA), [AudioQnA](https://github.com/opea-project/GenAIExamples/tree/2e312f44edbcbf89bf00bc21d9e9c847405ecae8/AudioQnA), [SearchQnA](https://github.com/opea-project/GenAIExamples/tree/2e312f44edbcbf89bf00bc21d9e9c847405ecae8/SearchQnA), тощо, створювати нові мегасервіси з чат-ботами, які можуть взаємодіяти з користувачами у більш людський спосіб.
 
-Related works include [Nvidia Audio2Face](https://docs.nvidia.com/ace/latest/modules/a2f-docs/index.html), [Lenovo Deepbrain AI Avatar](https://www.deepbrain.io/ai-avatars), [BitHuman](https://www.bithuman.io/), etc.
+Схожі роботи включають [Nvidia Audio2Face](https://docs.nvidia.com/ace/latest/modules/a2f-docs/index.html), [Lenovo Deepbrain AI Avatar](https://www.deepbrain.io/ai-avatars), [BitHuman](https://www.bithuman.io/) тощо.
 
-## Design Proposal
+## Проектна пропозиція
 <!-- This is the heart of the document, used to elaborate the design philosophy and detail proposal. -->
 
-### Avatar Chatbot design
+### Дизайн Avatar Chatbot
 <!-- Removed PPT slides -->
 
 ![avatar chatbot design](assets/design.png)
 
-Currently, the RAG feature using the `embedding` and `dataprep` microservices is missing in the above design, including uploading relevant documents/weblinks, storing them in the database, and retrieving them for the LLM model. These features will be added in v0.2.  
+Наразі у вищезгаданому дизайні відсутня функція RAG з використанням мікросервісів `embedding` та `dataprep`, включаючи завантаження відповідних документів/посилань, зберігання їх у базі даних та їх вилучення для моделі LLM. Ці функції будуть додані у версії 0.2.  
 
-Flowchart: AvatarChatbot Megaservice  
+Блок-схема: AvatarChatbot Мегасервіс  
 <!-- Insert Mermaid flowchart here -->
 ```mermaid
 %%{ init : { "theme" : "base", "flowchart" : { "curve" : "stepBefore" }}}%%
@@ -97,17 +97,17 @@ flowchart TB
     end
 ```
 
-The AvatarChatbot megaservice is a new service that integrates the existing AudioQnA service with the new animation microservice. The AudioQnA service is a pipeline that takes user audio input, converts it to text, generates an LLM response, and converts the response to audio output. The animation microservice is a new service that takes the audio response from the AudioQnA service, generates an animated avatar response, and sends it back to the user. The AvatarChatbot Gateway invokes the AvatarChatbot backend megaservice to generate the response.
+Мегасервіс AvatarChatbot - це новий сервіс, який інтегрує існуючий сервіс AudioQnA з новим мікросервісом анімації. Сервіс AudioQnA - це конвеєр, який приймає аудіовхід користувача, перетворює його на текст, генерує відповідь LLM і перетворює відповідь на аудіовихід. Мікросервіс анімації - це новий сервіс, який приймає аудіо-відповідь від служби AudioQnA, генерує відповідь у вигляді анімованого аватара і надсилає її назад користувачеві. Шлюз AvatarChatbot викликає внутрішній мегасервіс AvatarChatbot для створення відповіді.
 
-#### animation microservice
-The animation microservice is a new service that generates animated avatar videos from audio and image/video inputs. The animation microservice takes the audio response from the AudioQnA service, synchronizes the audio response mel-spectrogram chunks with image/video frames, and generates a high-quality video of the avatar speaking in real-time. The animation microservice currently uses the [Wav2Lip](https://github.com/Rudrabha/Wav2Lip) model for lip synchronization and [GFPGAN](https://github.com/TencentARC/GFPGAN) model for face restoration.  
+#### анімаційний мікросервіс
+Мікросервіс анімації - це новий сервіс, який генерує анімовані відеоролики аватарів з аудіо та зображення/відео вхідних даних. Мікросервіс анімації отримує звуковий відгук від сервісу AudioQnA, синхронізує фрагменти мелоспектрограми звукового відгуку з кадрами зображення/відео і генерує високоякісне відео, на якому аватар розмовляє в реальному часі. Мікросервіс анімації наразі використовує модель [Wav2Lip](https://github.com/Rudrabha/Wav2Lip) для синхронізації губ та модель [GFPGAN](https://github.com/TencentARC/GFPGAN) для відновлення обличчя.
 
-User can build their own Docker image with `Dockerfile_hpu` and create a Docker container on Gaudi2 instance to run the animation microservice. They can then validate the service by sending a POST request to the server API, while providing audio and image/video inputs. The animation microservice will generate an animated avatar video response and save it to the specified output path.
+Користувач може створити власний Docker-образ за допомогою `Dockerfile_hpu` і створити Docker-контейнер на екземплярі Gaudi2 для запуску анімаційного мікросервісу. Потім вони можуть перевірити роботу сервісу, надіславши POST-запит до API сервера, надаючи при цьому аудіо та зображення/відео вхідні дані. Мікросервіс анімації згенерує анімовану відео-відповідь аватара і збереже її у вказаному вихідному шляху.
 
-Support for alternative SoTA models such as [SadTalker](https://github.com/OpenTalker/SadTalker) and [LivePortrait](https://github.com/KwaiVGI/LivePortrait) are in progress.
+В розробці підтримка альтернативних моделей SoTA, таких як [SadTalker] (https://github.com/OpenTalker/SadTalker) та [LivePortrait] (https://github.com/KwaiVGI/LivePortrait).
 
-#### AvatarChatbot megaservice
-The AvatarChatbot megaservice is a new service that integrates the existing microservices that comprise AudioQnA service with the new animation microservice. The AudioQnA service is a pipeline that takes user audio input, converts it to text, generates an LLM response, and converts the response to audio output. The animation microservice is a new service that takes the audio response from the AudioQnA service, generates an animated avatar response, and sends it back to the user. The megaflow is as follows:  
+#### Мегасервіс AvatarChatbot
+Мегасервіс AvatarChatbot - це новий сервіс, який об'єднує існуючі мікросервіси, що входять до складу сервісу AudioQnA, з новим мікросервісом анімації. Сервіс AudioQnA - це конвеєр, який приймає вхідний аудіосигнал користувача, перетворює його на текст, генерує відповідь LLM і перетворює відповідь на вихідний аудіосигнал. Мікросервіс анімації - це новий сервіс, який приймає аудіо-відповідь від служби AudioQnA, генерує відповідь у вигляді анімованого аватара і надсилає її назад користувачеві. Мегапотік виглядає наступним чином:  
 asr -> llm -> tts -> animation
 
 ```mermaid
@@ -181,8 +181,8 @@ flowchart LR
 ```
 
 
-#### Frontend UI
-The frontend UI is Gradio. User is prompted to upload either an image or a video as the avatar source. The user also asks his question verbally through the microphone by clicking on the "record" button. The AvatarChatbot backend processes the audio input and generates the response in the form of an animated avatar answering in its unique voice. The response is displayed on Gradio UI. User will be able to see the animated avatar speaking the response in real-time, and can interact with the avatar by asking more questions.
+#### Кінцевий Інтерфейс користувача
+Інтерфейс користувача - Gradio. Користувачеві пропонується завантажити зображення або відео як джерело аватара. Користувач також задає своє питання усно через мікрофон, натиснувши на кнопку "запис". Бекенд AvatarChatbot обробляє вхідний аудіосигнал і генерує відповідь у вигляді анімованого аватара, який відповідає своїм унікальним голосом. Відповідь відображається в інтерфейсі Gradio. Користувач може бачити анімований аватар, який промовляє відповідь в режимі реального часу, і може взаємодіяти з аватаром, ставлячи додаткові запитання.
 
 <!-- <div style="display: flex; justify-content: space-between;">
   <img src="assets/ui_latest_1.png" alt="alt text" style="width: 33%;"/>
@@ -192,8 +192,8 @@ The frontend UI is Gradio. User is prompted to upload either an image or a video
 
 ![avatars ui](assets/avatars-ui.png)
 
-### Real-time demo
-AI Avatar Chatbot Demo on Intel® Gaudi® 2, image input (top) and video input (down)
+### Демонстрація в реальному часі
+Демонстрація чат-бота AI Avatar на Intel® Gaudi® 2, введення зображення (вгорі) та відеовведення (внизу)
 <!-- [AI Avatar Chatbot Demo on Intel® Gaudi® 2, image input](https://intel.sharepoint.com/:v:/s/mlconsultingandsupport/EZa7vjON10ZCpMvE7U-SPMwBRXbVHqe1Ybsa-fmnXayNUA?e=f6FPsl)   
 [AI Avatar Chatbot Demo on Intel® Gaudi® 2, video input](https://intel.sharepoint.com/:v:/s/mlconsultingandsupport/ESMIcBseFTdIuqkoB7TZy6ABfwR9CkfV49TvTa1X_Jihkg?e=zMH7O7) -->
 <!-- <div style="display: flex; justify-content: space-between;">
@@ -205,9 +205,9 @@ AI Avatar Chatbot Demo on Intel® Gaudi® 2, image input (top) and video input (
 
 ![AI Avatar Chatbot Demo on Intel® Gaudi® 2, video input](assets/video_wav2lipgfpgan_cut.gif)
 
-## Compatibility
+## Сумісність
 <!-- List possible incompatible interface or workflow changes if exists. -->
-The new AvatarChatbot megaservice and animation microservice are compatible with the existing OPEA GenAIExamples and GenAIComps repos. They are deployable on Intel® Xeon® and Intel® Gaudi® hardware.
+Новий мегасервіс AvatarChatbot і мікросервіс анімації сумісні з існуючими репозиторіями OPEA GenAIExamples і GenAIComps. Їх можна розгорнути на апаратному забезпеченні Intel® Xeon® і Intel® Gaudi®.
 
 ## Miscs
 <!-- List other information user and developer may care about, such as:
@@ -215,17 +215,19 @@ The new AvatarChatbot megaservice and animation microservice are compatible with
 - Engineering Impact, such as binary size, startup time, build time, test times.
 - Security Impact, such as code vulnerability.
 - TODO List or staging plan.  -->
-End-to-End Inference Time for AvatarChatbot Megaservice (asr -> llm -> tts -> animation): 
+Час наскрізного виведення для AvatarChatbot Megaservice (asr -> llm -> tts -> animation): 
 
-On SPR:  
-~30 seconds for AudioQnA on SPR,  
-~40-200 seconds for AvatarAnimation on SPR
+На SPR:
 
-On Gaudi 2:  
-~5 seconds for AudioQnA on Gaudi, 
-~10-50 seconds for AvatarAnimation on Gaudi, depending on:  
-1) Whether the input is an image or a multi-frame, fixed-fps video
-1) LipSync Animation DL model used: Wav2Lip_only or Wav2Lip+GFPGAN or SadTalker  
-2) Resolution and FPS rate of the resulting mp4 video
+ ~30 секунд для AudioQnA на SPR,
 
-All latency reportings are as of 8/2/2024.
+ ~40-200 секунд для AvatarAnimation на SPR
+
+На Gaudi 2:  
+~5 секунд для AudioQnA на Gaudi, 
+~10-50 секунд для AvatarAnimation на Gaudi, залежно від:  
+1) Незалежно від того, чи є вхідними даними зображення або багатокадрове відео з фіксованою частотою кадрів
+2) Використано модель LipSync Animation DL: Wav2Lip_only або Wav2Lip+GFPGAN або SadTalker 
+3) Роздільна здатність і частота кадрів в секунду отриманого відео в форматі mp4
+
+Всі звіти про затримки станом на 2 серпня 2024 р.
