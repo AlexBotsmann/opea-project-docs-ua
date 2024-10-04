@@ -1,152 +1,143 @@
-# Single node on-prem deployment with Ollama on AIPC
+# Розгортання на одному вузлі з Ollama на AIPC
 
-This deployment section covers single-node on-prem deployment of the ChatQnA
-example with OPEA comps to deploy using Ollama. There are several
-slice-n-dice ways to enable RAG with vectordb and LLM models, but here we will
-be covering one option of doing it for convenience : we will be showcasing  how
-to build an e2e chatQnA with Redis VectorDB and the llama-3 model,
-deployed on the client CPU. For more information on how to setup IDC instance to proceed,
-Please follow the instructions here (*** getting started section***). If you do
-not have an IDC instance you can skip the step and make sure that all the
-(***system level validation***) metrics are addressed such as docker versions.
-## Overview
+У цьому розділі розгортання описано одновузлове попереднє розгортання ChatQnA
+на прикладі комп'ютерів OPEA для розгортання за допомогою Ollama. Існує декілька
+slice-n-dice способів увімкнути RAG з моделями vectordb та LLM, але тут ми
+розглянемо один варіант для зручності: ми покажемо, як
+побудувати e2e chatQnA з Redis VectorDB та моделлю llama-3,
+розгорнуту на клієнтському процесорі. Для отримання додаткової інформації про те, як налаштувати екземпляр IDC для продовження роботи,
+будь ласка, дотримуйтесь інструкцій тут ***getting started section***. Якщо у вас
+не маєте екземпляра IDC, ви можете пропустити цей крок і переконатися, що всі
+***system level validation*** метрики, такі як версії докерів.
 
-There are several ways to setup a ChatQnA use case. Here in this tutorial, we
-will walk through how to enable the below list of microservices from OPEA
-GenAIComps to deploy a single node Ollama megaservice solution.
+## Огляд
 
-1. Data Prep
-2. Embedding
-3. Retriever
-4. Reranking
-5. LLM with Ollama
+Існує декілька способів створити варіант використання ChatQnA. У цьому підручнику ми розглянемо, як увімкнути наведений нижче список мікросервісів від OPEA
+GenAIComps для розгортання одновузлового мегасервісного рішення Ollama.
 
-The solution is aimed to show how to use Redis vectordb for RAG and 
-the llama-3 model on Intel Client PCs. We will go through 
-how to setup docker container to start microservices and megaservice. 
-The solution will then utilize a sample Nike dataset which is in PDF format. Users 
-can then ask a question about Nike and get a chat-like response by default for 
-up to 1024 tokens. The solution is deployed with a UI. There are 2 modes you can use:
-1. Basic UI
-2. Conversational UI
+1. Підготовка даних
+2. Вбудовування
+3. Ретривер
+4. Переранжування
+5. LLM з Ollama
 
-Conversational UI is optional, but a feature supported in this example if you are interested to use.
+Tня має на меті показати, як використовувати Redis vectordb для моделі RAG і 
+моделі llama-3 на клієнтських комп'ютерах Intel. Ми розглянемо 
+як налаштувати докер-контейнер для запуску мікросервісів та мегасервісів. 
+Потім рішення буде використовувати зразок набору даних Nike у форматі PDF. Користувачі 
+можуть задати питання про Nike і отримати відповідь у вигляді чату за замовчуванням для 
+до 1024 токенів. Рішення розгортається за допомогою інтерфейсу користувача. Ви можете використовувати 2 режими:
+1. Базовий інтерфейс
+2. Діалоговий інтерфейс
 
-## Prerequisites 
+Діалоговий інтерфейс не є обов'язковим, але підтримується в цьому прикладі, якщо ви зацікавлені в його використанні.
 
-First step is to clone the GenAIExamples and GenAIComps. GenAIComps are 
-fundamental necessary components used to build examples you find in 
-GenAIExamples and deploy them as microservices.
+## Передумови 
+
+Першим кроком є клонування GenAIExamples та GenAIComps. GenAIComps - це 
+основні необхідні компоненти, що використовуються для створення прикладів, які ви знайдете в GenAIExamples і розгортання їх як мікросервісів.
 
 ```
 git clone https://github.com/opea-project/GenAIComps.git
 git clone https://github.com/opea-project/GenAIExamples.git
 ```
 
-Checkout the release tag
+Перевірте тег релізу
 ```
 cd GenAIComps
 git checkout tags/v1.0
 ```
 
-The examples utilize model weights from Ollama and langchain.
+У прикладах використовуються модельні ваги від Ollama і langchain.
 
-Setup your [HuggingFace](https://huggingface.co/) account and generate
+Встановіть Ваш [HuggingFace](https://huggingface.co/) обліковий запис і генеруйте
 [user access token](https://huggingface.co/docs/transformers.js/en/guides/private#step-1-generating-a-user-access-token).
 
-Setup the HuggingFace token
+Налаштування токена HuggingFace
 ```
 export HUGGINGFACEHUB_API_TOKEN="Your_Huggingface_API_Token"
 ```
 
-The example requires you to set the `host_ip` to deploy the microservices on
-endpoint enabled with ports. Set the host_ip env variable
+У прикладі потрібно встановити `host_ip` для розгортання мікросервісів на
+кінцевому пристрої з увімкненими портами. Встановлення змінної host_ip env
 ```
 export host_ip=$(hostname -I | awk '{print $1}')
 ```
 
-Make sure to setup Proxies if you are behind a firewall
+Переконайтеся, що ви налаштували проксі-сервери, якщо ви перебуваєте за брандмауером
 ```
 export no_proxy=${your_no_proxy},$host_ip
 export http_proxy=${your_http_proxy}
 export https_proxy=${your_http_proxy}
 ```
 
-## Prepare (Building / Pulling) Docker images
+## Підготовка (створення / витягування) докер-образів
 
-This step will involve building/pulling ( maybe in future) relevant docker
-images with step-by-step process along with sanity check in the end. For
-ChatQnA, the following docker images will be needed: embedding, retriever,
-rerank, LLM and dataprep. Additionally, you will need to build docker images for
-ChatQnA megaservice, and UI (conversational React UI is optional). In total,
-there are 8 required and an optional docker images.
+Цей крок передбачає створення/витягування (можливо, у майбутньому) відповідних докер-образів з покроковим описом процесу і перевіркою працездатності в кінці. Для
+ChatQnA знадобляться такі образи докерів: embedding, retriever,
+rerank, LLM і dataprep. Крім того, вам потрібно буде зібрати докер-образи для
+мегасервісу ChatQnA та інтерфейсу користувача ( діалоговий React UI не є обов'язковим). Загалом є 8 обов'язкових і один необов'язковий докер-образ.
 
-The docker images needed to setup the example needs to be build local, however
-the images will be pushed to docker hub soon by Intel.
+Докер-образи, необхідні для встановлення прикладу, потрібно збирати локально, проте незабаром Intel викладе ці образи на докер-хаб.
 
-### Build/Pull Microservice images
+### Створення/витягування образів мікросервісів
 
-From within the `GenAIComps` folder
+З папки `GenAIComps`.
 
-#### Build Dataprep Image
+#### Побудова образу підготовки даних
 
 ```
 docker build --no-cache -t opea/dataprep-redis:latest --build-arg https_proxy=$https_proxy \
   --build-arg http_proxy=$http_proxy -f comps/dataprep/redis/langchain/Dockerfile .
 ```
 
-#### Build Embedding Image
+#### Побудова образу для вбудовування
 
 ```
 docker build --no-cache -t opea/embedding-tei:latest --build-arg https_proxy=$https_proxy \
   --build-arg http_proxy=$http_proxy -f comps/embeddings/tei/langchain/Dockerfile .
 ```
 
-#### Build Retriever Image
+#### Побудова образу ретривера
 
 ```
  docker build --no-cache -t opea/retriever-redis:latest --build-arg https_proxy=$https_proxy \
   --build-arg http_proxy=$http_proxy -f comps/retrievers/redis/langchain/Dockerfile .
 ```
 
-#### Build Rerank Image
+#### Побудова образу переранжування
 
 ```
 docker build --no-cache -t opea/reranking-tei:latest --build-arg https_proxy=$https_proxy \
   --build-arg http_proxy=$http_proxy -f comps/reranks/tei/Dockerfile .
 ```
 
-#### Build LLM Image
+#### Побудова образу LLM
 
-::::{tab-set}
-
-:::{tab-item} Ollama
-:sync: Ollama
-
-We set up the Ollama LLM service with one command
+Налаштовуємо сервіс Ollama LLM однією командою
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
 ```
 
-Next, we'll build the Ollama microservice docker. This will set the entry point
-needed for Ollama to suit the ChatQnA examples
+Далі ми створимо докер мікросервісу Ollama. Це встановить точку входу
+необхідну для того, щоб Ollama відповідала прикладам ChatQnA
 ```
 docker build --no-cache -t opea/llm-ollama:latest --build-arg https_proxy=$https_proxy \
    --build-arg http_proxy=$http_proxy -f comps/llms/text-generation/ollama/langchain/Dockerfile .
 ```
 
-Set Ollama Service Configuration
+Налаштування конфігурації сервісу Ollama
 
-Ollama Service Configuration file is `/etc/systemd/system/ollama.service`.
-Edit the file to set OLLAMA_HOST environment (Replace **${host_ip}** with your host IPV4).
+Файл конфігурації сервісу Ollama знаходиться в `/etc/systemd/system/ollama.service`.
+Відредагуйте файл, щоб встановити середовище OLLAMA_HOST (замініть **${host_ip}** на IPV4 вашого хоста).
 ```
 Environment="OLLAMA_HOST=${host_ip}:11434"
 ```
-Set https_proxy environment for Ollama if your system access network through proxy.
+Встановіть оточення https_proxy для Ollama, якщо ваша система отримує доступ до мережі через проксі.
 ```
 Environment="https_proxy=http://proxy.example.com:8080"
 ```
-Restart Ollama services
+Перезапустіть сервіси Ollama
 ```
 sudo systemctl daemon-reload
 sudo systemctl restart ollama.service
@@ -162,22 +153,17 @@ ollama list
 NAME            ID              SIZE    MODIFIED
 llama3:latest   365c0bd3c000    4.7 GB  5 days ago
 ```
-:::
-::::
 
+### Побудова образів Мегасервісу
 
+Мегасервіс - це трубопровід, який передає дані через різні мікросервіси, кожен з яких виконує різні завдання. Ми визначаємо різні
+мікросервіси і потік даних між ними у файлі `chatqna.py`, скажімо, у
+цьому прикладі вихід мікросервісу вбудовування буде входом мікросервісу пошуку
+який, у свою чергу, передасть дані мікросервісу ранжування і так далі.
+Ви також можете додавати нові або видаляти деякі мікросервіси і налаштовувати
+мегасервіс відповідно до ваших потреб.
 
-### Build Mega Service images
-
-The Megaservice is a pipeline that channels data through different
-microservices, each performing varied tasks. We define the different
-microservices and the flow of data between them in the `chatqna.py` file, say in
-this example the output of embedding microservice will be the input of retrieval
-microservice which will in turn passes data to the reranking microservice and so
-on. You can also add newer or remove some microservices and customize the
-megaservice to suit the needs.
-
-Build the megaservice image for this use case
+Створіть образ мегасервісу для цього варіанту використання
 
 ```
 cd ..
@@ -190,13 +176,13 @@ docker build --no-cache -t opea/chatqna:latest --build-arg https_proxy=$https_pr
   --build-arg http_proxy=$http_proxy -f Dockerfile .
 ```
 
-### Build Other Service images
+### Створення образів інших сервісів
 
-#### Build the UI Image
+#### Створення образу інтерфейсу користувача
 
-As mentioned, you can build 2 modes of UI
+Як вже було сказано, ви можете створити 2 режими інтерфейсу
 
-*Basic UI*
+*Базовий інтерфейс*
 
 ```
 cd GenAIExamples/ChatQnA/ui/
@@ -204,8 +190,8 @@ docker build --no-cache -t opea/chatqna-ui:latest --build-arg https_proxy=$https
   --build-arg http_proxy=$http_proxy -f ./docker/Dockerfile .
 ```
 
-*Conversation UI*
-If you want a conversational experience with chatqna megaservice.
+*Діалоговий інтерфейс*
+Якщо вам потрібен розмовний досвід, скористайтеся мегасервісом chatqna.
 
 ```
 cd GenAIExamples/ChatQnA/ui/
@@ -213,12 +199,8 @@ docker build --no-cache -t opea/chatqna-conversation-ui:latest --build-arg https
   --build-arg http_proxy=$http_proxy -f ./docker/Dockerfile.react .
 ```
 
-### Sanity Check
-Check if you have the below set of docker images, before moving on to the next step:
-
-::::{tab-set}
-:::{tab-item} Ollama
-:sync: Ollama
+### Перевірка здорового глузду.
+Перед тим, як перейти до наступного кроку, перевірте, чи у вас є наведений нижче набір докер-образів:
 
 * opea/dataprep-redis:latest
 * opea/embedding-tei:latest
@@ -227,24 +209,12 @@ Check if you have the below set of docker images, before moving on to the next s
 * opea/llm-ollama:latest
 * opea/chatqna:latest
 * opea/chatqna-ui:latest
-:::
 
-::::
+## Встановлення кейсу використання
 
+Як вже згадувалося, у цьому прикладі використання буде використано наступну комбінацію GenAIComps з інструментами
 
-
-
-## Use Case Setup
-
-As mentioned the use case will use the following combination of the GenAIComps
-with the tools
-
-::::{tab-set}
-
-:::{tab-item} Ollama
-:sync: Ollama
-
-|use case components | Tools |   Model     | Service Type |
+| Компоненти кейсу використання | Інструменти |   Модель     | Тип Сервісу |
 |----------------     |--------------|-----------------------------|-------|
 |Data Prep            |  LangChain   | NA                       |OPEA Microservice |
 |VectorDB             |  Redis       | NA                       |Open source service|
@@ -253,15 +223,12 @@ with the tools
 |LLM                  |   Ollama     | llama3                   |OPEA Microservice |
 |UI                   |              | NA                       | Gateway Service |
 
-Tools and models mentioned in the table are configurable either through the
-environment variable or `compose.yaml` file.
-:::
-::::
+Інструменти та моделі, згадані у таблиці, налаштовуються або через змінну оточення чи файл `compose.yaml`.
 
-Set the necessary environment variables to setup the use case case
+Встановіть необхідні змінні оточення для встановлення варіанту використання
 
-> Note: Replace `host_ip` with your external IP address. Do **NOT** use localhost
-> for the below set of environment variables
+> Примітка: Замініть `host_ip` на вашу зовнішню IP-адресу. Не використовуйте localhost
+> для наведеного нижче набору змінних оточення
 
 ### Dataprep
 
@@ -288,48 +255,30 @@ Set the necessary environment variables to setup the use case case
     export RERANK_SERVICE_HOST_IP=${host_ip}
 
 ### LLM Service
-::::{tab-set}
-:::{tab-item} Ollama
-:sync: Ollama
 
     export LLM_SERVICE_HOST_IP=${host_ip}
     export OLLAMA_ENDPOINT=http://${host_ip}:11434
     export OLLAMA_MODEL="llama3"
-:::
-::::
 
 ### Megaservice
 
     export MEGA_SERVICE_HOST_IP=${host_ip}
     export BACKEND_SERVICE_ENDPOINT="http://${host_ip}:8888/v1/chatqna"
 
-## Deploy the use case
-
-In this tutorial, we will be deploying via docker compose with the provided
-YAML file.  The docker compose instructions should be starting all the
-above mentioned services as containers.
-
-::::{tab-set}
-:::{tab-item} Ollama
-:sync: Ollama
+## Розгортання кейсу використання
+У цьому посібнику ми будемо розгортати за допомогою docker compose з наданого
+YAML-файлу.  Інструкції docker compose повинні запустити всі вищезгадані сервіси як контейнери.
 
 ```
 cd GenAIExamples/ChatQnA/docker_compose/intel/cpu/aipc
 docker compose -f compose.yaml up -d
 ```
-:::
-::::
 
+### Валідація мікросервісу 
 
-### Validate microservice 
-
-#### Check Env Variables
-Check the start up log by `docker compose -f ./compose.yaml logs`.
-The warning messages print out the variables if they are **NOT** set.
-
-::::{tab-set}
-:::{tab-item} Ollama
-:sync: Ollama
+#### Перевірка змінних оточення
+Перевірте журнал запуску за допомогою `docker compose -f ./compose.yaml logs`.
+Попереджувальні повідомлення виводять змінні, якщо їх **НЕ** встановлено.
 
     ubuntu@aipc:~/GenAIExamples/ChatQnA/docker_compose/intel/cpu/aipc$ docker compose -f ./compose.yaml up -d
     WARN[0000] The "LANGCHAIN_API_KEY" variable is not set. Defaulting to a blank string.
@@ -341,21 +290,13 @@ The warning messages print out the variables if they are **NOT** set.
     WARN[0000] The "LANGCHAIN_API_KEY" variable is not set. Defaulting to a blank string.
     WARN[0000] The "LANGCHAIN_TRACING_V2" variable is not set. Defaulting to a blank string.
     WARN[0000] /home/ubuntu/GenAIExamples/ChatQnA/docker_compose/intel/cpu/aipc/compose.yaml: `version` is obsolete
-:::
-::::
 
-#### Check the container status
+#### Перевірте стан контейнера
 
-Check if all the containers  launched via docker compose has started
+Перевірте, чи всі контейнери, запущені за допомогою docker compose, запущено
 
-For example, the ChatQnA example starts 11 docker (services), check these docker
-containers are all running, i.e, all the containers  `STATUS`  are  `Up`
-To do a quick sanity check, try `docker ps -a` to see if all the containers are running
-
-::::{tab-set}
-
-:::{tab-item} Ollama
-:sync: Ollama
+Наприклад, у прикладі ChatQnA запускається 11 докерів (сервісів), перевірте ці докери контейнери запущено, тобто всі контейнери `STATUS` мають значення `Up`.
+Для швидкої перевірки працездатності спробуйте `docker ps -a`, щоб побачити, чи всі контейнери запущено
 
 ```
 CONTAINER ID   IMAGE                                                   COMMAND                  CREATED          STATUS                      PORTS                                                                                  NAMES
@@ -370,22 +311,17 @@ e1fc81b1d542   redis/redis-stack:7.2.0-v9                              "/entrypo
 051e0d68e263   ghcr.io/huggingface/text-embeddings-inference:cpu-1.5   "text-embeddings-rou…"   29 seconds ago   Up 27 seconds               0.0.0.0:6006->80/tcp, :::6006->80/tcp                                                  tei-embedding-server
 632a6634b06b   opea/llm-ollama                                         "bash entrypoint.sh"     29 seconds ago   Up 27 seconds               0.0.0.0:9000->9000/tcp, :::9000->9000/tcp                                              llm-ollama
 ```
-:::
-::::
 
-## Interacting with ChatQnA deployment
+## Взаємодія з розгортанням ChatQnA
 
-This section will walk you through what are the different ways to interact with
-the microservices deployed
+У цьому розділі ви дізнаєтеся про різні способи взаємодії з
+розгорнутими мікросервісами
 
-### Dataprep Microservice（Optional）
+### Dataprep Microservice (необов'язково)
 
-If you want to add/update the default knowledge base, you can use the following
-commands. The dataprep microservice extracts the texts from variety of data
-sources, chunks the data, embeds each chunk using embedding microservice and
-store the embedded vectors in the redis vector database.
+Якщо ви хочете додати або оновити базу знань за замовчуванням, ви можете скористатися такими командами. Мікросервіс dataprep витягує тексти з різних джерел даних, розбиває дані на частини, вбудовує кожну частину за допомогою мікросервісу embedding і зберігає вбудовані вектори у базі даних векторів redis.
 
-Local File `nke-10k-2023.pdf` Upload:
+Завантаження локального файлу `nke-10k-2023.pdf` :
 
 ```
 curl -X POST "http://${host_ip}:6007/v1/dataprep" \
@@ -393,10 +329,10 @@ curl -X POST "http://${host_ip}:6007/v1/dataprep" \
      -F "files=@./nke-10k-2023.pdf"
 ```
 
-This command updates a knowledge base by uploading a local file for processing.
-Update the file path according to your environment.
+Ця команда оновлює базу знань, завантажуючи локальний файл для обробки.
+Змініть шлях до файлу відповідно до вашого середовища.
 
-Add Knowledge Base via HTTP Links:
+Додайте базу знань через HTTP-посилання:
 
 ```
 curl -X POST "http://${host_ip}:6007/v1/dataprep" \
@@ -404,9 +340,9 @@ curl -X POST "http://${host_ip}:6007/v1/dataprep" \
      -F 'link_list=["https://opea.dev"]'
 ```
 
-This command updates a knowledge base by submitting a list of HTTP links for processing.
+Ця команда оновлює базу знань, надсилаючи список HTTP-посилань для обробки.
 
-Also, you are able to get the file list that you uploaded:
+Крім того, ви можете отримати список файлів, які ви завантажили:
 
 ```
 curl -X POST "http://${host_ip}:6007/v1/dataprep/get_file" \
@@ -414,9 +350,9 @@ curl -X POST "http://${host_ip}:6007/v1/dataprep/get_file" \
 
 ```
 
-To delete the file/link you uploaded you can use the following commands:
+Щоб видалити завантажений вами файл/посилання, ви можете скористатися наступними командами:
 
-#### Delete link
+#### Видалити посилання
 ```
 # The dataprep service will add a .txt postfix for link file
 
@@ -425,7 +361,7 @@ curl -X POST "http://${host_ip}:6007/v1/dataprep/delete_file" \
      -H "Content-Type: application/json"
 ```
 
-#### Delete file
+#### Видалити файл
 
 ```
 curl -X POST "http://${host_ip}:6007/v1/dataprep/delete_file" \
@@ -433,7 +369,7 @@ curl -X POST "http://${host_ip}:6007/v1/dataprep/delete_file" \
      -H "Content-Type: application/json"
 ```
 
-#### Delete all uploaded files and links
+#### Видалення всіх завантажених файлів і посилань
 
 ```
 curl -X POST "http://${host_ip}:6007/v1/dataprep/delete_file" \
@@ -442,9 +378,7 @@ curl -X POST "http://${host_ip}:6007/v1/dataprep/delete_file" \
 ```
 ### TEI Embedding Service
 
-The TEI embedding service takes in a string as input, embeds the string into a
-vector of a specific length determined by the embedding model and returns this
-embedded vector.
+Сервіс вбудовування TEI приймає на вхід рядок, вбудовує його у вектор певної довжини, визначеної моделлю вбудовування, і повертає цей вкладений вектор.
 
 ```
 curl ${host_ip}:6006/embed \
@@ -453,15 +387,11 @@ curl ${host_ip}:6006/embed \
     -H 'Content-Type: application/json'
 ```
 
-In this example the embedding model used is "BAAI/bge-base-en-v1.5", which has a
-vector size of 768. So the output of the curl command is a embedded vector of
-length 768.
+У цьому прикладі використовується модель вбудовування «BAAI/bge-base-en-v1.5», яка має розмір вектора 768. Отже, результатом виконання команди curl буде вбудований вектор довжиною 768.
 
 ### Embedding Microservice
-The embedding microservice depends on the TEI embedding service. In terms of
-input parameters, it takes in a string, embeds it into a vector using the TEI
-embedding service and adds other default parameters that are required for the
-retrieval microservice and returns it.
+Мікросервіс вбудовування залежить від сервісу вбудовування TEI. З точки зору
+вхідних параметрів, він приймає рядок, вбудовує його у вектор за допомогою сервісу вбудовування TEI, додає інші параметри за замовчуванням, необхідні для мікросервісу пошуку і повертає його.
 
 ```
 curl http://${host_ip}:6000/v1/embeddings\
@@ -471,13 +401,12 @@ curl http://${host_ip}:6000/v1/embeddings\
 ```
 ### Retriever Microservice
 
-To consume the retriever microservice, you need to generate a mock embedding
-vector using Python script. The length of embedding vector is determined by the
-embedding model. Here we use the
-model EMBEDDING_MODEL_ID="BAAI/bge-base-en-v1.5", which vector size is 768.
+Щоб споживати мікросервіс retriever, потрібно згенерувати mock embedding
+вектор за допомогою скрипту на Python. Довжина вектора вбудовування визначається
+моделлю вбудовування. Тут ми використовуємо модель EMBEDDING_MODEL_ID=«BAAI/bge-base-en-v1.5», розмір вектора якої становить 768.
 
-Check the vector dimension of your embedding model and set
-`your_embedding` dimension equal to it.
+Перевірте векторну розмірність вашої моделі вбудовування і встановіть
+розмірність `your_embedding`, що відповідає їй.
 
 ```
 export your_embedding=$(python3 -c "import random; embedding = [random.uniform(-1, 1) for _ in range(768)]; print(embedding)")
@@ -488,11 +417,11 @@ curl http://${host_ip}:7000/v1/retrieval \
   -H 'Content-Type: application/json'
 
 ```
-The output of the retriever microservice comprises of the a unique id for the
-request, initial query or the input to the retrieval microservice, a list of top
-`n` retrieved documents relevant to the input query, and top_n where n refers to
-the number of documents to be returned.
-The output is retrieved text that relevant to the input data:
+Вихід мікросервісу ретрівера складається з унікального ідентифікатора для
+запиту, початкового запиту або вхідного запиту до мікросервісу пошуку, списку top
+`n` знайдених документів, що відповідають вхідному запиту, та top_n, де n позначає
+кількість документів, які потрібно повернути.
+На виході виводиться текст, що відповідає вхідним даним:
 ```
 {"id":"27210945c7c6c054fa7355bdd4cde818","retrieved_docs":[{"id":"0c1dd04b31ab87a5468d65f98e33a9f6","text":"Company: Nike. financial instruments are subject to master netting arrangements that allow for the offset of assets and liabilities in the event of default or early termination of the contract.\nAny amounts of cash collateral received related to these instruments associated with the Company's credit-related contingent features are recorded in Cash and\nequivalents and Accrued liabilities, the latter of which would further offset against the Company's derivative asset balance. Any amounts of cash collateral posted related\nto these instruments associated with the Company's credit-related contingent features are recorded in Prepaid expenses and other current assets, which would further\noffset against the Company's derivative liability balance. Cash collateral received or posted related to the Company's credit-related contingent features is presented in the\nCash provided by operations component of the Consolidated Statements of Cash Flows. The Company does not recognize amounts of non-cash collateral received, such\nas securities, on the Consolidated Balance Sheets. For further information related to credit risk, refer to Note 12 — Risk Management and Derivatives.\n2023 FORM 10-K 68Table of Contents\nThe following tables present information about the Company's derivative assets and liabilities measured at fair value on a recurring basis and indicate the level in the fair\nvalue hierarchy in which the Company classifies the fair value measurement:\nMAY 31, 2023\nDERIVATIVE ASSETS\nDERIVATIVE LIABILITIES"},{"id":"1d742199fb1a86aa8c3f7bcd580d94af","text": ... }
 
@@ -500,11 +429,8 @@ The output is retrieved text that relevant to the input data:
 
 ### TEI Reranking Service
 
-The TEI Reranking Service reranks the documents returned by the retrieval
-service. It consumes the query and list of documents and returns the document
-index based on decreasing order of the similarity score. The document
-corresponding to the returned index with the highest score is the most relevant
-document for the input query.
+TСервіс переранжування TEI переранжує документи, повернуті пошуковою службою
+сервісом. Він споживає запит і список документів і повертає індекс документа в порядку зменшення показника схожості. Документ, що відповідає повернутому індексу з найбільшою оцінкою, є найбільш релевантним для вхідного запиту.
 ```
 curl http://${host_ip}:8808/rerank \
     -X POST \
@@ -512,14 +438,13 @@ curl http://${host_ip}:8808/rerank \
     -H 'Content-Type: application/json'
 ```
 
-Output is:  `[{"index":1,"score":0.9988041},{"index":0,"score":0.022948774}]`
+Вивід:  `[{"index":1,"score":0.9988041},{"index":0,"score":0.022948774}]`
 
 
 ### Reranking Microservice
 
-
-The reranking microservice consumes the TEI Reranking service and pads the
-response with default parameters required for the LLM microservice.
+Мікросервіс переранжування використовує сервіс переранжування TEI і підставляє
+відповідь параметрами за замовчуванням, необхідними для мікросервісу LLM.
 
 ```
 curl http://${host_ip}:8000/v1/reranking\
@@ -529,11 +454,8 @@ curl http://${host_ip}:8000/v1/reranking\
   -H 'Content-Type: application/json'
 ```
 
-The input to the microservice is the `initial_query` and a list of retrieved
-documents and it outputs the most relevant document to the initial query along
-with other default parameter such as the temperature, `repetition_penalty`,
-`chat_template` and so on. We can also get top n documents by setting `top_n` as one
-of the input parameters. For example:
+Вхідними даними для мікросервісу є `initial_query`  і список знайдених
+документів, і він виводить найбільш релевантний документ до початкового запиту разом з іншими параметрами за замовчуванням, такими як температура, `repetition_penalty`, `chat_template` і так далі. Ми також можемо отримати перші n документів, задавши `top_n` як один із вхідних параметрів. Наприклад:
 
 ```
 curl http://${host_ip}:8000/v1/reranking\
@@ -543,28 +465,23 @@ curl http://${host_ip}:8000/v1/reranking\
   -H 'Content-Type: application/json'
 ```
 
-Here is the output:
+Це вивід:
 
 ```
 {"id":"e1eb0e44f56059fc01aa0334b1dac313","query":"Human: Answer the question based only on the following context:\n    Deep learning is...\n    Question: What is Deep Learning?","max_new_tokens":1024,"top_k":10,"top_p":0.95,"typical_p":0.95,"temperature":0.01,"repetition_penalty":1.03,"streaming":true}
 
 ```
-You may notice reranking microservice are with state ('ID' and other meta data),
-while reranking service are not.
+Ви можете помітити, що мікросервіси ранжування мають стан ('ID' та інші метадані),
+в той час як сервіс переранжування не має.
 
 ### Ollama Service
-
-::::{tab-set}
-
-:::{tab-item} Ollama
-:sync: Ollama
 
 ```
 curl http://${host_ip}:11434/api/generate -d '{"model": "llama3", "prompt":"What is Deep Learning?"}'
 ```
 
-Ollama service generates text for the input prompt. Here is the expected result
-from Ollama:
+Сервіс Ollama генерує текст для підказки введення. Ось очікуваний результат
+від Ollama:
 
 ```
 {"model":"llama3","created_at":"2024-09-05T08:47:17.160752424Z","response":"Deep","done":false}
@@ -586,11 +503,6 @@ from Ollama:
 ...
 ```
 
-:::
-::::
-
-
-
 ### LLM Microservice
 ```
 curl http://${host_ip}:9000/v1/chat/completions\
@@ -601,7 +513,7 @@ curl http://${host_ip}:9000/v1/chat/completions\
 
 ```
 
-You will get the below generated text from LLM:
+Ви отримаєте згенерований нижче текст від LLM:
 
 ```
 data: b'\n'
@@ -634,7 +546,7 @@ curl http://${host_ip}:8888/v1/chatqna -H "Content-Type: application/json" -d '{
 
 ```
 
-Here is the output for your reference:
+Ось результат для вашого посилання:
 
 ```
 data: b'\n'
@@ -672,40 +584,27 @@ data: b'</s>'
 data: [DONE]
 ```
 
-## Check docker container log
+## Перевірка журналу контейнерів докера
 
-Check the log of container by:
+Перевірте журнал контейнера:
 
 `docker logs <CONTAINER ID> -t`
 
 
-Check the log by  `docker logs f7a08f9867f9 -t`.
+Перевірте журнал за `docker logs f7a08f9867f9 -t`.
 
-
-
-
-
-
-Also you can check overall logs with the following command, where the
-compose.yaml is the mega service docker-compose configuration file.
-
-
-::::{tab-set}
-
-:::{tab-item} Ollama
-:sync: Ollama
+Також ви можете перевірити загальний журнал за допомогою наступної команди, де
+compose.yaml - це файл конфігурації мегасервісу docker-compose.
 
 ```
 docker compose -f ./docker_compose/intel/cpu/apic/compose.yaml logs
 ```
-:::
-::::
 
-## Launch UI
+## Запуск інтерфейсу користувача
 
-### Basic UI
+### Базовий інтерфейс користувача
 
-To access the frontend, open the following URL in your browser: http://{host_ip}:5173. By default, the UI runs on port 5173 internally. If you prefer to use a different host port to access the frontend, you can modify the port mapping in the compose.yaml file as shown below:
+Щоб отримати доступ до інтерфейсу, відкрийте в браузері наступну URL-адресу: http://{host_ip}:5173. За замовчуванням інтерфейс працює на внутрішньому порту 5173. Якщо ви бажаєте використовувати інший порт хоста для доступу до інтерфейсу, ви можете змінити мапінг портів у файлі compose.yaml, як показано нижче:
 ```
   chaqna-aipc-ui-server:
     image: opea/chatqna-ui:latest
@@ -714,9 +613,9 @@ To access the frontend, open the following URL in your browser: http://{host_ip}
       - "80:5173"
 ```
 
-### Conversational UI
+### Діалоговий інтерфейс
 
-To access the Conversational UI (react based) frontend, modify the UI service in the compose.yaml file. Replace chaqna-aipc-ui-server service with the chatqna-aipc-conversation-ui-server service as per the config below:
+Щоб отримати доступ до інтерфейсу діалогового інтерфейсу (заснованого на реакції), змініть сервіс інтерфейсу у файлі compose.yaml. Замініть сервіс chaqna-aipc-ui-server на сервіс chatqna-aipc-conversation-ui-server, як показано у конфігурації нижче:
 ```
 chaqna-aipc-conversation-ui-server:
   image: opea/chatqna-conversation-ui:latest
@@ -732,7 +631,7 @@ chaqna-aipc-conversation-ui-server:
   restart: always
 ```
 
-Once the services are up, open the following URL in your browser: http://{host_ip}:5174. By default, the UI runs on port 80 internally. If you prefer to use a different host port to access the frontend, you can modify the port mapping in the compose.yaml file as shown below:
+Після запуску сервісів відкрийте у браузері наступну URL-адресу: http://{host_ip}:5174. За замовчуванням інтерфейс працює на внутрішньому порту 80. Якщо ви бажаєте використовувати інший порт хоста для доступу до інтерфейсу, ви можете змінити мапінг портів у файлі compose.yaml, як показано нижче:
 
 ```
   chaqna-aipc-conversation-ui-server:
@@ -742,16 +641,10 @@ Once the services are up, open the following URL in your browser: http://{host_i
       - "80:80"
 ```
 
-### Stop the services
+### Зупинка роботи сервісів
 
-Once you are done with the entire pipeline and wish to stop and remove all the containers, use the command below:
-::::{tab-set}
-
-:::{tab-item} Ollama
-:sync: Ollama
+Після того, як ви закінчите роботу з усім трубопроводом і захочете зупинитися і видалити всі контейнери, скористайтеся командою, наведеною нижче:
 
 ```
 docker compose -f compose.yaml down
 ```
-:::
-::::

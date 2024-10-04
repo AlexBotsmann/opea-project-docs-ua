@@ -1,20 +1,20 @@
-# Single node on-prem deployment with vLLM or TGI on Gaudi AI Accelerator
+# Одновузлове попереднє розгортання з vLLM або TGI на Gaudi AI Accelerator
 
-This deployment section covers single-node on-prem deployment of the ChatQnA
-example with OPEA comps to deploy using vLLM or TGI service. There are several
-slice-n-dice ways to enable RAG with vectordb and LLM models, but here we will
-be covering one option of doing it for convenience : we will be showcasing how
-to build an e2e chatQnA with Redis VectorDB and neural-chat-7b-v3-3 model,
-deployed on Intel® Tiber™ Developer Cloud (ITDC). For more information on how to setup ITDC instance to proceed,
-Please follow the instructions here (*** getting started section***). If you do
-not have an ITDC instance or the hardware is not supported in the ITDC yet, you can still run this on-prem. To run this on-prem, make sure that all the
-(***system level requriements***)  are addressed such as docker versions, driver version etc.
+У цьому розділі розгортання описано одновузлове попереднє розгортання ChatQnA
+на прикладі комп'ютерів OPEA для розгортання за допомогою сервісу vLLM або TGI. Існує декілька
+slice-n-dice способів увімкнути RAG з моделями vectordb та LLM, але тут ми
+розглянемо один варіант для зручності: ми покажемо, як
+побудувати e2e chatQnA з Redis VectorDB та моделлю neural-chat-7b-v3-3,
+розгорнутої на Intel® Tiber™ Developer Cloud (ITDC). Для отримання додаткової інформації про те, як налаштувати екземпляр ITDC для подальшої роботи,
+будь ласка, дотримуйтесь інструкцій тут (*** getting started section***). Якщо у вас
+не маєте екземпляра ITDC або обладнання ще не підтримується в ITDC, ви все одно можете запустити його попередньо. Щоб запустити цю попередню версію, переконайтеся, що всі
+(***system level requriements***), такі як версії докерів, версії драйверів тощо.
 
-## Overview
+## Огляд
 
-There are several ways to setup a ChatQnA use case. Here in this tutorial, we
-will walk through how to enable the below list of microservices from OPEA
-GenAIComps to deploy a single node vLLM or TGI megaservice solution.
+Існує декілька способів створити варіант використання ChatQnA. У цьому підручнику ми
+розглянемо, як увімкнути наведений нижче список мікросервісів з OPEA
+GenAIComps для розгортання одновузлового рішення vLLM або мегасервісу TGI.
 
 1. Data Prep
 2. Embedding
@@ -22,136 +22,117 @@ GenAIComps to deploy a single node vLLM or TGI megaservice solution.
 4. Reranking
 5. LLM with vLLM or TGI
 
-The solution is aimed to show how to use Redis vectordb for RAG and
-neural-chat-7b-v3-3 model on Intel Gaudi AI Accelerator. We will go through
-how to setup docker container to start a microservices and megaservice . The
-solution will then utilize a sample Nike dataset which is in PDF format. Users
-can then ask a question about Nike and get a chat-like response by default for
-up to 1024 tokens. The solution is deployed with a UI. There are 2 modes you can
-use:
+Рішення має на меті показати, як використовувати Redis vectordb для RAG та
+neural-chat-7b-v3-3 на Intel Gaudi AI Accelerator. Ми розглянемо
+як налаштувати докер-контейнер для запуску мікросервісів і мегасервісів. Рішення буде використовувати зразок набору даних Nike у форматі PDF. Користувачі
+можуть задати питання про Nike і отримати відповідь у вигляді чату за замовчуванням для до 1024 токенів. Рішення розгортається за допомогою інтерфейсу користувача. Існує 2 режими, які ви можете
+використовувати:
 
-1. Basic UI
-2. Conversational UI
+1. Базовий інтерфейс
+2. Діалоговий інтерфейс
 
-Conversational UI is optional, but a feature supported in this example if you
-are interested to use.
+Діалоговий інтерфейс не є обов'язковим, але підтримується у цьому прикладі, якщо ви зацікавлені у його використанні.
 
-To summarize, Below is the flow of contents we will be covering in this tutorial:
+Підсумовуючи, нижче наведено зміст, який ми розглянемо в цьому посібнику:
 
-1. Prerequisites
-2. Prepare (Building / Pulling) Docker images
-3. Use case setup
-4. Deploy the use case
-5. Interacting with ChatQnA deployment
+1. Передумови
+2. Підготовка (створення / витягування) образів Docker
+3. Налаштування кейсів використання
+4. Розгортання кейсу використання
+5. Взаємодія з розгортанням ChatQnA
 
-## Prerequisites
+## Передумови
 
-First step is to clone the GenAIExamples and GenAIComps. GenAIComps are
-fundamental necessary components used to build examples you find in
-GenAIExamples and deploy them as microservices.
+Перший крок - клонування GenAIExamples та GenAIComps. GenAIComps - це
+фундаментальні необхідні компоненти, що використовуються для створення прикладів, які ви знайдете в GenAIExamples, і розгортання їх як мікросервісів.
 
 ```
 git clone https://github.com/opea-project/GenAIComps.git
 git clone https://github.com/opea-project/GenAIExamples.git
 ```
 
-Checkout the release tag
+Перевірте тег релізу
 ```
 cd GenAIComps
 git checkout tags/v1.0
 ```
 
-The examples utilize model weights from HuggingFace and langchain.
+У прикладах використовуються ваги моделей з HuggingFace і langchain.
 
-Setup your [HuggingFace](https://huggingface.co/) account and generate
-[user access token](https://huggingface.co/docs/transformers.js/en/guides/private#step-1-generating-a-user-access-token).
+Налаштуйте свій обліковий запис [HuggingFace](https://huggingface.co/) і згенеруйте [токен доступу користувача](https://huggingface.co/docs/transformers.js/en/guides/private#step-1-generating-a-user-access-token).
 
-Setup the HuggingFace token
+Налаштування токена HuggingFace
 ```
 export HUGGINGFACEHUB_API_TOKEN="Your_Huggingface_API_Token"
 ```
 
-The example requires you to set the `host_ip` to deploy the microservices on
-endpoint enabled with ports. Set the host_ip env variable
+У прикладі потрібно встановити `host_ip` для розгортання мікросервісів на
+кінцевому пристрої з увімкненими портами. Встановлення змінної host_ip env
 ```
 export host_ip=$(hostname -I | awk '{print $1}')
 ```
 
-Make sure to setup Proxies if you are behind a firewall
+Переконайтеся, що ви налаштували проксі-сервери, якщо ви перебуваєте за брандмауером
 ```
 export no_proxy=${your_no_proxy},$host_ip
 export http_proxy=${your_http_proxy}
 export https_proxy=${your_http_proxy}
 ```
 
-## Prepare (Building / Pulling) Docker images
+## Підготовка (створення / витягування) образів Docker
 
-This step will involve building/pulling ( maybe in future) relevant docker
-images with step-by-step process along with sanity check in the end. For
-ChatQnA, the following docker images will be needed: embedding, retriever,
-rerank, LLM and dataprep. Additionally, you will need to build docker images for
-ChatQnA megaservice, and UI (conversational React UI is optional). In total,
-there are 8 required and an optional docker images.
+Цей крок передбачає створення/витягування (можливо, у майбутньому) відповідних  докер-образів з покроковим описом процесу та перевіркою працездатності в кінці. Для
+ChatQnA знадобляться такі докер-образи: embedding, retriever, rerank, LLM і dataprep. Крім того, вам потрібно буде зібрати докер-образи для мегасервісу ChatQnA та інтерфейсу користувача (розмовний React UI не є обов'язковим). Загалом
+є 8 обов'язкових і один необов'язковий докер-образів.
 
-The docker images needed to setup the example needs to be build local, however
-the images will be pushed to docker hub soon by Intel.
+Докер-образи, необхідні для встановлення прикладу, потрібно збирати локально, проте незабаром Intel викладе ці образи на докер-хаб.
 
-### Build/Pull Microservice images
+### Створення/витягування образів мікросервісів
 
-From within the `GenAIComps` folder
+З папки `GenAIComps`.
 
-#### Build Dataprep Image
+#### Створення образу Dataprep
 
 ```bash
 docker build --no-cache -t opea/dataprep-redis:latest --build-arg https_proxy=$https_proxy --build-arg http_proxy=$http_proxy -f comps/dataprep/redis/langchain/Dockerfile .
 ```
 
-#### Build Embedding Image
+#### Створення образу для вбудовування
 
 ```bash
 docker build --no-cache -t opea/embedding-tei:latest --build-arg https_proxy=$https_proxy --build-arg http_proxy=$http_proxy -f comps/embeddings/tei/langchain/Dockerfile .
 ```
 
-#### Build Retriever Image
+#### Створення образу ретривера
 
 ```bash
 docker build --no-cache -t opea/retriever-redis:latest --build-arg https_proxy=$https_proxy --build-arg http_proxy=$http_proxy -f comps/retrievers/redis/langchain/Dockerfile .
 ```
 
-#### Build Rerank Image
+#### Створення образу переранжування
 
 ```bash
 docker build --no-cache -t opea/reranking-tei:latest --build-arg https_proxy=$https_proxy --build-arg http_proxy=$http_proxy -f comps/reranks/tei/Dockerfile .
 ```
 
-#### Build docker
+#### Збірка докера
 
-::::{tab-set}
-
-:::{tab-item} vllm
-:sync: vllm
-
-Build vLLM docker image with hpu support
+Зберіть докер-образ vLLM з підтримкою hpu
 ```
 docker build --no-cache -t opea/llm-vllm-hpu:latest --build-arg https_proxy=$https_proxy --build-arg http_proxy=$http_proxy -f comps/llms/text-generation/vllm/langchain/dependency/Dockerfile.intel_hpu .
 ```
 
-Build vLLM Microservice image
+Створення образу vLLM Microservice
 ```
 docker build --no-cache -t opea/llm-vllm:latest --build-arg https_proxy=$https_proxy --build-arg http_proxy=$http_proxy -f comps/llms/text-generation/vllm/langchain/Dockerfile .
 cd ..
 ```
-:::
-:::{tab-item} TGI
-:sync: TGI
 
 ```bash
 docker build --no-cache -t opea/llm-tgi:latest --build-arg https_proxy=$https_proxy --build-arg http_proxy=$http_proxy -f comps/llms/text-generation/tgi/Dockerfile .
 ```
-:::
-::::
 
-### Build TEI Gaudi Image
+### Побудувати образ TEI Гауді
 
 Since a TEI Gaudi Docker image hasn't been published, we'll need to build it from the [tei-gaudi](https://github.com/huggingface/tei-gaudi) repository.
 
@@ -162,17 +143,16 @@ docker build --no-cache -f Dockerfile-hpu -t opea/tei-gaudi:latest .
 cd ..
 ```
 
-### Build Mega Service images
+### Створення образів Mega Service
 
-The Megaservice is a pipeline that channels data through different
-microservices, each performing varied tasks. We define the different
-microservices and the flow of data between them in the `chatqna.py` file, say in
-this example the output of embedding microservice will be the input of retrieval
-microservice which will in turn passes data to the reranking microservice and so
-on. You can also add newer or remove some microservices and customize the
-megaservice to suit the needs.
+Мегасервіс - це конвеєр, який передає дані через різні мікросервіси, кожен з яких виконує різні завдання. Ми визначаємо різні
+мікросервіси і потік даних між ними у файлі `chatqna.py`, скажімо, у
+цьому прикладі вихід мікросервісу вбудовування буде входом мікросервісу пошуку
+який, у свою чергу, передасть дані мікросервісу ранжування і так далі.
+Ви також можете додавати нові або видаляти деякі мікросервіси і налаштовувати
+мегасервіс відповідно до потреб.
 
-Build the megaservice image for this use case
+Створення образу мегасервісу для цього варіанту використання
 
 ```
 cd ..
@@ -186,9 +166,9 @@ docker build --no-cache -t opea/chatqna:latest --build-arg https_proxy=$https_pr
 cd ../..
 ```
 
-### Build Other Service images
+### Створення образів інших сервісів
 
-If you want to enable guardrails microservice in the pipeline, please use the below command instead:
+Якщо ви хочете увімкнути мікросервіс захисних бар'єрів у трубопроводі, будь ласка, використовуйте наведену нижче команду:
 
 ```bash
 cd GenAIExamples/ChatQnA/
@@ -196,11 +176,11 @@ docker build --no-cache -t opea/chatqna-guardrails:latest --build-arg https_prox
 cd ../..
 ```
 
-### Build the UI Image
+### Створення образу інтерфейсу користувача
 
-As mentioned, you can build 2 modes of UI
+Як вже було сказано, ви можете створити 2 режими інтерфейсу
 
-*Basic UI*
+*Базовий інтерфейс*
 
 ```bash
 cd GenAIExamples/ChatQnA/ui/
@@ -208,8 +188,8 @@ docker build --no-cache -t opea/chatqna-ui:latest --build-arg https_proxy=$https
 cd ../../..
 ```
 
-*Conversation UI*
-If you want a conversational experience with chatqna megaservice.
+*Діалоговий інтерфейс*
+Якщо ви хочете отримати розмовний досвід з мегасервісом chatqna.
 
 ```bash
 cd GenAIExamples/ChatQnA/ui/
@@ -217,12 +197,8 @@ docker build --no-cache -t opea/chatqna-conversation-ui:latest --build-arg https
 cd ../../..
 ```
 
-### Sanity Check
-Check if you have the below set of docker images, before moving on to the next step:
-
-::::{tab-set}
-:::{tab-item} vllm
-:sync: vllm
+### Перевірка здорового глузду.
+Перед тим, як перейти до наступного кроку, перевірте, чи у вас є наведений нижче набір докер-образів:
 
 * opea/dataprep-redis:latest
 * opea/embedding-tei:latest
@@ -235,10 +211,6 @@ Check if you have the below set of docker images, before moving on to the next s
 * opea/vllm:latest
 * opea/llm-vllm:latest
 
-:::
-:::{tab-item} TGI
-:sync: TGI
-
 * opea/dataprep-redis:latest
 * opea/embedding-tei:latest
 * opea/retriever-redis:latest
@@ -247,21 +219,12 @@ Check if you have the below set of docker images, before moving on to the next s
 * opea/chatqna:latest or opea/chatqna-guardrails:latest
 * opea/chatqna-ui:latest
 * opea/llm-tgi:latest
-:::
-::::
 
+## Налаштування кейсу використання
 
-## Use Case Setup
+Як вже згадувалося, у цьому прикладі використання буде використано наступну комбінацію GenAICompsз інструментами
 
-As mentioned the use case will use the following combination of the GenAIComps
-with the tools
-
-::::{tab-set}
-
-:::{tab-item} vllm
-:sync: vllm
-
-|use case components | Tools |   Model     | Service Type |
+|Компоненти кейсу використання | Інструменти |   Модель     | Тип сервісу |
 |----------------     |--------------|-----------------------------|-------|
 |Data Prep            |  LangChain   | NA                       |OPEA Microservice |
 |VectorDB             |  Redis       | NA                       |Open source service|
@@ -270,13 +233,10 @@ with the tools
 |LLM                  |   vLLM     |Intel/neural-chat-7b-v3-3 |OPEA Microservice |
 |UI                   |              | NA                       | Gateway Service |
 
-Tools and models mentioned in the table are configurable either through the
-environment variable or `compose_vllm.yaml` file.
-:::
-:::{tab-item} TGI
-:sync: TGI
+Інструменти і моделі, згадані у таблиці, налаштовуються або через змінну
+або через змінну оточення чи файл `compose_vllm.yaml`.
 
-|use case components | Tools |   Model     | Service Type |
+|Компоненти кейсу використання | Інструменти |   Модель    | Тип сервісу |
 |----------------     |--------------|-----------------------------|-------|
 |Data Prep            |  LangChain   | NA                       |OPEA Microservice |
 |VectorDB             |  Redis       | NA                       |Open source service|
@@ -285,15 +245,13 @@ environment variable or `compose_vllm.yaml` file.
 |LLM                  |   TGI        | Intel/neural-chat-7b-v3-3|OPEA Microservice |
 |UI                   |              | NA                       | Gateway Service |
 
-Tools and models mentioned in the table are configurable either through the
-environment variable or `compose.yaml` file.
-:::
-::::
+Інструменти і моделі, згадані у таблиці, налаштовуються або через змінну
+або через змінну оточення чи файл `compose.yaml`.
 
-Set the necessary environment variables to setup the use case case
+Встановіть необхідні змінні оточення для налаштування варіанту використання
 
-> Note: Replace `host_ip` with your external IP address. Do **NOT** use localhost
-> for the below set of environment variables
+> Примітка: Замініть `host_ip` на вашу зовнішню IP-адресу. **Не** використовуйте localhost
+> для наведеного нижче набору змінних оточення
 
 ### Dataprep
 
@@ -322,25 +280,17 @@ Set the necessary environment variables to setup the use case case
 
 ### LLM Service
 
-::::{tab-set}
-:::{tab-item} vllm
-:sync: vllm
-
     export LLM_MODEL_ID="Intel/neural-chat-7b-v3-3"
     export LLM_SERVICE_HOST_IP=${host_ip}
     export LLM_SERVICE_PORT=9000
     export vLLM_LLM_ENDPOINT="http://${host_ip}:8007"
 
-:::
-:::{tab-item} TGI
-:sync: TGI
 
     export LLM_MODEL_ID="Intel/neural-chat-7b-v3-3"
     export LLM_SERVICE_HOST_IP=${host_ip}
     export LLM_SERVICE_PORT=9000
     export TGI_LLM_ENDPOINT="http://${host_ip}:8005"
-:::
-::::
+
 
     export llm_service_devices=all
 
@@ -350,58 +300,46 @@ Set the necessary environment variables to setup the use case case
     export BACKEND_SERVICE_ENDPOINT="http://${host_ip}:8888/v1/chatqna"
 
 ### Guardrails (optional)
-If guardrails microservice is enabled in the pipeline, the below environment variables are necessary to be set.
+Якщо у трубопроводі увімкнено мікросервіс Guardrails, необхідно встановити наведені нижче змінні оточення.
 ```
 export GURADRAILS_MODEL_ID="meta-llama/Meta-Llama-Guard-2-8B"
 export SAFETY_GUARD_MODEL_ID="meta-llama/Meta-Llama-Guard-2-8B"
 export SAFETY_GUARD_ENDPOINT="http://${host_ip}:8088"
 export GUARDRAIL_SERVICE_HOST_IP=${host_ip}
 ```
-## Deploy the use case
+## Розгортання кейсу використання
 
-In this tutorial, we will be deploying via docker compose with the provided
-YAML file.  The docker compose instructions should be starting all the
-above mentioned services as containers.
-
-::::{tab-set}
-:::{tab-item} vllm
-:sync: vllm
+У цьому посібнику ми будемо розгортати за допомогою docker compose з наданого
+YAML-файлу. Інструкції docker compose повинні запустити всі вищезгадані сервіси як контейнери.
 
 ```
 cd GenAIExamples/ChatQnA/docker_compose/intel/hpu/gaudi
 docker compose -f compose_vllm.yaml up -d
 ```
-:::
-:::{tab-item} TGI
-:sync: TGI
 
 ```
 cd GenAIExamples/ChatQnA/docker_compose/intel/hpu/gaudi
 ```
 
-Follow ONE of the methods below.
-1. Use TGI for the LLM backend.
+Скористайтеся ОДНИМ із наведених нижче способів.
+1. Використовуйте TGI для бекенду LLM.
 
 ```bash
 docker compose -f compose.yaml up -d
 ```
 
-2. Enable the Guardrails microservice in the pipeline. It will use a TGI Guardrails service.
+2. Увімкніть мікросервіс Guardrails у трубопроводі. Він буде використовувати сервіс TGI Guardrails.
 
 ```bash
 docker compose -f compose_guardrails.yaml up -d
 ```
-:::
-::::
 
-### Validate microservice
-#### Check Env Variables
-Check the start up log by `docker compose -f ./docker/docker_compose/intel/hpu/gaudi/compose_vllm.yaml logs`.
-The warning messages print out the variables if they are **NOT** set.
+### Валідація мікросервісу
+#### Перевірка змінних Env
+Перевірте журнал запуску за допомогою `docker compose -f ./docker/docker_compose/intel/hpu/gaudi/compose_vllm.yaml logs`.
 
-::::{tab-set}
-:::{tab-item} vllm
-:sync: vllm
+Попереджувальні повідомлення виводять змінні, якщо вони **НЕ** задані.
+
 ```bash
     ubuntu@xeon-vm:~/GenAIExamples/ChatQnA/docker_compose/intel/hpu/gaudi$ docker compose -f ./compose_vllm.yaml up -d
     [+] Running 12/12
@@ -419,9 +357,6 @@ The warning messages print out the variables if they are **NOT** set.
     ✔ Container chatqna-gaudi-ui-server       Started                                                                        2.6s
 ```
 
-:::
-:::{tab-item} TGI
-:sync: TGI
 ```bash
     ubuntu@xeon-vm:~/GenAIExamples/ChatQnA/docker_compose/intel/hpu/gaudi$ docker compose -f ./compose.yaml up -d
     [+] Running 12/12
@@ -438,21 +373,14 @@ The warning messages print out the variables if they are **NOT** set.
     ✔ Container chatqna-gaudi-backend-server  Started                                                                        2.9s
     ✔ Container chatqna-gaudi-ui-server       Started                                                                        3.3s
 ```
-:::
-::::
 
-#### Check the container status
+#### Перевірте статус контейнера
 
-Check if all the containers  launched via docker compose has started
+Перевірте, чи всі контейнери, запущені за допомогою docker compose, запущено
 
-For example, the ChatQnA example starts 11 docker (services), check these docker
-containers are all running, i.e, all the containers  `STATUS`  are  `Up`
-To do a quick sanity check, try `docker ps -a` to see if all the containers are running
+Наприклад, у прикладі ChatQnA запускається 11 докерів (сервісів), перевірте ці докер-контейнери запущено, тобто всі контейнери `STATUS` мають значення `Up`.
+Для швидкої перевірки працездатності спробуйте `docker ps -a`, щоб побачити, чи всі контейнери запущено
 
-::::{tab-set}
-
-:::{tab-item} vllm
-:sync: vllm
 ```bash
 CONTAINER ID   IMAGE                                                   COMMAND                  CREATED              STATUS              PORTS                                                                                  NAMES
 42c8d5ec67e9   opea/chatqna-ui:latest                                  "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:5173->5173/tcp, :::5173->5173/tcp                                              chatqna-gaudi-ui-server
@@ -468,9 +396,6 @@ cc45ff032e8c   opea/tei-gaudi:latest                                   "text-emb
 684d3e9d204a   ghcr.io/huggingface/text-embeddings-inference:cpu-1.2   "text-embeddings-rou…"   About a minute ago   Up About a minute   0.0.0.0:8808->80/tcp, :::8808->80/tcp                                                  tei-reranking-gaudi-server
 ```
 
-:::
-:::{tab-item} TGI
-:sync: TGI
 ```bash
 CONTAINER ID   IMAGE                                                   COMMAND                  CREATED         STATUS         PORTS                                                                                  NAMES
 0355d705484a   opea/chatqna-ui:latest                                  "docker-entrypoint.s…"   2 minutes ago   Up 2 minutes   0.0.0.0:5173->5173/tcp, :::5173->5173/tcp                                              chatqna-gaudi-ui-server
@@ -486,22 +411,16 @@ c59178629901   redis/redis-stack:7.2.0-v9                              "/entrypo
 5c3a78144498   ghcr.io/huggingface/text-embeddings-inference:cpu-1.5   "text-embeddings-rou…"   2 minutes ago   Up 2 minutes   0.0.0.0:8808->80/tcp, :::8808->80/tcp                                                  tei-reranking-gaudi-server
 ```
 
-:::
-::::
+## Взаємодія з розгортанням ChatQnA
 
-## Interacting with ChatQnA deployment
-
-This section will walk you through what are the different ways to interact with
-the microservices deployed
+У цьому розділі ви дізнаєтеся про різні способи взаємодії з
+розгорнутими мікросервісами
 
 ### Dataprep Microservice（Optional）
 
-If you want to add/update the default knowledge base, you can use the following
-commands. The dataprep microservice extracts the texts from variety of data
-sources, chunks the data, embeds each chunk using embedding microservice and
-store the embedded vectors in the redis vector database.
+Якщо ви хочете додати або оновити базу знань за замовчуванням, ви можете скористатися  командами нижче. Мікросервіс dataprep витягує тексти з різних джерел даних, розбиває дані на частини, вбудовує кожну частину за допомогою мікросервісу embedding і зберігає вбудовані вектори у базі даних векторів redis.
 
-Local File `nke-10k-2023.pdf` Upload:
+Завантаження локального файлу `nke-10k-2023.pdf`:
 
 ```
 curl -X POST "http://${host_ip}:6007/v1/dataprep" \
@@ -509,10 +428,10 @@ curl -X POST "http://${host_ip}:6007/v1/dataprep" \
      -F "files=@./nke-10k-2023.pdf"
 ```
 
-This command updates a knowledge base by uploading a local file for processing.
-Update the file path according to your environment.
+Ця команда оновлює базу знань, завантажуючи локальний файл для обробки.
+Змініть шлях до файлу відповідно до вашого середовища.
 
-Add Knowledge Base via HTTP Links:
+Додайте базу знань через HTTP-посилання:
 
 ```
 curl -X POST "http://${host_ip}:6007/v1/dataprep" \
@@ -520,9 +439,9 @@ curl -X POST "http://${host_ip}:6007/v1/dataprep" \
      -F 'link_list=["https://opea.dev"]'
 ```
 
-This command updates a knowledge base by submitting a list of HTTP links for processing.
+Ця команда оновлює базу знань, надсилаючи список HTTP-посилань для обробки.
 
-Also, you are able to get the file list that you uploaded:
+Крім того, ви можете отримати список файлів, які ви завантажили:
 
 ```
 curl -X POST "http://${host_ip}:6007/v1/dataprep/get_file" \
@@ -530,18 +449,18 @@ curl -X POST "http://${host_ip}:6007/v1/dataprep/get_file" \
 
 ```
 
-To delete the file/link you uploaded you can use the following commands:
+Щоб видалити завантажений вами файл/посилання, ви можете скористатися наступними командами:
 
-#### Delete link
+#### Видалення посилання
 ```
-# The dataprep service will add a .txt postfix for link file
+# Сервіс dataprep додасть постфікс .txt до файлу посилання
 
 curl -X POST "http://${host_ip}:6007/v1/dataprep/delete_file" \
      -d '{"file_path": "https://opea.dev.txt"}' \
      -H "Content-Type: application/json"
 ```
 
-#### Delete file
+#### Видалення файлу
 
 ```
 curl -X POST "http://${host_ip}:6007/v1/dataprep/delete_file" \
@@ -549,7 +468,7 @@ curl -X POST "http://${host_ip}:6007/v1/dataprep/delete_file" \
      -H "Content-Type: application/json"
 ```
 
-#### Delete all uploaded files and links
+#### Видалення всіх завантажених файлів і посилань
 
 ```
 curl -X POST "http://${host_ip}:6007/v1/dataprep/delete_file" \
@@ -559,9 +478,7 @@ curl -X POST "http://${host_ip}:6007/v1/dataprep/delete_file" \
 
 ### TEI Embedding Service
 
-The TEI embedding service takes in a string as input, embeds the string into a
-vector of a specific length determined by the embedding model and returns this
-embedded vector.
+Сервіс вбудовування TEI приймає на вхід рядок, вбудовує його у вектор певної довжини, визначеної моделлю вбудовування, і повертає цей вкладений вектор.
 
 ```
 curl ${host_ip}:8090/embed \
@@ -570,15 +487,11 @@ curl ${host_ip}:8090/embed \
     -H 'Content-Type: application/json'
 ```
 
-In this example the embedding model used is "BAAI/bge-base-en-v1.5", which has a
-vector size of 768. So the output of the curl command is a embedded vector of
-length 768.
+У цьому прикладі використовується модель вбудовування «BAAI/bge-base-en-v1.5», яка має розмір вектора 768. Отже, результатом виконання команди curl буде вбудований вектор довжиною 768.
 
 ### Embedding Microservice
-The embedding microservice depends on the TEI embedding service. In terms of
-input parameters, it takes in a string, embeds it into a vector using the TEI
-embedding service and pads other default parameters that are required for the
-retrieval microservice and returns it.
+Мікросервіс вбудовування залежить від сервісу вбудовування TEI. З точки зору
+вхідних параметрів, він приймає рядок, вбудовує його у вектор за допомогою вбудовування TEI, додає інші параметри за замовчуванням, необхідні для мікросервісу пошуку і повертає його.
 
 ```
 curl http://${host_ip}:6000/v1/embeddings\
@@ -588,13 +501,12 @@ curl http://${host_ip}:6000/v1/embeddings\
 ```
 ### Retriever Microservice
 
-To consume the retriever microservice, you need to generate a mock embedding
-vector by Python script. The length of embedding vector is determined by the
-embedding model. Here we use the
-model EMBEDDING_MODEL_ID="BAAI/bge-base-en-v1.5", which vector size is 768.
+Щоб споживати мікросервіс retriever, потрібно згенерувати mock embedding
+вектор за допомогою Python-скрипту. Довжина вектора вбудовування визначається
+моделлю вбудовування. Тут ми використовуємо модель EMBEDDING_MODEL_ID=«BAAI/bge-base-en-v1.5», розмір вектора якої становить 768.
 
-Check the vector dimension of your embedding model and set
-`your_embedding` dimension equal to it.
+Перевірте векторну розмірність вашої моделі вбудовування і встановіть
+розмірність `your_embedding` дорівнює їй.
 
 ```
 export your_embedding=$(python3 -c "import random; embedding = [random.uniform(-1, 1) for _ in range(768)]; print(embedding)")
@@ -605,12 +517,12 @@ curl http://${host_ip}:7000/v1/retrieval \
   -H 'Content-Type: application/json'
 ```
 
-The output of the retriever microservice comprises of the a unique id for the
-request, initial query or the input to the retrieval microservice, a list of top
-`n` retrieved documents relevant to the input query, and top_n where n refers to
-the number of documents to be returned.
+Вихід мікросервісу ретрівера складається з унікального ідентифікатора для
+запиту, початкового запиту або вхідного запиту до мікросервісу пошуку, списку top
+`n` знайдених документів, що відповідають вхідному запиту, та top_n, де n позначає
+кількість документів, що мають бути повернуті.
 
-The output is retrieved text that relevant to the input data:
+На виході отримується текст, який відповідає вхідним даним:
 ```
 {"id":"27210945c7c6c054fa7355bdd4cde818","retrieved_docs":[{"id":"0c1dd04b31ab87a5468d65f98e33a9f6","text":"Company: Nike. financial instruments are subject to master netting arrangements that allow for the offset of assets and liabilities in the event of default or early termination of the contract.\nAny amounts of cash collateral received related to these instruments associated with the Company's credit-related contingent features are recorded in Cash and\nequivalents and Accrued liabilities, the latter of which would further offset against the Company's derivative asset balance. Any amounts of cash collateral posted related\nto these instruments associated with the Company's credit-related contingent features are recorded in Prepaid expenses and other current assets, which would further\noffset against the Company's derivative liability balance. Cash collateral received or posted related to the Company's credit-related contingent features is presented in the\nCash provided by operations component of the Consolidated Statements of Cash Flows. The Company does not recognize amounts of non-cash collateral received, such\nas securities, on the Consolidated Balance Sheets. For further information related to credit risk, refer to Note 12 — Risk Management and Derivatives.\n2023 FORM 10-K 68Table of Contents\nThe following tables present information about the Company's derivative assets and liabilities measured at fair value on a recurring basis and indicate the level in the fair\nvalue hierarchy in which the Company classifies the fair value measurement:\nMAY 31, 2023\nDERIVATIVE ASSETS\nDERIVATIVE LIABILITIES"},{"id":"1d742199fb1a86aa8c3f7bcd580d94af","text": ... }
 
@@ -618,11 +530,9 @@ The output is retrieved text that relevant to the input data:
 
 ### TEI Reranking Service
 
-The TEI Reranking Service reranks the documents returned by the retrieval
-service. It consumes the query and list of documents and returns the document
-index based on decreasing order of the similarity score. The document
-corresponding to the returned index with the highest score is the most relevant
-document for the input query.
+Сервіс переранжування TEI переранжує документи, повернуті пошуковою службою
+сервісом. Вона споживає запит і список документів і повертає індекс документа на основі убування показника схожості. Документ
+що відповідає повернутому індексу з найбільшою оцінкою, є найбільш релевантним для вхідного запиту.
 ```
 curl http://${host_ip}:8808/rerank \
     -X POST \
@@ -630,14 +540,12 @@ curl http://${host_ip}:8808/rerank \
     -H 'Content-Type: application/json'
 ```
 
-Output is:  `[{"index":1,"score":0.9988041},{"index":0,"score":0.022948774}]`
+Вивід:  `[{"index":1,"score":0.9988041},{"index":0,"score":0.022948774}]`
 
 
 ### Reranking Microservice
 
-
-The reranking microservice consumes the TEI Reranking service and pads the
-response with default parameters required for the llm microservice.
+Мікросервіс переранжування використовує сервіс переранжування TEI і підставляє у відповідь параметрами за замовчуванням, необхідними для мікросервісу LLM.
 
 ```
 curl http://${host_ip}:8000/v1/reranking \
@@ -646,11 +554,9 @@ curl http://${host_ip}:8000/v1/reranking \
   -H 'Content-Type: application/json'
 ```
 
-The input to the microservice is the `initial_query` and a list of retrieved
-documents and it outputs the most relevant document to the initial query along
-with other default parameter such as temperature, `repetition_penalty`,
-`chat_template` and so on. We can also get top n documents by setting `top_n` as one
-of the input parameters. For example:
+Вхідними даними для мікросервісу є `initial_query` і список знайдених
+документів, і він виводить найбільш релевантний документ до початкового запиту разом з іншими параметрами за замовчуванням, такими як температура, `repetition_penalty`, `chat_template` і так далі. Ми також можемо отримати перші n документів, задавши `top_n` як один із вхідних параметрів.
+Наприклад:
 
 ```
 curl http://${host_ip}:8000/v1/reranking \
@@ -659,21 +565,15 @@ curl http://${host_ip}:8000/v1/reranking \
   -H 'Content-Type: application/json'
 ```
 
-Here is the output:
+Ось результат:
 
 ```
 {"id":"e1eb0e44f56059fc01aa0334b1dac313","query":"Human: Answer the question based only on the following context:\n    Deep learning is...\n    Question: What is Deep Learning?","max_new_tokens":1024,"top_k":10,"top_p":0.95,"typical_p":0.95,"temperature":0.01,"repetition_penalty":1.03,"streaming":true}
 
 ```
-You may notice reranking microservice are with state ('ID' and other meta data),
-while reranking service are not.
+Ви можете помітити, що мікросервіси ранжування мають стан ('ID' та інші метадані), в той час як сервіс переранжування не має.
 
 ### LLM Service
-
-::::{tab-set}
-
-:::{tab-item} vllm
-:sync: vllm
 
 ```
 curl http://${host_ip}:8007/v1/completions \
@@ -686,18 +586,14 @@ curl http://${host_ip}:8007/v1/completions \
   }'
 ```
 
-vLLM service generate text for the input prompt. Here is the expected result
-from vllm:
+Сервіс vLLM згенерує текст для підказки введення. Ось очікуваний результат
+від vllm:
 
 ```
 {"id":"cmpl-be8e1d681eb045f082a7b26d5dba42ff","object":"text_completion","created":1726269914,"model":"Intel/neural-chat-7b-v3-3","choices":[{"index":0,"text":"\n\nDeep Learning is a subset of Machine Learning that is concerned with algorithms inspired by the structure and function of the brain. It is a part of Artificial","logprobs":null,"finish_reason":"length","stop_reason":null}],"usage":{"prompt_tokens":6,"total_tokens":38,"completion_tokens":32}}d
 ```
 
-**NOTE**: After launch the vLLM, it takes few minutes for vLLM server to load
-LLM model and warm up.
-:::
-:::{tab-item} TGI
-:sync: TGI
+**Примітка**: Після запуску vLLM серверу vLLM потрібно кілька хвилин для завантаження LLM моделі та прогрів.
 
 ```
 curl http://${host_ip}:8005/generate \
@@ -706,25 +602,20 @@ curl http://${host_ip}:8005/generate \
   -H 'Content-Type: application/json'
 ```
 
-TGI service generate text for the input prompt. Here is the expected result from TGI:
+Сервіс TGI генерує текст для підказки введення. Ось очікуваний результат від TGI:
 
 ```
 {"generated_text":"Artificial Intelligence (AI) has become a very popular buzzword in the tech industry. While the phrase conjures images of sentient robots and self-driving cars, our current AI landscape is much more subtle. In fact, it most often manifests in the forms of algorithms that help recognize the faces of"}
 ```
 
-**NOTE**: After launch the TGI, it takes few minutes for TGI server to load LLM model and warm up.
-:::
-::::
+**Примітка**: Після запуску TGI серверу TGI потрібно кілька хвилин, щоб завантажити модель LLM і прогрітися.
 
-
-If you get
-
+Якщо ви отримали
 ```
 curl: (7) Failed to connect to 100.81.104.168 port 8008 after 0 ms: Connection refused
-
 ```
 
-and the log shows model warm up, please wait for a while and try it later.
+і журнал показує, що модель прогрівається, будь ласка, зачекайте деякий час і спробуйте пізніше.
 
 ```
 2024-06-05T05:45:27.707509646Z 2024-06-05T05:45:27.707361Z  WARN text_generation_router: router/src/main.rs:357: `--revision` is not set
@@ -743,7 +634,7 @@ curl http://${host_ip}:9000/v1/chat/completions \
   -H 'Content-Type: application/json'
 ```
 
-You will get generated text from LLM:
+Ви отримаєте згенерований текст від LLM:
 
 ```
 data: b'\n'
@@ -775,7 +666,7 @@ curl http://${host_ip}:8888/v1/chatqna -H "Content-Type: application/json" -d '{
      }'
 ```
 
-Here is the output for your reference:
+Ось результат для вашого посилання:
 
 ```
 data: b'\n'
@@ -814,7 +705,7 @@ data: [DONE]
 ```
 
 #### Guardrail Microservice
-If you had enabled Guardrail microservice, access via the below curl command
+Якщо ви увімкнули мікросервіс Guardrail, зверніться до нього за допомогою наведеної нижче команди curl
 
 ```
 curl http://${host_ip}:9090/v1/guardrails\
@@ -823,8 +714,8 @@ curl http://${host_ip}:9090/v1/guardrails\
   -H 'Content-Type: application/json'
 ```
 
-## Launch UI
-### Basic UI
+## Запуск інтерфейсу користувача
+### Базовий інтерфейс
 To access the frontend, open the following URL in your browser: http://{host_ip}:5173. By default, the UI runs on port 5173 internally. If you prefer to use a different host port to access the frontend, you can modify the port mapping in the compose.yaml file as shown below:
 ```bash
   chaqna-gaudi-ui-server:
@@ -834,8 +725,8 @@ To access the frontend, open the following URL in your browser: http://{host_ip}
       - "80:5173"
 ```
 
-### Conversational UI
-To access the Conversational UI (react based) frontend, modify the UI service in the compose.yaml file. Replace chaqna-gaudi-ui-server service with the chatqna-gaudi-conversation-ui-server service as per the config below:
+### Діалоговий інтерфейс
+Щоб отримати доступ до діалогового інтерфейсу (заснованого на реакції), змініть службу інтерфейсу у файлі compose.yaml. Замініть службу chaqna-gaudi-ui-server на службу chatqna-gaudi-conversation-ui-server, як показано у конфігурації нижче:
 ```bash
 chaqna-gaudi-conversation-ui-server:
   image: opea/chatqna-conversation-ui:latest
@@ -850,7 +741,7 @@ chaqna-gaudi-conversation-ui-server:
   ipc: host
   restart: always
 ```
-Once the services are up, open the following URL in your browser: http://{host_ip}:5174. By default, the UI runs on port 80 internally. If you prefer to use a different host port to access the frontend, you can modify the port mapping in the compose.yaml file as shown below:
+Після запуску служб відкрийте у браузері наступну URL-адресу: http://{host_ip}:5174. За замовчуванням інтерфейс працює на внутрішньому порту 80. Якщо ви бажаєте використовувати інший порт хоста для доступу до інтерфейсу, ви можете змінити мапінг портів у файлі compose.yaml, як показано нижче:
 ```
   chaqna-gaudi-conversation-ui-server:
     image: opea/chatqna-conversation-ui:latest
@@ -859,14 +750,14 @@ Once the services are up, open the following URL in your browser: http://{host_i
       - "80:80"
 ```
 
-## Check docker container log
+## Перевірка журналу докер-контейнера
 
-Check the log of container by:
+Перевірте журнал контейнера:
 
 `docker logs <CONTAINER ID> -t`
 
 
-Check the log by  `docker logs f7a08f9867f9 -t`.
+Перевірте журнал  `docker logs f7a08f9867f9 -t`.
 
 ```
 2024-06-05T01:30:30.695934928Z error: a value is required for '--model-id <MODEL_ID>' but none was supplied
@@ -875,15 +766,9 @@ Check the log by  `docker logs f7a08f9867f9 -t`.
 
 ```
 
-The log indicates the `MODEL_ID` is not set.
+Журнал показує, що `MODEL_ID` не встановлено.
 
-
-::::{tab-set}
-
-:::{tab-item} vllm
-:sync: vllm
-
-View the docker input parameters in  `./ChatQnA/docker_compose/intel/hpu/gaudi/compose_vllm.yaml`
+Переглянути вхідні параметри докера можна у файлі `./ChatQnA/docker_compose/intel/hpu/gaudi/compose_vllm.yaml`.
 
 ```yaml
   vllm-service:
@@ -908,11 +793,7 @@ View the docker input parameters in  `./ChatQnA/docker_compose/intel/hpu/gaudi/c
     command: /bin/bash -c "export VLLM_CPU_KVCACHE_SPACE=40 && python3 -m vllm.entrypoints.openai.api_server --enforce-eager --model $LLM_MODEL_ID --tensor-parallel-size 1 --host 0.0.0.0 --port 80 --block-size 128 --max-num-seqs 256 --max-seq_len-to-capture 2048"
 ```
 
-:::
-:::{tab-item} TGI
-:sync: TGI
-
-View the docker input parameters in  `./ChatQnA/docker_compose/intel/hpu/gaudi/compose.yaml`
+Переглянути вхідні параметри докера можна у файлі `./ChatQnA/docker_compose/intel/hpu/gaudi/compose.yaml`
 
 ```yaml
   tgi-service:
@@ -937,41 +818,28 @@ View the docker input parameters in  `./ChatQnA/docker_compose/intel/hpu/gaudi/c
     ipc: host
     command: --model-id ${LLM_MODEL_ID} --max-input-length 1024 --max-total-tokens 2048
 ```
-:::
-::::
 
+Вхідним значенням `MODEL_ID` є `${LLM_MODEL_ID}`.
 
-The input `MODEL_ID` is  `${LLM_MODEL_ID}`
+Перевірте, щоб змінна оточення `LLM_MODEL_ID` була встановлена коректно, з правильним написанням.
+Встановіть `LLM_MODEL_ID` і перезапустіть контейнери.
 
-Check environment variable  `LLM_MODEL_ID`  is set correctly, spelled correctly.
-Set the `LLM_MODEL_ID` then restart the containers.
-
-Also you can check overall logs with the following command, where the
-compose.yaml is the mega service docker-compose configuration file.
-
-::::{tab-set}
-
-:::{tab-item} vllm
-:sync: vllm
+Також ви можете перевірити загальний журнал за допомогою наступної команди, де
+compose.yaml - це файл конфігурації мегасервісу docker-compose.
 
 ```
 docker compose -f ./docker_compose/intel/hpu/gaudi/compose_vllm.yaml logs
 ```
-:::
-:::{tab-item} TGI
-:sync: TGI
 
 ```
 docker compose -f ./docker_compose/intel/hpu/gaudi/compose.yaml logs
 ```
-:::
-::::
 
-## Launch UI
+## Запуск інтерфейсу користувача
 
-### Basic UI
+### Базовий інтерфейс
 
-To access the frontend, open the following URL in your browser: http://{host_ip}:5173. By default, the UI runs on port 5173 internally. If you prefer to use a different host port to access the frontend, you can modify the port mapping in the compose.yaml file as shown below:
+Щоб отримати доступ до інтерфейсу, відкрийте в браузері наступну URL-адресу: http://{host_ip}:5173. За замовчуванням інтерфейс працює на внутрішньому порту 5173. Якщо ви бажаєте використовувати інший порт хоста для доступу до інтерфейсу, ви можете змінити мапінг портів у файлі compose.yaml, як показано нижче:
 ```
   chaqna-gaudi-ui-server:
     image: opea/chatqna-ui:latest
@@ -980,9 +848,9 @@ To access the frontend, open the following URL in your browser: http://{host_ip}
       - "80:5173"
 ```
 
-### Conversational UI
+### Діалоговий інтерфейс
 
-To access the Conversational UI (react based) frontend, modify the UI service in the compose.yaml file. Replace chaqna-gaudi-ui-server service with the chatqna-gaudi-conversation-ui-server service as per the config below:
+Щоб отримати доступ до розмовного інтерфейсу (заснованого на реакції), змініть службу інтерфейсу у файлі compose.yaml. Замініть службу chaqna-gaudi-ui-server на службу chatqna-gaudi-conversation-ui-server, як показано у конфігурації нижче:
 ```
 chaqna-gaudi-conversation-ui-server:
   image: opea/chatqna-conversation-ui:latest
@@ -998,7 +866,7 @@ chaqna-gaudi-conversation-ui-server:
   restart: always
 ```
 
-Once the services are up, open the following URL in your browser: http://{host_ip}:5174. By default, the UI runs on port 80 internally. If you prefer to use a different host port to access the frontend, you can modify the port mapping in the compose.yaml file as shown below:
+Після запуску служб відкрийте у браузері наступну URL-адресу: http://{host_ip}:5174. За замовчуванням інтерфейс працює на внутрішньому порту 80. Якщо ви бажаєте використовувати інший порт хоста для доступу до інтерфейсу, ви можете змінити мапінг портів у файлі compose.yaml, як показано нижче:
 
 ```
   chaqna-gaudi-conversation-ui-server:
@@ -1008,24 +876,14 @@ Once the services are up, open the following URL in your browser: http://{host_i
       - "80:80"
 ```
 
-### Stop the services
+### Зупинити роботу сервісів
 
-Once you are done with the entire pipeline and wish to stop and remove all the containers, use the command below:
-::::{tab-set}
-
-:::{tab-item} vllm
-:sync: vllm
+Після того, як ви закінчите роботу з усім трубопроводом і захочете зупинитися і видалити всі контейнери, скористайтеся командою, наведеною нижче:
 
 ```
 docker compose -f compose_vllm.yaml down
 ```
-:::
-:::{tab-item} TGI
-:sync: TGI
 
 ```
 docker compose -f compose.yaml down
 ```
-:::
-::::
-

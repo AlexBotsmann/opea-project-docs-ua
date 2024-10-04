@@ -1,14 +1,14 @@
 .. _GenAIInfra:
 
-Deploying GenAI
-###############
+Розгортання GenAI
+#################
 
-GenAIInfra is the containerization and cloud native suite for OPEA, including
-artifacts to deploy :ref:`GenAIExamples` in a cloud native way so enterprise users
-can deploy to their own cloud.
+GenAIInfra - це контейнеризація та хмарний набір для OPEA,
+включаючи артефакти для розгортання :ref:`GenAIExamples` у хмарному середовищі,
+щоб корпоративні користувачі могли розгортати їх у власній хмарі.
 
-We're building this documentation from content in the
-:GenAIInfra_blob:`GenAIInfra<README.md>` GitHub repository.
+Ми створюємо цю документацію на основі вмісту в
+:GenAIInfra_blob:`GenAIInfra<README.md>` репозиторії GitHub.
 
 
 .. toctree::
@@ -18,8 +18,8 @@ We're building this documentation from content in the
    /GenAIInfra/README
    /GenAIInfra/*
 
-Installation Guides
-*******************
+Посібники з інсталяції
+**********************
 
 .. toctree::
    :maxdepth: 1
@@ -28,8 +28,8 @@ Installation Guides
    ../guide/installation/*
    ../guide/installation/**/*
 
-Authentication and Authorization
-********************************
+Аутентифікація та авторизація
+*****************************
 
 .. toctree::
    :maxdepth: 1
@@ -38,7 +38,7 @@ Authentication and Authorization
    /GenAIInfra/authN-authZ/*
    /GenAIInfra/authN-authZ/**/*
 
-Helm Charts
+Карти-схеми
 ***********
 
 .. toctree::
@@ -49,8 +49,8 @@ Helm Charts
    /GenAIInfra/helm-charts/*
    /GenAIInfra/helm-charts/**/*
 
-Kubernetes Addons
-*****************
+Доповнення для Kubernetes
+*************************
 
 .. toctree::
    :maxdepth: 1
@@ -60,7 +60,7 @@ Kubernetes Addons
    /GenAIInfra/kubernetes-addons/*
    /GenAIInfra/kubernetes-addons/**/*
 
-Microservices Connector
+З'єднувач мікросервісів
 ***********************
 
 .. toctree::
@@ -71,8 +71,8 @@ Microservices Connector
    /GenAIInfra/microservices-connector/*
    /GenAIInfra/microservices-connector/**/*
 
-Pipeline Proxy
-**************
+Проксі трубопроводу
+*******************
 
 .. toctree::
    :maxdepth: 1
@@ -82,7 +82,7 @@ Pipeline Proxy
    /GenAIInfra/proxy/*
    /GenAIInfra/proxy/**/*
 
-Scripts
+Скріпти
 *******
 
 .. toctree::

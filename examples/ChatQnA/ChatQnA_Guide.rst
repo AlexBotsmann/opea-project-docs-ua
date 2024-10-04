@@ -1,93 +1,87 @@
 .. _ChatQnA_Guide:
 
-ChatQnA Sample Guide
-####################
+Зразковий посібник з ChatQnA
+############################
 
-.. note:: This guide is in its early development and is a work-in-progress with
-   placeholder content.
+.. Примітка:: Цей посібник знаходиться на ранній стадії розробки і є робочим документом з вмістом заповнювачів.
 
-Overview
-********
+Огляд
+*****
 
-Chatbots are a  widely adopted use case for leveraging the powerful chat and
-reasoning capabilities of large language models (LLMs).  The ChatQnA example
-provides the starting point for developers to begin working in the GenAI space.
-Consider it the “hello world” of GenAI applications and can be leveraged for
-solutions across wide enterprise verticals, both internally and externally.
+Чат-боти - це широко розповсюджений варіант використання потужних можливостей чату і
+міркувань великих мовних моделей (LLM). Приклад ChatQnA є відправною точкою для початку роботи розробників у просторі GenAI.
+Вважайте, що це «hello world» додатків GenAI, який можна використовувати для
+рішень для широких корпоративних вертикалей, як внутрішніх, так і зовнішніх.
 
-Purpose
-*******
+Ціль
+****
 
-The ChatQnA example uses retrieval augmented generation (RAG) architecture,
-which is quickly becoming the industry standard for chatbot development. It
-combines the benefits of a knowledge base (via a vector store) and generative
-models to reduce hallucinations, maintain up-to-date information, and leverage
-domain-specific knowledge.
+У прикладі ChatQnA використовується архітектура розширеного пошуку (RAG),
+яка швидко стає галузевим стандартом для розробки чат-ботів. Вона
+поєднує переваги бази знань (через векторне сховище) і генеративних
+моделей, щоб зменшити кількість галюцинацій, підтримувати актуальність інформації та використовувати специфічні знання про предметну область.
 
-RAG bridges the knowledge gap by dynamically fetching relevant information from
-external sources, ensuring that responses generated remain factual and current.
-The core of this architecture are vector databases, which are instrumental in
-enabling efficient and semantic retrieval of information. These databases store
-data as vectors, allowing RAG to swiftly access the most pertinent documents or
-data points based on semantic similarity.
+RAG заповнює прогалину в знаннях, динамічно отримуючи відповідну інформацію із
+зовнішніх джерел, гарантуючи, що відповіді, які генеруються, залишаються фактичними та актуальними.
+Ядром цієї архітектури є векторні бази даних, які допомагають
+ефективного та семантичного пошуку інформації. Ці бази даних зберігають
+дані у вигляді векторів, що дозволяє RAG швидко отримувати доступ до найбільш релевантних документів або
+даних на основі семантичної подібності.
 
-Central to the RAG architecture is the use of a generative model, which is
-responsible for generating responses to user queries. The generative model is
-trained on a large corpus of customized and relevant text data and is capable of
-generating human-like responses. Developers can easily swap out the generative
-model or vector database with their own custom models or databases. This allows
-developers to build chatbots that are tailored to their specific use cases and
-requirements. By combining the generative model with the vector database, RAG
-can provide accurate and contextually relevant responses specific to your users'
-queries.
+Центральним елементом архітектури RAG є використання генеративної моделі, яка
+відповідає за генерацію відповідей на запити користувачів. Генеративна модель
+навчається на великому масиві персоналізованих і релевантних текстових даних і здатна
+генерувати відповіді, схожі на людські. Розробники можуть легко замінити генеративну
+модель або векторну базу даних на власні кастомні моделі або бази даних. Це дозволяє
+розробникам створювати чат-ботів, пристосованих до їхніх конкретних сценаріїв використання та
+вимог. Поєднуючи генеративну модель з векторною базою даних, RAG
+може надавати точні та контекстно-релевантні відповіді на запити ваших користувачів.
 
-The ChatQnA example is designed to be a simple, yet powerful, demonstration of
-the RAG architecture. It is a great starting point for developers looking to
-build chatbots that can provide accurate and up-to-date information to users.
+Приклад ChatQnA розроблено як просту, але потужну демонстрацію
+архітектури RAG. Це чудова відправна точка для розробників, які прагнуть
+створити чат-ботів, які можуть надавати користувачам точну та актуальну інформацію.
 
-To facilitate sharing of individual services across multiple GenAI applications, use the GenAI Microservices Connector (GMC) to deploy your application. Apart from service sharing , it also supports specifying sequential, parallel, and alternative steps in a GenAI pipeline. In so doing, it supports dynamic switching between models used in any stage of a GenAI pipeline.  For example, within the ChatQnA pipeline, using GMC one could switch the model used in the embedder, re-ranker, and/or the LLM. 
-Upstream Vanilla Kubernetes or Red Hat OpenShift Container
-Platform (RHOCP) can be used with or without GMC, while use with GMC provides additional features.
+Щоб полегшити спільний доступ до окремих сервісів між декількома додатками GenAI, використовуйте GenAI Microservices Connector (GMC) для розгортання вашого додатку. Окрім спільного використання сервісів, він також підтримує визначення послідовних, паралельних та альтернативних кроків у трубопроводі GenAI. При цьому він підтримує динамічне перемикання між моделями, що використовуються на будь-якому етапі конвеєра GenAI.  Наприклад, у трубопроводі ChatQnA за допомогою GMC можна перемикати модель, що використовується у вбудовувачі, переранжувачі та/або LLM. 
+Висхідний Vanilla Kubernetes або Red Hat OpenShift Container (RHOCP) можна використовувати як з GMC, так і без нього, хоча використання з GMC надає додаткові можливості.
 
-The ChatQnA provides several deployment options, including single-node
-deployments on-premise or in a cloud environment using hardware such as Xeon
-Scalable Processors, Gaudi servers, NVIDIA GPUs, and even on AI PCs.  It also
-supports Kubernetes deployments with and without the GenAI Management Console
-(GMC), as well as cloud-native deployments using RHOCP.
+ChatQnA надає кілька варіантів розгортання, включаючи одновузлове
+розгортання локально або в хмарному середовищі з використанням такого обладнання, як Xeon
+Scalable Processors, сервери Gaudi, графічні процесори NVIDIA і навіть на комп'ютерах зі штучним інтелектом.  Він також
+підтримує розгортання Kubernetes з консоллю управління GenAI Management Console (GMC) і без неї
+(GMC), а також хмарні розгортання з використанням RHOCP.
 
-Key Implementation Details
-**************************
+Ключові деталі впровадження
+***************************
 
-Embedding:
-  The process of transforming user queries into numerical representations called
-  embeddings.
-Vector Database:
-  The storage and retrieval of relevant data points using vector databases.
-RAG Architecture:
-  The use of the RAG architecture to combine knowledge bases and generative
-  models for development of chatbots with relevant and up to date query
-  responses.
-Large Language Models (LLMs):
-  The training and utilization of LLMs for generating responses.
-Deployment Options:
-  production ready deployment options for the ChatQnA
-  example, including single-node deployments and Kubernetes deployments.
+Вбудовування:
+  Процес перетворення запитів користувача в числові представлення називається
+  вбудовуваннями (embeddings).
+Векторна база даних:
+  Зберігання та пошук відповідних точок даних за допомогою векторних баз даних.
+Архітектура RAG:
+  Використання архітектури RAG для об'єднання баз знань та генеративних
+  моделей для розробки чат-ботів з релевантними та актуальними відповідями на запити.  
+Великі мовні моделі (LLM):
+  Навчання та використання LLM для створення відповідей.
+Варіанти розгортання:
+  варіанти розгортання готового до використання ChatQnA
+  наприклад, розгортання на одному вузлі та розгортання на Kubernetes.
 
-How It Works
+Як це працює
 ************
 
-The ChatQnA Examples follows a basic flow of information in the chatbot system,
-starting from the user input and going through the retrieve, re-ranker, and
-generate components, ultimately resulting in the bot's output.
+Приклади ChatQnA демонструють основний потік інформації в системі чат-ботів,
+починаючи з введення користувачем і проходячи через компоненти отримання, переранжування і
+генерування компонентів, що в кінцевому підсумку призводить до виводу бота.
 
 .. figure:: /GenAIExamples/ChatQnA/assets/img/chatqna_architecture.png
    :alt: ChatQnA Architecture Diagram
 
-   This diagram illustrates the flow of information in the chatbot system,
-   starting from the user input and going through the retrieve, analyze, and
-   generate components, ultimately resulting in the bot's output.
+   Ця діаграма ілюструє потік інформації в системі чат-ботів,
+   починаючи від введення користувачем і проходячи через пошук, аналіз і
+   генерування компонентів, що в кінцевому підсумку призводить до виводу бота.
 
-The architecture follows a series of steps to process user queries and generate responses:
+Архітектура виконує низку кроків для обробки запитів користувачів і генерування відповідей:
 
 1. **Embedding**: The user query is first transformed into a numerical
    representation called an embedding. This embedding captures the semantic
@@ -110,29 +104,29 @@ The architecture follows a series of steps to process user queries and generate 
    and the user query. This response is then returned to the user as the
    chatbot's answer.
 
-Expected Output
-+==============
+Очікуваний вивід
+================
 
 TBD
 
-Validation Matrix and Prerequisites
-===================================
+Матриця валідації та передумови
+===============================
 
-See :doc:`/GenAIExamples/supported_examples`
+Дивиться :doc:`/GenAIExamples/supported_examples`
 
-Architecture
-************
+Архітектура
+***********
 
-The ChatQnA architecture is displayed below:
+Архітектура ChatQnA показана нижче:
 
 .. figure:: /GenAIExamples/ChatQnA/assets/img/chatqna_flow_chart.png
    :alt: ChatQnA Architecture Diagram
 
-Microservice Outline and Diagram
-================================
+План і схема мікросервісу
+=========================
 
-A GenAI application or pipeline in OPEA  typically consists of a collection of microservices to create a megaservice, accessed via a gateway. A microservice is a component designed to perform a specific function or task. Microservices are building blocks, offering the fundamental services. Microservices promote modularity, flexibility, and scalability in the system. A megaservice is a higher-level architectural construct composed of one or more microservices, providing the capability to assemble end-to-end applications.
-The gateway serves as the interface for users to access. The gateway routes incoming requests to the appropriate microservices within the megaservice architecture. See `GenAI Components <https://github.com/opea-project/GenAIComps>`_ for more information.
+Додаток або трубопровід GenAI в OPEA зазвичай складається з набору мікросервісів для створення мегасервісу, доступ до якого здійснюється через шлюз. Мікросервіс - це компонент, призначений для виконання певної функції або завдання. Мікросервіси є будівельними блоками, що пропонують основні послуги. Мікросервіси сприяють модульності, гнучкості та масштабованості системи. Мегасервіс - це архітектурна конструкція більш високого рівня, що складається з одного або декількох мікросервісів, що забезпечує можливість збирати наскрізні додатки.
+Шлюз слугує інтерфейсом для доступу користувачів. Шлюз спрямовує вхідні запити до відповідних мікросервісів у межах архітектури мегасервісу. Для отримання додаткової інформації див. `GenAI Components <https://github.com/opea-project/GenAIComps>`_.
 
 .. mermaid::
 
@@ -200,16 +194,16 @@ The gateway serves as the interface for users to access. The gateway routes inco
         Z[Gateway]
     end
 
-A GenAI application or pipeline in OPEA  typically consists of a collection of microservices to create a megaservice, accessed via a gateway. A microservice is a component designed to perform a specific function or task. Microservices are building blocks, offering the fundamental services. Microservices promote modularity, flexibility, and scalability in the system. A megaservice is a higher-level architectural construct composed of one or more microservices, providing the capability to assemble end-to-end applications.
-The gateway serves as the interface for users to access. The gateway routes incoming requests to the appropriate microservices within the megaservice architecture. See `GenAI Components <https://github.com/opea-project/GenAIComps>`_ for more information.
+Додаток або трубопровід GenAI в OPEA зазвичай складається з набору мікросервісів для створення мегасервісу, доступ до якого здійснюється через шлюз. Мікросервіс - це компонент, призначений для виконання певної функції або завдання. Мікросервіси є будівельними блоками, що пропонують основні послуги. Мікросервіси сприяють модульності, гнучкості та масштабованості системи. Мегасервіс - це архітектурна конструкція більш високого рівня, що складається з одного або декількох мікросервісів, що забезпечує можливість збирати наскрізні додатки.
+Шлюз слугує інтерфейсом для доступу користувачів. Шлюз спрямовує вхідні запити до відповідних мікросервісів у межах архітектури мегасервісу. Для отримання додаткової інформації див. `GenAI Components <https://github.com/opea-project/GenAIComps>`_.
 
-Deployment
-**********
+Розгортання
+***********
 
-From the below deployment options, choose the one that best fits your requirements:
+З наведених нижче варіантів розгортання виберіть той, який найкраще відповідає вашим вимогам:
 
-Single Node
-===========
+Одиночний вузол
+===============
 
 .. toctree::
    :maxdepth: 1
@@ -226,69 +220,69 @@ Kubernetes
 * Xeon & Gaudi without GMC
 * Using Helm Charts
 
-Cloud Native
-============
+Місцева хмара
+=============
 
 * Red Hat OpenShift Container Platform (RHOCP)
 
-Troubleshooting
-***************
+Вирішення проблем
+*****************
 
 TDB.
 
-Monitoring
+Моніторинг
 **********
 
-Now that you have deployed the ChatQnA example, let's talk about monitoring the performance of the microservices in the ChatQnA pipeline.
+Тепер, коли ви розгорнули приклад ChatQnA, давайте поговоримо про моніторинг продуктивності мікросервісів у трубопроводі ChatQnA.
 
-Monitoring the performance of microservices is crucial for ensuring the smooth operation of the generative AI systems. By monitoring metrics such as latency and throughput, you can identify bottlenecks, detect anomalies, and optimize the performance of individual microservices. This allows us to proactively address any issues and ensure that the ChatQnA pipeline is running efficiently.
+Моніторинг продуктивності мікросервісів має вирішальне значення для забезпечення безперебійної роботи генеративних систем ШІ. Відстежуючи такі показники, як затримка та пропускна здатність, ви можете визначити вузькі місця, виявити аномалії та оптимізувати роботу окремих мікросервісів. Це дозволяє нам проактивно вирішувати будь-які проблеми і гарантувати, що трубопровід ChatQnA працює ефективно.
 
-This document will help you understand how to monitor in real time the latency, throughput, and other metrics of different microservices. You will use **Prometheus** and **Grafana**, both open-source toolkits, to collect metrics and visualize them in a dashboard.
+Цей документ допоможе вам зрозуміти, як відстежувати в реальному часі затримку, пропускну здатність та інші показники різних мікросервісів. Ви будете використовувати **Prometheus** і **Grafana**, інструменти з відкритим вихідним кодом, для збору метрик та їх візуалізації на інформаційній панелі.
 
-Set Up the Prometheus Server
-============================
+Налаштування сервера Prometheus
+===============================
 
-Prometheus is a tool used for recording real-time metrics and is specifically designed for monitoring microservices and alerting based on their metrics.
+Prometheus - це інструмент для запису метрик в режимі реального часу, спеціально розроблений для моніторингу мікросервісів і оповіщення на основі їхніх метрик.
 
-The `/metrics` endpoint on the port running each microservice exposes the metrics in the Prometheus format. The Prometheus server scrapes these metrics and stores them in its time series database. For example, metrics for the Text Generation Interface (TGI) service are available at:
+Кінцева точка `/metrics` на порту, на якому запущено кожен мікросервіс, виводить метрики у форматі Prometheus. Сервер Prometheus зчитує ці метрики і зберігає їх у своїй базі даних часових рядів. Наприклад, метрики для сервісу Text Generation Interface (TGI) доступні за адресою:
 
 .. code-block:: bash
 
    http://${host_ip}:9009/metrics
 
-Set up the Prometheus server:
+Налаштування сервера Prometheus:
 
-1. Download Prometheus:
-   Download the Prometheus v2.52.0 from the official site, and extract the files:
+1. Завантажити Prometheus:
+   Завантажте Prometheus v2.52.0 з офіційного сайту та розпакуйте файли:
 
 .. code-block:: bash
 
    wget https://github.com/prometheus/prometheus/releases/download/v2.52.0/prometheus-2.52.0.linux-amd64.tar.gz
    tar -xvzf prometheus-2.52.0.linux-amd64.tar.gz
 
-2. Configure Prometheus:
-   Change the directory to the Prometheus folder:
+2. Налаштуйте Prometheus:
+   Змініть каталог на папку Prometheus:
 
 .. code-block:: bash
 
    cd prometheus-2.52.0.linux-amd64
 
-Edit the `prometheus.yml` file:
+Відредагуйте файл `prometheus.yml:
 
 .. code-block:: bash
 
    vim prometheus.yml
 
-Change the ``job_name`` to the name of the microservice you want to monitor. Also change the ``targets`` to the job target endpoint of that microservice. Make sure the service is running and the port is open, and that it exposes the metrics that follow Prometheus convention at the ``/metrics`` endpoint.
+Змініть ``job_name`` на ім'я мікросервісу, який ви хочете відстежувати. Також змініть ``targets`` на кінцеву точку завдання цього мікросервісу. Переконайтеся, що сервіс запущено, порт відкрито, і що він показує метрики, які відповідають домовленості Prometheus, у кінцевій точці ``/metrics``.
 
-Here is an example of exporting metrics data from a TGI microservice to Prometheus:
+Ось приклад експорту даних метрик з мікросервісу TGI до Prometheus:
 
 .. code-block:: yaml
 
-   # A scrape configuration containing exactly one endpoint to scrape:
-   # Here it's Prometheus itself.
+   # Конфігурація сканування, що містить рівно одну кінцеву точку для сканування:
+   # Ось сам Прометей.
    scrape_configs:
-     # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+     # Назва завдання додається у вигляді мітки `job=<job_name>` до будь-якого часового ряду, витягнутого з цієї конфігурації.
      - job_name: "tgi"
 
        # metrics_path defaults to '/metrics'
@@ -297,7 +291,7 @@ Here is an example of exporting metrics data from a TGI microservice to Promethe
        static_configs:
          - targets: ["localhost:9009"]
 
-Here is another example of exporting metrics data from a TGI microservice (inside a Kubernetes cluster) to Prometheus:
+Ось ще один приклад експорту даних метрик з мікросервісу TGI (всередині кластера Kubernetes) до Prometheus:
 
 .. code-block:: yaml
 
@@ -307,93 +301,93 @@ Here is another example of exporting metrics data from a TGI microservice (insid
        static_configs:
          - targets: ["llm-dependency-svc.default.svc.cluster.local:9009"]
 
-3. Run the Prometheus server:
-Run the Prometheus server, without hanging-up the process:
-```bash
-nohup ./prometheus --config.file=./prometheus.yml &
-```
+3. Запустіть сервер Prometheus:
+Запустіть сервер Prometheus, не зупиняючи процес:
 
-4. Access the Prometheus UI
-   Access the Prometheus UI at the following URL:
+.. code-block:: bash
+   nohup ./prometheus --config.file=./prometheus.yml &
+
+4. Увійдіть до інтерфейсу користувача Prometheus
+   Отримати доступ до інтерфейсу користувача Prometheus можна за наступною адресою:
 
 .. code-block:: bash
 
    http://localhost:9090/targets?search=
 
->Note: Before starting Prometheus, ensure that no other processes are running on the designated port (default is 9090). Otherwise, Prometheus will not be able to scrape the metrics.
+>Примітка: Перед запуском Prometheus переконайтеся, що на вказаному порту (за замовчуванням 9090) не запущено жодних інших процесів. Інакше Prometheus не зможе зібрати метрики.
 
-On the Prometheus UI, you can see the status of the targets and the metrics that are being scraped. You can search for a metrics variable by typing it in the search bar.
+В інтерфейсі Prometheus ви можете бачити стан цілей і метрик, які вилучаються. Ви можете шукати змінну метрики, ввівши її в рядок пошуку.
 
-The TGI metrics can be accessed at:
+З показниками TGI можна ознайомитися за посиланням:
 
 .. code-block:: bash
 
    http://${host_ip}:9009/metrics 
 
-Set Up the Grafana Dashboard
-============================
+Налаштування Панелі Grafana
+===========================
 
-Grafana is a tool used for visualizing metrics and creating dashboards. It can be used to create custom dashboards that display the metrics collected by Prometheus.
+Grafana - це інструмент для візуалізації метрик і створення панелей моніторингу. З його допомогою можна створювати кастомні панелі, які відображають метрики, зібрані Prometheus.
 
-To set up the Grafana dashboard, follow these steps:
+Щоб налаштувати панель Grafana, виконайте такі дії:
 
-1. Download Grafana:
-   Download the Grafana v8.0.6 from the official site, and extract the files:
+1. Завантажте Grafana:
+   Завантажте Grafana v8.0.6 з офіційного сайту та розпакуйте файли:
 
 .. code-block:: bash
 
    wget https://dl.grafana.com/oss/release/grafana-11.0.0.linux-amd64.tar.gz
    tar -zxvf grafana-11.0.0.linux-amd64.tar.gz
 
-For adddiitonal instructions, see the complete `Grafana installation instructions  <https://grafana.com/docs/grafana/latest/setup-grafana/installation/>`_.
+Для отримання додаткових інструкцій дивіться повну версію `Grafana installation instructions  <https://grafana.com/docs/grafana/latest/setup-grafana/installation/>`_.
 
-2. Run the Grafana server:
-   Change the directory to the Grafana folder:
+2. Запустіть сервер Grafana:
+   Змініть каталог на папку Grafana:
 
 .. code-block:: bash
 
    cd grafana-11.0.0
 
-Run the Grafana server, without hanging-up the process:
+Запустіть сервер Grafana, не зупиняючи процес:
 
 .. code-block:: bash
 
    nohup ./bin/grafana-server &
 
-3. Access the Grafana dashboard UI:
-   On your browser, access the Grafana dashboard UI at the following URL:
+3. Увійдіть до інтерфейсу панелі Grafana:
+   У вашому браузері відкрийте інтерфейс панелі Grafana за наступною адресою:
 
 .. code-block:: bash
 
    http://localhost:3000
 
->Note: Before starting Grafana, ensure that no other processes are running on port 3000.
+>Примітка: Перед запуском Grafana переконайтеся, що на порту 3000 не запущено жодних інших процесів.
 
-Log in to Grafana using the default credentials:
+Увійдіть до Grafana, використовуючи облікові дані за замовчуванням:
 
 .. code-block:: 
 
    username: admin
    password: admin
 
-4. Add Prometheus as a data source:
-   You need to configure the data source for Grafana to scrape data from. Click on the "Data Source" button, select Prometheus, and specify the Prometheus URL ``http://localhost:9090``.
+4. Додайте Prometheus як джерело даних:
+   Вам потрібно налаштувати джерело даних, з якого Grafana буде отримувати дані. Натисніть кнопку «Джерело даних», виберіть Prometheus і вкажіть URL-адресу Prometheus ``http://localhost:9090``.
 
-   Then, you need to upload a JSON file for the dashboard's configuration. You can upload it in the Grafana UI under ``Home > Dashboards > Import dashboard``. A sample JSON file is supported here: `tgi_grafana.json  <https://github.com/huggingface/text-generation-inference/blob/main/assets/tgi_grafana.json>`_
+   Потім вам потрібно завантажити JSON-файл для конфігурації дашборду. Ви можете завантажити його в інтерфейсі Grafana в розділі «Home > Dashboards > Import dashboard». Зразок JSON-файлу підтримується тут: `tgi_grafana.json <https://github.com/huggingface/text-generation-inference/blob/main/assets/tgi_grafana.json>`_
 
-5. View the dashboard:
-   Finally, open the dashboard in the Grafana UI, and you will see different panels displaying the metrics data.
+5. Перегляньте інформаційну панель:
+   Нарешті, відкрийте інформаційну панель в інтерфейсі Grafana, і ви побачите різні панелі, що відображають дані метрик.
 
-   Taking the TGI microservice as an example, you can see the following metrics:
-   * Time to first token
-   * Decode per-token latency
-   * Throughput (generated tokens/sec)
-   * Number of tokens per prompt
-   * Number of generated tokens per request
+   На прикладі мікросервісу TGI можна побачити наступні метрики:
+   * Час до першого токена
+   * Затримка декодування на токен
+   * Пропускна здатність (згенеровані токени/сек)
+   * Кількість токенів на запит
+   * Кількість згенерованих токенів на запит
 
-   You can also monitor the incoming requests to the microservice, the response time per token, etc., in real time.
+   Ви також можете відстежувати вхідні запити до мікросервісу, час відповіді на токен, тощо, в режимі реального часу.
 
-Summary and Next Steps
-=======================
+Підсумок і наступні кроки
+=========================
 
 TBD

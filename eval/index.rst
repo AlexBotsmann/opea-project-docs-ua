@@ -1,12 +1,12 @@
 .. _GenAIEval:
 
-Evaluating GenAI
+Оцінювання GenAI
 ################
 
-GenAIEval provides evaluation, benchmark, scorecard, and targeting for performance on throughpuut and latency, accuracy on popular evaluation harnesses, safety, and hallucination.
+GenAIEval забезпечує оцінку, бенчмарк, оціночну картку та таргетування продуктивності за показниками пропускної здатності та затримки, точності за популярними оціночними харнерами, безпечності та галюцинаційності.
 
-We're building this documentation from content in the
-:GenAIEval_blob:`GenAIEval<README.md>` GitHub repository.
+Ми створюємо цю документацію на основі вмісту в
+:GenAIEval_blob:`GenAIEval<README.md>` репозиторію GitHub.
 
 .. toctree::
    :maxdepth: 1

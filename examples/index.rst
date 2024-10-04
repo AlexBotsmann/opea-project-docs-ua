@@ -3,7 +3,8 @@
 GenAI Examples
 ##############
 
-GenAIExamples are designed to give developers an easy entry into generative AI, featuring microservice-based samples that simplify the processes of deploying, testing, and scaling GenAI applications. All examples are fully compatible with Docker and Kubernetes, supporting a wide range of hardware platforms such as Gaudi, Xeon, and NVIDIA GPU, and other hardware, ensuring flexibility and efficiency for your GenAI adoption.
+GenAIExamples призначені для того, щоб полегшити розробникам початок роботи з генеративним ШІ, і містять приклади на основі мікросервісів, які спрощують процеси розгортання, тестування та масштабування додатків GenAI. Усі приклади повністю сумісні з Docker і Kubernetes, підтримують широкий спектр апаратних платформ, таких як Gaudi, Xeon і NVIDIA GPU, а також інше обладнання, забезпечуючи гнучкість і ефективність вашого впровадження GenAI.
+
 
 .. toctree::
    :maxdepth: 1
@@ -12,8 +13,8 @@ GenAIExamples are designed to give developers an easy entry into generative AI, 
 
 ----
 
-We're building this documentation from content in the
-:GenAIExamples_blob:`GenAIExamples<README.md>` GitHub repository.
+Ми створюємо цю документацію на основі вмісту в
+:GenAIExamples_blob:`GenAIExamples<README.md>` репозиторію GitHub.
 
 .. rst-class:: rst-columns
 
@@ -34,7 +35,6 @@ We're building this documentation from content in the
 
 ----
 
-.. comment This include file is generated in the Makefile during doc build
-   time from all the directories found in the GenAIExamples top level directory
+.. comment Цей include-файл генерується у Makefile під час збирання документа з усіх каталогів, знайдених у каталозі верхнього рівня GenAIExamples
 
 .. include:: examples.txt

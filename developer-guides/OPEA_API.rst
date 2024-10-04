@@ -3,7 +3,7 @@
 OPEA API Service Spec (v0.9)
 ############################
 
-Authors:
+Автори:
 
 .. rst-class:: rst-columns
 
@@ -12,12 +12,10 @@ Authors:
 * haihao.shen@intel.com
 * kaokao.lv@intel.com
 
-This specification is used to define the Restful API of OPEA Mega
-Service for users to access, as long as the input and output definition
-of all OPEA Micro Services for developer to build OPEA Mega service.
+Ця специфікація використовується для визначення спокійного API сервісу OPEA Mega для доступу користувачів, 
+а також для визначення вхідних і вихідних даних усіх мікросервісів OPEA, щоб розробник міг побудувати сервіс OPEA Mega.
 
-.. note:: This API Service Specification is a work-in-progress and may be
-   incomplete and contain errors.
+.. Примітка:: Ця специфікація сервісу API знаходиться в процесі розробки і може бути неповною та містити помилки.
 
 .. contents:: API Services Table of Contents
    :depth: 2
@@ -28,39 +26,38 @@ of all OPEA Micro Services for developer to build OPEA Mega service.
 OPEA Mega Service API
 *********************
 
-OPEA Mega Service is the main entry user can access for a prebuilt GenAI
-application. Such GenAI application consists of single or several OPEA
-Micro Services chained as a DAG (Directed Acyclic Graph) and built as an
-execution workflow for developer to create complex applications.
+OPEA Mega Service - це основний вхід, до якого користувач може отримати доступ для готового додатку GenAI. 
+Такий додаток GenAI складається з одного або декількох мікросервісів OPEA, з'єднаних у вигляді DAG (спрямованого ациклічного графа) 
+і побудованих як робочий процес виконання для розробника для створення складних додатків.
 
 -----
 
 .. _list_services:
 
-List Services
-=============
+Список сервісів
+===============
 
-List all supported services by the OPEA Mega Service.
+Список усіх сервісів, які підтримує OPEA Mega Service.
 
-Request
--------
+Запит
+-----
 
 .. list-table::
    :header-rows: 1
 
-   * - Method
+   * - Метод
      - URL
    * - **GET**
      - ``/v1/list_service``
 
-Response
---------
+Відповідь
+---------
 
 .. list-table::
    :header-rows: 1
 
-   * - Status
-     - Response
+   * - Статус
+     - Відповідь
    * - **200**
      - .. code-block::
 
@@ -69,48 +66,45 @@ Response
           }
 
        ``service_name (string)``
-         The endpoints or URLs OPEA mega service is serving. For example,
+         Кінцеві точки або URL-адреси, які обслуговує мега-сервіс OPEA. Наприклад,
          ``/v1/RAG``.
 
-         Note some keywords such as ``/v1/audio/speech``,
-         ``/v1/audio/transcriptions``, ``/v1/embeddings``,
-         ``/v1/chat/completions`` are reserved for openAI compatible Mega
-         Service.
+         Зверніть увагу, що деякі ключові слова, такі як 
+         ``/v1/audio/speech``, ``/v1/audio/transcriptions``, ``/v1/embeddings``, ``/v1/chat/completions``
+         зарезервовано для сумісного з openAI Mega Service.
 
        ``service_description (string)``
-         The detail usage description user used to access the specified
-         endpoints or urls OPEA mega service is serving, including the request
-         and post format and details.
+         Детальний опис використання, який користувач використовував для доступу до вказаних кінцевих точок 
+         або адрес, які обслуговує мега-сервіс OPEA, включаючи формат і деталі запитів і повідомлень.
    * - **405**
      - ``{"error": "Retrieve service name wrongly."}``
 
 -----
 
-List Configurable Parameters
-============================
+Список параметрів, що налаштовуються
+====================================
 
-List all configurable parameters for users to control the behavior of
-the OPEA Mega Service.
+Список всіх параметрів, що налаштовуються, щоб користувачі могли контролювати поведінку OPEA Mega Service.
 
-Request
--------
+Запит
+-----
 
 .. list-table::
    :header-rows: 1
 
-   * - Method
+   * - Метод
      - URL
    * - **GET**
      - ``/v1/list_parameters``
 
-Response
---------
+Відповідь
+---------
 
 .. list-table::
    :header-rows: 1
 
-   * - Status
-     - Response
+   * - Статус
+     - Відповідь
    * - **200**
      - .. code-block::
 
@@ -123,34 +117,32 @@ Response
           }
 
        ``micro_service_name (string)``
-         The micro service name in OPEA mega service in which some parameters
-         are configurable.
+         Ім'я мікросервісу в OPEA мегасервісу, в якому можна налаштувати деякі параметри.
 
        ``parameter_name (string)``
-         The configurable parameter name in OPEA mega service.
+         Ім'я параметра, що налаштовується в мегасервісі OPEA.
 
        ``data_type (string)``
-         The supported data type: ``"string"`` or ``"integer"``.
+         Підтримувані типи даних: ``"string"`` або ``"integer"``.
 
-       For example: ``{"/v1/llm_generate": {"max_tokens": "integer"}}``
+       Наприклад: ``{"/v1/llm_generate": {"max_tokens": "integer"}}``
    * - **405**
      - ``{"error": "Retrieve configurable parameter wrongly."}``
 
 -----
 
-Embedding
-=========
+Вбудовування
+============
 
-**Optional**. Only exists if a single OPEA microservice which exposes
-``/micro_service/embedding`` interface is built as OPEA Mega service.
+**Необов'язково**. Якщо існує лише один мікросервіс OPEA, який розкриває  ``/micro_service/embedding``, інтерфейс побудовано як мегасервіс OPEA.
 
-Request
--------
+Запит
+-----
 
 .. list-table::
    :header-rows: 1
 
-   * - Method
+   * - Метод
      - URL
    * - **POST**
      - ``/v1/list_parameters``
@@ -158,45 +150,44 @@ Request
 .. list-table::
    :header-rows: 1
 
-   * - Type
-     - Parameters
-     - Values
-     - Required
-     - Description
+   * - Тип
+     - Параметри
+     - Значення
+     - Потрібно
+     - Опис
    * - **POST**
      - ``input``
      - ``string``
-     - required
-     - Input text to embed, encoded as a string or array of tokens. To embed
-       multiple inputs in a single request, pass an array of strings or array of
-       token arrays. The input must not exceed the max input tokens for the
-       model (8192 tokens for text-embedding-ada-002), cannot be an empty
-       string, and any array must be 2048 dimensions or less.
+     - необхідний
+     - Введіть текст для вбудовування, закодований у вигляді рядка або масиву токенів. 
+       Щоб вбудувати кілька вхідних даних в один запит, передайте масив рядків або масив масивів токенів. 
+       Вхідні дані не повинні перевищувати максимальну кількість вхідних токенів для моделі (8192 токени для text-embedding-ada-002), 
+       не можуть бути порожнім рядком, а будь-який масив повинен мати розмірність 2048 або менше.
    * - **POST**
      - ``model``
      - ``string``
-     - deprecated
-     - The ID of the model to use.
+     - застарілий
+     - Ідентифікатор моделі для використання.
    * - **POST**
      - ``encoding_format``
      - ``string``
-     - required
-     - The format to return the embeddings in. Can be either ``"float"`` or ``"base64"``.
+     - необхідний
+     - Формат, у якому потрібно повернути вбудовування. Може бути як ``"float"``, так і ``"base64"``.
    * - **POST**
      - ``dimensions``
      - ``integer``
-     - optional
-     - The number of dimensions the resulting output embeddings should have.
-       Only supported in text-embedding-3 and later models.
+     - необов'язковий
+     - Кількість вимірів, які повинні мати результуючі вихідні вкладення.
+       Підтримується лише у моделях з вбудовуванням тексту-3 та пізніших версіях.
 
-Response
---------
+Відповідь
+---------
 
 .. list-table::
    :header-rows: 1
 
-   * - Status
-     - Response
+   * - Статус
+     - Відповідь
    * - **200**
      - .. code-block::
 
@@ -219,35 +210,35 @@ Response
 
 
        ``embedding (float)``
-         The vector representation for given inputs.
+         Векторне представлення для заданих вхідних даних.
 
        ``index (integer)``
-         The index of the embedding in the list of embeddings.
+         Індекс вбудовування у списку вбудовувань.
 
        ``parameter_name (string)``
-         The configurable parameter name in OPEA mega service.
+         Ім'я параметра, що налаштовується в мегасервісі OPEA.
 
        ``data_type (string)``
-         The supported data type, ``"string"`` or ``"integer"``.
+         Підтримуваний тип даних, ``"string"`` або ``"integer"``.
 
-       For example: ``{"llm": {"max_tokens": "integer"}}``
+       Наприклад: ``{"llm": {"max_tokens": "integer"}}``
    * - **405**
      - ``{"error": "Retrieve configurable parameter wrongly."}``
 
 -----
 
-Chat
-====
+Чат
+===
 
-**Optional**. . If a OPEA Mega service is built with this request url, it complies with below format.
+**Необов'язково**. Якщо сервіс OPEA Mega створено з таким URL запиту, він відповідає наведеному нижче формату.
 
-Request
--------
+Запит
+-----
 
 .. list-table::
    :header-rows: 1
 
-   * - Method
+   * - Метод
      - URL
    * - **POST**
      - ``/v1/chat/completions``
@@ -255,65 +246,61 @@ Request
 .. list-table::
    :header-rows: 1
 
-   * - Type
-     - Parameters
-     - Values
-     - Required
-     - Description
+   * - Тип
+     - Параметри
+     - Значення
+     - Потрібно
+     - Опис
    * - **POST**
      - ``message``
      - ``array``
-     - required
+     - необхідний
      - A list of messages comprising the conversation. Refer to the
        `detail format <https://platform.openai.com/docs/api-reference/chat/create#chat-create-messages>`_.
    * - **POST**
      - ``model``
      - ``string``
-     - deprecated
-     - The ID of the model to use.
+     - застарілий
+     - Ідентифікатор моделі для використання.
    * - **POST**
      - ``frequency_penalty``
      - ``integer``
-     - optional
-     - Number between -2.0 and 2.0. Positive values penalize new tokens based on
-       their existing frequency in the text so far, decreasing the model's
-       likelihood to repeat the same line verbatim.
+     - необов'язковий
+     - Число від -2.0 до 2.0. Позитивні значення штрафують нові лексеми на основі їхньої вже наявної частоти в тексті, 
+       зменшуючи ймовірність того, що модель буде дослівно повторювати один і той самий рядок.
    * - **POST**
      - ``logit_bias``
      - ``map``
-     - optional
-     - Modify the likelihood of specified tokens appearing in the completion.
-       Accepts a JSON object that maps tokens (specified by their token ID in
-       the tokenizer) to an associated bias value from -100 to 100.
-       Mathematically, the bias is added to the logits generated by the model
-       prior to sampling. The exact effect will vary per model, but values
-       between -1 and 1 should decrease or increase likelihood of selection;
-       values like -100 or 100 should result in a ban or exclusive selection of
-       the relevant token.
+     - необов'язковий
+     - Змінити ймовірність появи вказаних токенів у завершенні. Приймається JSON-об'єкт, який зіставляє токени 
+       (вказані за їх ідентифікатором в токенізаторі) з відповідним значенням зсуву від -100 до 100. Математично, 
+       зсув додається до логів, згенерованих моделлю перед вибіркою. Точний ефект залежить від моделі, але значення 
+       від -1 до 1 повинні зменшувати або збільшувати ймовірність відбору; значення -100 або 100 
+       повинні призводити до заборони або виключного відбору відповідного токена.
    * - **POST**
      - ``logprobs``
      - ``bool``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``top_logprobs``
      - ``integer``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``max_tokens``
      - ``integer``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``n``
      - ``integer``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``presence_penalty``
      - ``float``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``response_format``
@@ -323,57 +310,57 @@ Request
    * - **POST**
      - ``seed``
      - ``integer``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``stop``
      - ``string``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``stream``
      - ``bool``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``stream_options``
      - ``object``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``temperature``
      - ``float``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``top_p``
      - ``float``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``tools``
      - ``array``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``tool_choice``
      - ``string``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``user``
      - ``string``
-     - optional
+     - необов'язковий
      -
 
-Response
---------
+Відповідь
+---------
 
 .. list-table::
    :header-rows: 1
 
-   * - Status
-     - Response
+   * - Статус
+     - Відповідь
    * - **200**
      - .. code-block::
 
@@ -404,56 +391,54 @@ Response
 
 
        ``id (string)``
-         A unique identifier for the chat completion.
+         Унікальний ідентифікатор для завершення чату.
 
        ``choices (array)``
-         A list of chat completion choices. Can be more than one if ``n`` is greater than 1.
+         Список варіантів завершення чату. Може бути більше одного, якщо ``n`` більше 1.
 
        ``created (integer)``
-         The Unix timestamp (in seconds) of when the chat completion was created.
+         Мітка часу Unix (у секундах), коли було створено завершення чату.
 
        ``model (string)``
-         The model used for the chat completion.
+         Модель, що використовується для завершення чату.
 
        ``system_fingerprint (string)``
-         This fingerprint represents the backend configuration that the model
-         runs with. Can be used in conjunction with the seed request parameter to
-         understand when backend changes have been made that might impact
-         determinism.
+         Цей відбиток представляє конфігурацію бекенда, з якою працює модель. 
+         Може використовуватися разом з параметром seed request, щоб зрозуміти, 
+         коли були внесені зміни в бекенд, які можуть вплинути на детермінізм.
 
        ``object (string)``
-         The object type, which is always ``"chat.completion"``.
+         Тип об'єкта, який завжди є ``"chat.completion"``.
 
        ``usage (object)``
-         Usage statistics for the completion request.
+         Статистика використання для запиту на завершення.
 
 -----
 
-Other Operations
-================
+Інші операції
+=============
 
-Check the usage description returned in :ref:`list_services` to know what other
-operations are supported by this OPEA Mega Service.
+Перевірте опис використання, повернутий у :ref:`list_services`, щоб дізнатися, які ще операції підтримуються цим мегасервісом OPEA.
 
 OPEA Micro Service API
 **********************
 
-OPEA Micro Service is the building block of constructing any GenAI applications.
-The API in OPEA micro service is used by developers to construct OPEA Mega
-Service like a DAG chain and is invisible for end user.
+OPEA Micro Service є будівельним блоком для побудови будь-яких додатків GenAI. 
+API мікросервісу OPEA використовується розробниками для побудови мегасервісу OPEA, 
+як ланцюжок DAG, і є невидимим для кінцевого користувача.
 
 Embedding Micro Service
 =======================
 
-The micro service is used to generate a vector representation of a given input.
+Мікросервіс використовується для генерації векторного представлення вхідних даних.
 
-Request
--------
+Запит
+-----
 
 .. list-table::
    :header-rows: 1
 
-   * - Method
+   * - Метод
      - URL
    * - **POST**
      - ``/v1/embeddings``
@@ -461,51 +446,48 @@ Request
 .. list-table::
    :header-rows: 1
 
-   * - Type
-     - Parameters
-     - Values
-     - Required
-     - Description
+   * - Тип
+     - Параметри
+     - Значення
+     - Потрібно
+     - Опис
    * - **POST**
      - ``input``
      - ``string``
-     - required
-     - Input text to embed, encoded as a string or array of tokens. To
-       embed multiple inputs in a single request, pass an array of strings or
-       array of token arrays. The input must not exceed the max input tokens for
-       the model (8192 tokens for text-embedding-ada-002), cannot be an empty
-       string, and any array must be 2048 dimensions or less
+     - необхідний
+     - Введіть текст для вбудовування, закодований у вигляді рядка або масиву токенів.
+       Щоб вбудувати кілька вхідних даних в один запит, передайте масив рядків або масив масивів токенів. 
+       Вхідні дані не повинні перевищувати максимальну кількість вхідних токенів для моделі (8192 токени для text-embedding-ada-002), 
+       не можуть бути порожнім рядком, а будь-який масив повинен мати розмірність 2048 або менше
    * - **POST**
      - ``model``
      - ``string``
-     - required
-     - The ID of the model to use.
+     - необхідний
+     - Ідентифікатор моделі для використання.
    * - **POST**
      - ``encoding_format``
      - ``string``
-     - optional
-     - The format to return the embeddings in. Can be either ``"float"`` or
-       ``"base64"``. Devault to ``"float"``.
+     - необов'язковий
+     - Формат, у якому потрібно повернути вбудовування. Може бути як ``"float"``, так і ``"base64"``. За замовчуванням - ``"float"``.
    * - **POST**
      - ``dimensions``
      - ``integer``
-     - optional
-     - The number of dimensions the resulting output embeddings should have. 
+     - необов'язковий
+     - Кількість вимірів, які повинні мати результуючі вихідні вкладення. 
    * - **POST**
      - ``user``
      - ``string``
-     - optional
-     - A unique identifier representing your end-user, which can help OpenAI to
-       monitor and detect abuse.
+     - необов'язковий
+     - Унікальний ідентифікатор, що представляє вашого кінцевого користувача, який може допомогти OpenAI відстежувати та виявляти зловживання.
 
-Response
---------
+Выдповідь
+---------
 
 .. list-table::
    :header-rows: 1
 
-   * - Status
-     - Response
+   * - Статус
+     - Відповідь
    * - **200**
      - .. code-block::
 
@@ -530,24 +512,24 @@ Response
 
 
        ``embedding (list of float)``
-         The vector representation for given inputs.
+        Векторне представлення для заданих вхідних даних.
    * - **405**
      - ``{"error": "The request of getting embedding vector fails."}``
 
 -----
 
-LLM Generation Micro Service
-============================
+Мікросервіс LLM Generation
+==========================
 
-The micro service is used to provide LLM generation service.
+Мікросервіс використовується для надання послуги генерації LLM.
 
-Request
--------
+Запит
+-----
 
 .. list-table::
    :header-rows: 1
 
-   * - Method
+   * - Метод
      - URL
    * - **POST**
      - ``/v1/chat/completions``
@@ -555,162 +537,160 @@ Request
 .. list-table::
    :header-rows: 1
 
-   * - Type
-     - Parameters
-     - Values
-     - Required
-     - Description
+   * - Тип
+     - Параметри
+     - Значення
+     - Потрібно
+     - Опис
    * - **POST**
      - ``message``
      - ``array``
-     - required
-     - A list of messages comprising the conversation so far. Example Python code.
+     - необхідний
+     - Список повідомлень, що складають розмову на даний момент. Приклад коду на Python.
    * - **POST**
      - ``model``
      - ``string``
-     - required
-     - The ID of the model to use. See the model endpoint compatibility table
-       for details on which models work with the Chat API.
+     - необхідний
+     - Ідентифікатор моделі для використання. Детальніше про те, які моделі працюють з API чату, дивіться у таблиці сумісності кінцевих точок моделей.
    * - **POST**
      - ``frequency_penalty``
      - ``float``
-     - optional
-     - Number between -2.0 and 2.0. Positive values penalize new tokens based on
-       their existing frequency in the text so far, decreasing the model's
-       likelihood to repeat the same line verbatim.
+     - необов'язковий
+     - Число від -2.0 до 2.0. Позитивні значення штрафують нові лексеми на основі їхньої вже наявної частоти в тексті, 
+       зменшуючи ймовірність того, що модель буде дослівно повторювати один і той самий рядок.
    * - **POST**
      - ``logit_bias``
      - ``map``
-     - optional
-     - Modify the likelihood of specified tokens appearing in the
-       completion.Accepts a JSON object that maps tokens (specified by their
-       token ID in the tokenizer) to an associated bias value from -100 to 100.
-       Mathematically, the bias is added to the logits generated by the model
-       prior to sampling. The exact effect will vary per model, but values
-       between -1 and 1 should decrease or increase likelihood of selection;
-       values like -100 or 100 should result in a ban or exclusive selection of
-       the relevant token.
+     - необов'язковий
+     - Змінює ймовірність появи вказаних токенів в
+       завершенні. Приймає JSON-об'єкт, який зіставляє токени (визначені за 
+       ідентифікатором токена в токенізаторі) з відповідним значенням зсуву від -100 до 100.
+       Математично, зсув додається до логів, згенерованих моделлю
+       перед вибіркою. Точний ефект залежить від моделі, але значення
+       від -1 до 1 повинні зменшувати або збільшувати ймовірність відбору;
+       значення на кшталт -100 або 100 повинні призвести до заборони або виключного відбору
+       відповідного токена.
    * - **POST**
      - ``logprobs``
      - ``bool``
-     - optional
-     - Whether to return log probabilities of the output tokens or not. If true,
-       returns the log probabilities of each output token returned in the
-       content of message.
+     - необов'язковий
+     - Повертає лог ймовірностей виведених токенів чи ні. Якщо true,
+       повертає лог ймовірності кожної вихідної лексеми, що повертається у
+       вмісті повідомлення.
    * - **POST**
      - ``top_logprobs``
      - ``integer``
-     - optional
-     - An integer between 0 and 20 specifying the number of most likely tokens
-       to return at each token position, each with an associated log
-       probability. ``logprobs`` must be set to true if this parameter is used.
+     - необов'язковий
+     - Ціле число від 0 до 20, що вказує кількість найбільш ймовірних токенів
+       повернеться у кожній позиції токенів, кожна з яких має відповідну лог
+       ймовірністю. Якщо використовується цей параметр, значення ``logprobs`` має бути рівним true.
    * - **POST**
      - ``max_tokens``
      - ``integer``
-     - optional
-     - The maximum number of tokens that can be generated in the chat
-       completion.The total length of input tokens and generated tokens is
-       limited by the model's context length. Example Python code for counting
-       tokens.
+     - необов'язковий
+     - Максимальна кількість токенів, яку можна згенерувати в чаті
+       Загальна довжина вхідних токенів та згенерованих токенів
+       обмежена довжиною контексту моделі. Приклад коду на Python для підрахунку
+       токенів.
    * - **POST**
      - ``n``
      - ``integer``
-     - optional
-     - How many chat completion choices to generate for each input message. Note
-       that you will be charged based on the number of generated tokens across
-       all of the choices. Keep n as 1 to minimize costs.
+     - необов'язковий
+     - Скільки варіантів завершення чату генерувати для кожного вхідного повідомлення. Зверніть увагу
+       що з вас буде стягуватися плата на основі кількості згенерованих токенів за всіма
+       всіх варіантів. Щоб мінімізувати витрати, залиште n рівним 1.
    * - **POST**
      - ``presence_penalty``
      - ``float``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``response_format``
      - ``object``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``seed``
      - ``integer``
-     - optional
-     - This feature is in Beta. If specified, our system will make a best effort
-       to sample deterministically, such that repeated requests with the same
-       seed and parameters should return the same result. Determinism is not
-       guaranteed, and you should refer to the ``system_fingerprint`` response
-       parameter to monitor changes in the backend.
+     - необов'язковий
+     - Ця функція знаходиться в бета-версії. Якщо її вказати, наша система докладе максимум зусиль
+       зробити вибірку детерміновано, так що повторні запити з однаковими
+       параметрами повинні повертати однаковий результат. Детермінованість не гарантується
+       гарантується, і вам слід звернутися до параметра ``system_fingerprint`` відповіді
+       для відстеження змін у бекенді.
    * - **POST**
      - ``service_tier``
      - ``string``
-     - optional
-     - Specifies the latency tier to use for processing the request. This
-       parameter is relevant for customers subscribed to the scale tier
-       service. If set to ``"auto"``, the system will utilize scale tier credits
-       until they are exhausted. If set to ``"default"``, the request will be
-       processed using the default service tier with a lower uptime SLA and no
-       latency guarentee. When this parameter is set, the response body will
-       include the ``service_tier`` utilized.
+     - необов'язковий
+     - Вказує рівень затримки для обробки запиту. Цей
+       параметр актуальний для клієнтів, які підписані на послугу
+       послугу. Якщо встановлено значення ``auto``, система використовуватиме кредити на рівні шкали
+       поки вони не будуть вичерпані. Якщо встановлено значення ``default``, запит буде
+       буде оброблено з використанням рівня обслуговування за замовчуванням з нижчим рівнем SLA і без
+       без гарантії затримки. Коли цей параметр задано, тіло відповіді буде
+       міститиме використаний ``service_tier``.
    * - **POST**
      - ``stop``
      - ``string``
-     - optional
-     - Up to 4 sequences where the API will stop generating further tokens.
+     - необов'язковий
+     - До 4 послідовностей, після яких API припиняє генерувати подальші токени.
    * - **POST**
      - ``stream``
      - ``bool``
-     - optional
-     - If set, partial message deltas will be sent, like in ChatGPT. Tokens will
-       be sent as data-only server-sent events as they become available, with
-       the stream terminated by a data: ``[DONE]`` message. Example Python code.
+     - необов'язковий
+     - Якщо встановлено, буде надіслано часткові дельти повідомлень, як у ChatGPT. Токени будуть
+       надсилатимуться як серверні події, що містять лише дані, коли вони стануть доступними, з
+       потік завершуватиметься повідомленням data: ``[DONE]`` повідомленням. Приклад коду на Python.
    * - **POST**
      - ``stream_options``
      - ``object``
-     - optional
-     - Options for streaming response. Only set this when you set ``"stream": "true"``.
+     - необов'язковий
+     - Параметри для потокової відповіді. Встановлюйте цей параметр лише тоді, коли ви встановили ``«stream»: «true"``.
    * - **POST**
      - ``temperature``
      - ``float``
-     - optional
-     - What sampling temperature to use, between 0 and 2. Higher values like 0.8
-       will make the output more random, while lower values like 0.2 will make
-       it more focused and deterministic. We generally recommend altering this or
-       ``top_p`` but not both.
+     - необов'язковий
+     - Яку температуру відбору проб використовувати, від 0 до 2. Вищі значення, наприклад, 0.8
+       зроблять результат більш випадковим, тоді як менші значення, наприклад, 0.2, зроблять
+       його більш цілеспрямованим і детермінованим. Зазвичай ми рекомендуємо змінювати цей параметр або ``top_p``, але не обидва.
    * - **POST**
      - ``top_p``
      - ``float``
-     - optional
-     - An alternative to sampling with temperature, called nucleus sampling,
-       where the model considers the results of the tokens with ``top_p``
-       probability mass. So 0.1 means only the tokens comprising the top 10%
-       probability mass are considered. We generally recommend altering this or
-       ``temperature`` but not both.
+     - необов'язковий
+     - Альтернатива вибірці за температурою, яка називається вибіркою за ядром,
+       де модель розглядає результати токенів з ``top_p``
+       масою ймовірності. Таким чином, 0.1 означає, що розглядаються тільки токени, що складають верхні 10% імовірнісної
+       ймовірнісної маси розглядаються тільки токени, що складають верхні 10%. Зазвичай ми рекомендуємо змінювати цей параметр або
+       ``temperature``, але не обидва.
    * - **POST**
      - ``tools``
      - ``array``
-     - optional
-     - A list of tools the model may call. Currently, only functions are
-       supported as a tool. Use this to provide a list of functions the model
-       may generate JSON inputs for. A max of 128 functions are supported.
+     - необов'язковий
+     - Список інструментів, які може викликати модель. Наразі підтримуються лише функції
+        як інструменти. Використовуйте це, щоб надати список функцій, для яких модель
+       може генерувати вхідні дані у форматі JSON. Підтримується максимум 128 функцій.
    * - **POST**
      - ``tool_choice``
      - ``string``
-     - optional
-     - Controls which (if any) tool is called by the model. ``"none"`` means the model
-       will not call any tool and instead generates a message. ``"auto"`` means the
-       model can pick between generating a message or calling one or more tools.
-       required means the model must call one or more tools. Specifying a
-       particular tool via 
-       ``{"type": "function", "function": {"name": "my_function"}}`` forces the
-       model to call that tool. ``"none"`` is the default when no tools are present.
-       ``"auto"`` is the default if tools are present.
+     - необов'язковий
+     - Контролює, який інструмент (якщо такий є) викликається моделлю. ``«none»`` означає, що модель
+       не буде викликати жодного інструменту, а натомість згенерує повідомлення. ``«auto»`` означає, що
+       модель може вибирати між створенням повідомлення та викликом одного або декількох інструментів.
+       required означає, що модель повинна викликати один або декілька інструментів. Вказівка конкретного
+       конкретного інструменту через 
+       ``{«type»: «function», “function”: {«name»: «my_function"}}`` змушує
+       модель викликати цей інструмент. ``«none»`` - значення за замовчуванням, якщо інструменти відсутні.
+       ``«auto»`` - за замовчуванням, якщо інструменти присутні.
 
-Response
---------
+
+Відповідь
+---------
 
 .. list-table::
    :header-rows: 1
 
-   * - Status
-     - Response
+   * - Статус
+     - Відповідь
    * - **200**
      - .. code-block::
 
@@ -745,15 +725,15 @@ Response
 ASR Micro Service
 =================
 
-The micro service is used to provide audio to text service.
+Мікросервіс використовується для надання послуги «аудіо в текст».
 
-Request
--------
+Запит
+-----
 
 .. list-table::
    :header-rows: 1
 
-   * - Method
+   * - Метод
      - URL
    * - **POST**
      - ``/v1/asr``
@@ -761,35 +741,35 @@ Request
 .. list-table::
    :header-rows: 1
 
-   * - Type
-     - Parameters
-     - Values
-     - Required
-     - Description
+   * - Тип
+     - Параметри
+     - Значення
+     - Потрібно
+     - Опис
    * - **POST**
      - ``url``
      - ``docarray.AudioUrl``
-     - optional
-     - The link to the audio.
+     - необов'язковий
+     - Посилання на аудіо.
    * - **POST**
      - ``model_name_or_path``
      - ``string``
-     - optional
-     - The model used to do audio-to-text translation.
+     - необов'язковий
+     - Модель, що використовується для перекладу з аудіо на текст.
    * - **POST**
      - ``Language``
      - ``string``
-     - optional
-     - The language that model prefer to detect. Default is ``"auto"``.
+     - необов'язковий
+     - Мова, яку модель вважає за краще визначати. За замовчуванням ``«auto»``.
 
-Response
---------
+Відповідь
+---------
 
 .. list-table::
    :header-rows: 1
 
-   * - Status
-     - Response
+   * - Статус
+     - Сідповідь
    * - **200**
      - .. code-block::
 
@@ -804,17 +784,16 @@ Response
 RAG Retrieval Micro Service
 ===========================
 
-The micro service is used to provide RAG retrieval service. It’s usually after
-embedding micro sevice and before RAG reranking micro service to build a RAG
-Mega service.
+Мікросервіс використовується для надання послуги пошуку RAG. Зазвичай це відбувається після
+вбудовування мікросервісу і перед переранжуванням RAG мікросервісу для створення RAG мега-сервісу.
 
-Request
--------
+Запит
+-----
 
 .. list-table::
    :header-rows: 1
 
-   * - Method
+   * - Метод
      - URL
    * - **POST**
      - ``/v1/rag_retrieval``
@@ -822,30 +801,30 @@ Request
 .. list-table::
    :header-rows: 1
 
-   * - Type
-     - Parameters
-     - Values
-     - Required
-     - Description
+   * - Тип
+     - Параметри
+     - Значення
+     - Потрібно
+     - Опис
    * - **POST**
      - ``text``
      - ``string``
-     - required
-     - The input string to query.
+     - необхідний
+     - Вхідний рядок для запиту.
    * - **POST**
      - ``embedding``
      - ``list of float``
-     - required
-     - The list of float for text as vector representation.
+     - необхідний
+     - Список float для тексту у вигляді векторного представлення.
 
-Response
---------
+Відповідь
+---------
 
 .. list-table::
    :header-rows: 1
 
-   * - Status
-     - Response
+   * - Статус
+     - Відповідь
    * - **200**
      - .. code-block::
 
@@ -866,16 +845,16 @@ Response
 RAG Reranking Micro Service
 ===========================
 
-The micro service is used to provide RAG reranking service. It’s usually after
-RAG retrieval and before LLM generation micro service.
+Мікросервіс використовується для надання послуги RAG-переранжування. Зазвичай це відбувається після
+отримання RAG і перед мікросервісом генерації LLM.
 
-Request
--------
+Запит
+-----
 
 .. list-table::
    :header-rows: 1
 
-   * - Method
+   * - Метод
      - URL
    * - **POST**
      - ``/v1/rag_reranking``
@@ -883,35 +862,35 @@ Request
 .. list-table::
    :header-rows: 1
 
-   * - Type
-     - Parameters
-     - Values
-     - Required
-     - Description
+   * - Тип
+     - Параметри
+     - Значення
+     - Потрібен
+     - Опис
    * - **POST**
      - ``retrieved_docs``
      - ``list of string``
-     - required
-     - The docs to be retreived.
+     - необхідний
+     - Документи, які потрібно забрати.
    * - **POST**
      - ``initial_query``
      - ``string``
-     - required
-     - The string to query.
+     - необхідний
+     - Рядок для запиту.
    * - **POST**
      - ``json_encoders``
      - ``list of float``
-     - required
-     - The json encoder used.
+     - необхідний
+     - Використаний кодер json.
 
-Response
---------
+Відповідь
+---------
 
 .. list-table::
    :header-rows: 1
 
-   * - Status
-     - Response
+   * - Статус
+     - Відповідь
    * - **200**
      - .. code-block::
 

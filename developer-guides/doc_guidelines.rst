@@ -1,25 +1,21 @@
 .. _doc_guidelines:
 
-Documentation Guidelines
-########################
+Керівництво з документації
+##########################
 
-OPEA Project content is written using the `markdown`_ (``.md``) with `MyST extensions`_ and `reStructuredText`_ markup
-language (``.rst``) with `Sphinx extensions`_, and processed
-using `Sphinx`_ to create a formatted stand-alone website.  Developers can
-view this content either in its raw form as ``.md`` and ``.rst`` markup files, or (with
-Sphinx installed) they can build the documentation using the Makefile
-(on Linux systems) to generate the HTML content. The HTML content can then be
-viewed using a web browser. These ``.md`` and ``.rst`` files are maintained in
-the project's GitHub repos and processed to create the
-`OPEA Project documentation`_ website.
+Вміст проекту OPEA записується за допомогою мови `markdown`_ (``.md``) з розширеннями `MyST`_ та розмітки `reStructuredText`_,
+а також обробляється за допомогою мови `Sphinx`_ для створення відформатованого автономного веб-сайту.  Розробники можуть
+переглядати цей вміст або у сирому вигляді як файли розмітки ``.md`` і ``.rst``, або зі встановленим
+Sphinx вони можуть зібрати документацію за допомогою Makefile (у системах Linux) для створення HTML-контенту. Потім вміст HTML можна
+переглянути за допомогою веб-браузера. Ці файли ``.md`` і ``.rst`` зберігаються у
+репозиторіях проекту на GitHub і обробляються для створення на сайті
+``Документація проекту OPEA``.
 
-.. note:: While GitHub supports viewing `.md` and `.rst` content with your browser on the
-   `github.com` site, markdown and reST extensions are not recognized there, so the
-   best viewing experience is through the `OPEA Project documentation`_ github.io
-   website.
+.. Примітка:: Хоча GitHub підтримує перегляд вмісту `.md` і `.rst` за допомогою браузера на сайті `github.com`,
+   розширення markdown і reST там не розпізнаються, 
+   тому найкращий досвід перегляду - через сайт `Документація проекту OPEA`_ github.io.
 
-You can read details about `reStructuredText`_ and `Sphinx extensions`_, and
-`markdown`_ and `MyST extensions`_ from their respective websites.
+Детальніше про розширення `reStructuredText`_ і `Sphinx`_, а також `markdown`_ і `MyST`_ ви можете прочитати на їхніх відповідних веб-сайтах.
 
 .. _MyST extensions: https://mystmd.org/guide/quickstart-myst-markdown
 .. _Sphinx extensions: https://www.sphinx-doc.org/en/stable/contents.html
@@ -29,40 +25,28 @@ You can read details about `reStructuredText`_ and `Sphinx extensions`_, and
 .. _OPEA Project documentation:  https://opea-project.github.io
 .. _markdown: https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
 
-This document provides a quick reference for commonly used markdown and reST
-with MyST and Sphinx-defined directives and roles used to create the documentation
-you're reading.
+У цьому документі надається короткий довідник по загальновживаним markdown і reST з директивами і ролями, визначеними MyST і Sphinx, які використовуються для створення документації, яку ви читаєте.
 
-Markdown vs. RestructuredText
-*****************************
+Markdown проти RestructuredText
+*******************************
 
-Both markdown and ReStructureText (reST) let you create individual documentation files that
-GitHub can render when viewing them in your browser on github.com. Markdown is
-popular because of it's familarity with developers and is the default markup
-language for StackOverflow, Reddit, GitHub, and others.  ReStructuredText came
-from the Python community in 2001 and became noticed outside that
-community with the release of Sphinx in 2008.  These days, reST is supported by GitHub
-and major projects use it for their documentation, including the Linux kernel,
-OpenCV and LLVM/Clang.
+І markdown, і ReStructureText (reST) дозволяють створювати окремі файли документації, які GitHub може відображати при перегляді у браузері на github.com.
+Markdown популярний завдяки своїй звичності для розробників і є мовою розмітки за замовчуванням для StackOverflow, Reddit, GitHub та інших.
+ReStructuredText з'явився у спільноті Python у 2001 році і став відомим за межами цієї спільноти з виходом Sphinx у 2008 році.
+Сьогодні reST підтримується GitHub, і великі проекти використовують його для своєї документації, включаючи ядро Linux, OpenCV і LLVM/Clang.
 
-ReStructuredText is more fully-featured, much more standardized and uniform, and
-has built-in support for extensions.  The markdown language has no standard way
-to implement complete documentation systems and doesnt have a standard extension
-mechanism, which leads to many different "flavors" of markdown. If you stick to
-the core and common markdown syntax (headings, paragraphs, lists, and such),
-using markdown is just fine.  However, slipping in raw HTML to do formatting
-(such as centering) or using HTML for tables creates problems when publishing to the
-https://opea-project.github.io site. The MyST parser provides extensions to
-markdown that integrated well with Sphinx, so we use this as a bridge for the
-markdown content within the OPEA project.
+ReStructuredText є більш повнофункціональною, набагато більш стандартизованою та уніфікованою, а також має вбудовану підтримку розширень.
+Мова розмітки не має стандартного способу реалізації повноцінних систем документації і не має стандартного механізму розширень,
+що призводить до появи безлічі різних "смаків" розмітки. Якщо ви дотримуєтесь ядра та загального синтаксису розмітки (заголовки, абзаци, списки тощо),
+використання розмітки є цілком нормальним. Однак, використання сирого HTML для форматування (наприклад, вирівнювання по центру)
+або використання HTML для таблиць створює проблеми при публікації на сайті https://opea-project.github.io. 
+арсер MyST надає розширення для markdown, які добре інтегруються зі Sphinx, тому ми використовуємо його як місток для вмісту markdown в рамках проекту OPEA.
 
+У документації OPEA ми використовуємо як файли markdown, так і файли reST для документації "листів".
+Ми покладаємося на reST для організації стовбура та гілок документації, використовуючи директиви reST toctree.
 
-Within the OPEA documentation, we use both markdown and reST files for the
-documentation "leaves".  We rely on reST for the documentation organization trunk and
-branches, through the use of the reST toctree directives.
-
-Documentation Organization
-**************************
+Організація документації
+************************
 
 Documentation is maintained and updated the same as the project's code within
 the opea-project GitHub repos. There are many ``README.md`` files within the various
@@ -80,32 +64,28 @@ directives of their own, ultimately collecting all the content into an
 organizational structure you can navigate.
 
 
-Headings
-********
+Заголовки
+*********
 
 .. tabs::
 
    .. group-tab:: reST
 
-        In reST, document sections are identified through their heading titles, indicated with
-        an underline below the title text.  (While reST allows use of both and
-        overline and matching underline to indicate a heading, we use only an
-        underline indicator for headings.)  For consistency in our documentation, we
-        define the order of characters used to indicate the nested levels in the
-        table of contents:
+        У reST розділи документа ідентифікуються через їхні заголовки, виділені підкресленням під текстом заголовка.
+        (Хоча reST дозволяє використовувати для позначення заголовків як підкреслення, так і відповідне підкреслення, ми використовуємо для заголовків лише підкреслення).
+        Для узгодженості в нашій документації ми визначаємо порядок символів, що використовуються для позначення вкладених рівнів у змісті:
 
-        * Use ``#`` for the Document title underline character (H1)
-        * Use ``*`` for the First sub-section heading level (H2)
-        * Use ``=`` for the Second sub-section heading level (H3)
-        * Use ``-`` for the Third sub-section heading level (H4)
+        * Використовуй ``#`` для символу підкреслення назви документа (H1)
+        * Використовуй ``*`` для рівня заголовка першого підрозділу (H2)
+        * Використовуй ``=`` для рівня заголовків другого підрозділу (H3)
+        * Використовуй ``-`` для рівня заголовків третього підрозділу (H4)
 
-        Additional heading-level depth is discouraged, but if needed, use ``%``
-        (H5), ``+`` (H6), and ``@`` (H7).
+        Додаткова глибина на рівні заголовка не рекомендується, але якщо це необхідно,
+        використовуй ``%`` (H5), ``+`` (H6), and ``@`` (H7).
 
-        The heading underline must be at least as long as the title it's under.
+        Підкреслення заголовка має бути щонайменше таким же довгим, як і заголовок, під яким воно знаходиться.
 
-        Here's an example of nested heading levels and the appropriate
-        underlines to use:
+        Ось приклад вкладених рівнів заголовків і відповідних підкреслень для використання:
 
         .. code-block:: rest
 
@@ -133,13 +113,12 @@ Headings
 
    .. group-tab:: markdown
 
-      In markdown, headings are indicated as a line beginning with a ``#``
-      character, with additional ``#`` characters indicating a deeper heading
-      level, e.g., ``#`` for H1 (title), ``##`` for H2 headings, ``###`` for H3
-      headings, and so on.)
+      У markdown заголовки вказуються у вигляді рядка, що починається з символу ``#``
+      з додатковими символами ``#``, що вказують на більш глибокий рівень заголовка
+      рівень, наприклад, ``#`` для H1 (заголовок), ``##`` для заголовків H2, ``###`` для заголовків H3
+      і так далі.
 
-      * The ``#`` character for a heading must be the first character on the
-        line, then a space, followed by the heading.  For example::
+      * Символ ``#`` для заголовка повинен бути першим символом у рядку, потім пробіл, а потім заголовок. Наприклад::
 
            # My Document's Title
 
@@ -149,125 +128,100 @@ Headings
 
            Some more content
 
-      * There must be only one ``#`` H1 heading at the beginning of the document
-        indicating the document's title.
-      * You must not skip heading levels on the way down in the document
-        hierarchy, e.g., do not go from a H1 ``#`` to an H3 ``###`` without an
-        intervening H2 ``##``. You may skip heading levels on the way back up,
-        for example, from an H4 ``####`` back up to an H2 ``##`` as appropriate.
+      * На початку документа має бути лише один заголовок ``#`` H1, який вказує на назву документа.
+      * Ви не повинні пропускати рівні заголовків на шляху вниз в ієрархії документа, наприклад, не переходити від H1 ``#`` до H3 ``###`` без проміжного H2 ``##``.
+        Ви можете пропускати рівні заголовків на зворотному шляху, наприклад, від H4 ``####`` до H2 ``##``, якщо це доречно.
 
 
+Виділення вмісту
+****************
 
+Кілька поширених прикладів reST і вбудованої розмітки markdown:
 
-Content Highlighting
-********************
-
-Some common reST and markdown inline markup samples:
-
-* one asterisk: ``*text*`` for emphasis (*italics*),
-* two asterisks: ``**text**`` for strong emphasis (**boldface**)
+* дода зірка: ``*text*`` для курсиву (*italics*),
+* дві зірки: ``**text**`` для виделення (**boldface**)
 
 .. tabs::
 
    .. group-tab:: reST
 
-      * two back quotes: ````text```` for ``inline code`` samples.
+      * дві зворотні лапки: ````text```` для ``inline code`` зразків.
 
-      ReST rules for inline markup try to be forgiving to account for common
-      cases of using these marks.  For example, using an asterisk to indicate
-      multiplication, such as ``2 * (x + y)`` will not be interpreted as an
-      unterminated italics section.
+      Правила ReST для вбудованої розмітки намагаються бути поблажливими, щоб врахувати поширені випадки використання цих позначок.
+      Наприклад, використання зірочки для позначення множення, наприклад, ``2 * (x + y)`` не буде інтерпретовано як нерозділений курсив.
 
    .. group-tab:: markdown
 
-      * one back quote: ```text``` for `inline code` samples.
+      * одні зворотні лапки: ```text``` для `inline code` зразків.
 
-For inline markup, the characters between
-the beginning and ending characters must not start or end with a space,
-so ``*this is italics*``, (*this is italics*)  while ``* this isn't*``
-(* this isn't*).
+Для вбудованої розмітки символи між початковим і кінцевим символами не повинні починатися або закінчуватися пробілом,
+тому ``*this is italics*``, (*це курсив*) в той час як ``* this isn't*`` (* це не курсив*).
 
-If an asterisk or back quote appears in running text and could be confused
-with inline markup delimiters, you can eliminate the confusion by adding a
-backslash (``\``) before it.
+Якщо зірочка або зворотні лапки з'являються у тексті, що виконується, і їх можна сплутати з розділювачами вбудованої розмітки,
+ви можете усунути плутанину, додавши перед ними зворотну косу риску (``\``).
 
 
-Lists
-*****
+Списки
+******
 
-For bullet lists, place an asterisk (``*``) or hyphen (``-``) at the start of
-a paragraph and indent continuation lines with two spaces.
+Для маркованих списків ставте зірочку (``*``) або дефіс (``-``) на початку абзацу і відступайте рядки продовження двома пробілами.
 
-The first item in a list (or sublist) must have a blank line before it and
-should be indented at the same level as the preceding paragraph (and not
-indented itself).
+Перший елемент списку (або підсписку) повинен мати перед собою порожній рядок і відступ на тому ж рівні, що й попередній абзац (але не сам відступ).
 
-For numbered lists
-start with a ``1.`` or ``a)`` for example, and continue with autonumbering by
-using a ``#`` sign and a ``.`` or ``)`` as used in the first list item.
-Indent continuation lines with spaces to align with the text of first
-list item:
+Для нумерованих списків
+почніть з ``1.`` or ``a)`` наприклад, і продовжуйте з автонумерацією
+користуючись знаком ``#`` и  ``.`` або ``)`` як користувалися в першому елементі списку.
+Відступайте рядки продовження пробілами для вирівнювання з текстом першого елемента списку:
 
 .. code-block:: rest
 
-   * This is a bulleted list.
-   * It has two items, the second
-     item and has more than one line of reST text.  Additional lines
-     are indented to the first character of the
-     text of the bullet list.
+   * Це маркований список.
+   * Він має два елементи, другий елемент
+     и має більше ніж одну строку reST тексту.  Додаткові строки
+     з відступом до першого символу тексту маркованого списку.
 
-   1. This is a new numbered list. If there wasn't a blank line before it,
-      it would be a continuation of the previous list (or paragraph).
-   #. It has two items too.
+   1. Це новий нумерований список. Якби перед ним не було порожнього рядка, він був би продовженням попереднього списку (або абзацу).
+   #. Він також має два пункти.
 
-   a) This is a numbered list using alphabetic list headings
-   #) It has three items (and uses autonumbering for the rest of the list)
-   #) Here's the third item.  Use consistent punctuation on the list
-      number.
+   a) Це нумерований список з використанням алфавітних заголовків 
+   #) Він має три елементи (і використовує автонумерацію для решти списку) 
+   #) Ось третій елемент. Використовуйте узгоджену пунктуацію в номері списку.
 
-   #. This is an autonumbered list (default is to use numbers starting
-      with 1).
+   #. Це список з автоматичною нумерацією (за замовчуванням використовуються номери, що починаються з 1).
 
-      #. This is a second-level list under the first item (also
-         autonumbered).  Notice the indenting.
-      #. And a second item in the nested list.
-   #. And a second item back in the containing list.  No blank line
-      needed, but it wouldn't hurt for readability.
+      #. Це список другого рівня під першим елементом (також з автонумерацією). Зверніть увагу на відступи.
+      #. І другий елемент у вкладеному списку.
+   #. І другий пункт назад у вміст списку. Порожній рядок не потрібен, але для читабельності він не зашкодить.
 
-Definition lists (with one or more terms and their definition) are a
-convenient way to document a word or phrase with an explanation.  For example,
-this reST content:
+Списки визначень (з одним або кількома термінами та їхніми визначеннями) - це зручний спосіб задокументувати слово або фразу з поясненням. Наприклад, цей вміст reST:
 
 .. code-block:: rest
 
-   The Makefile has targets that include:
+   Makefile має цілі, які включають:
 
    ``html``
-      Build the HTML output for the project
+      Створити HTML-вивід для проекту
 
    ``clean``
-      Remove all generated output, restoring the folders to a
-      clean state.
+     Видалити усі згенеровані дані, відновивши папки до чистого стану.
 
-Would be rendered as:
+Буде відображено як:
 
-   The Makefile has targets that include:
+   Makefile має цілі, які включають:
 
    html
-      Build the HTML output for the project
+     Створити HTML-вивід для проекту
 
    clean
-      Remove all generated output, restoring the folders to a
-      clean state.
+      Видалити усі згенеровані дані, відновивши папки до чистого стану.
 
-Multi-Column Lists
-******************
+Багатостовпчикові списки
+************************
 
-In reST, if you have a long bullet list of items, where each item is short, you can
-indicate that the list items should be rendered in multiple columns with a
-special ``.. rst-class:: rst-columns`` directive.  The directive will apply to
-the next non-comment element (for example, paragraph) or to content indented under
-the directive. For example, this unordered list::
+У reST, якщо ви маєте довгий маркований список елементів, де кожен елемент є коротким,
+ви можете вказати, що елементи списку слід виводити у декілька стовпчиків за допомогою спеціальної директиви ``... rst-class:: rst-columns``.
+Директива буде застосована до наступного елемента, що не містить коментарів (наприклад, абзацу), або до вмісту, відступ якого визначено директивою.
+Наприклад, цей невпорядкований список::
 
    .. rst-class:: rst-columns
 
@@ -281,7 +235,7 @@ the directive. For example, this unordered list::
    * space on
    * the page
 
-would be rendered as:
+буде виведено як:
 
 .. rst-class:: rst-columns
 
@@ -295,23 +249,20 @@ would be rendered as:
    * space on
    * the page
 
-A maximum of three columns will be displayed if you use ``rst-columns``
-(or ``rst-columns3``), and two columns for ``rst-columns2``. The number
-of columns displayed can be reduced based on the available width of the
-display window, reducing to one column on narrow (phone) screens if necessary.
+Якщо ви використовуєте ``rst-columns`` (або ``rst-columns3``), буде показано максимум три стовпчики, а якщо ``rst-columns2`` - два стовпчики.
+Кількість відображуваних стовпчиків можна зменшити залежно від доступної ширини вікна відображення,
+зменшивши до одного стовпчика на вузьких (телефонних) екранах, якщо це необхідно.
 
-.. note:: We've deprecated use of the ``hlist`` directive because it
-   misbehaves on smaller screens.
+.. note:: Ми відмовилися від використання директиви ``hlist``, оскільки вона погано працює на невеликих екранах.
 
-Tables
-******
+Таблиці
+*******
 
-There are a few ways to create tables, each with their limitations or quirks.
+Існує кілька способів створення таблиць, кожен з яких має свої обмеження або особливості.
 `Grid tables
 <http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#grid-tables>`_
-offer the most capability for defining merged rows and columns (where content
-spans multiple rows or columns, but are hard to maintain because the grid
-characters must be aligned throughout the table::
+пропонують найбільше можливостей для визначення об'єднаних рядків і стовпців
+(коли вміст охоплює кілька рядків або стовпців, але їх важко підтримувати, оскільки символи сітки мають бути вирівняні по всій таблиці)::
 
    +------------------------+------------+----------+----------+
    | Header row, column 1   | Header 2   | Header 3 | Header 4 |
@@ -326,7 +277,7 @@ characters must be aligned throughout the table::
    | body row 4             | ...        | ...      | too      |
    +------------------------+------------+----------+----------+
 
-This example would render as:
+Цей приклад буде показано як:
 
 +------------------------+------------+----------+----------+
 | Header row, column 1   | Header 2   | Header 3 | Header 4 |
@@ -341,9 +292,9 @@ This example would render as:
 | body row 4             | ...        | ...      | too      |
 +------------------------+------------+----------+----------+
 
-For reST, `List tables
+Для reST, `List tables
 <http://docutils.sourceforge.net/docs/ref/rst/directives.html#list-table>`_
-are much easier to maintain, but don't support row or column spans::
+набагато простіші в обслуговуванні, але не підтримують прольоти між рядами або колонами::
 
    .. list-table:: Table title
       :widths: 15 20 40
@@ -359,7 +310,7 @@ are much easier to maintain, but don't support row or column spans::
         - body row 2, column 2
         - body row 2, column 3
 
-This example would render as:
+Цей приклад буде показано як:
 
 .. list-table:: Table title
    :widths: 15 20 40
@@ -375,124 +326,100 @@ This example would render as:
      - body row 2, column 2
      - body row 2, column 3
 
-The ``:widths:`` parameter lets you define relative column widths.  The
-default is equal column widths. If you have a three-column table and you
-want the first column to be half as wide as the other two equal-width
-columns, you can specify ``:widths: 1 2 2``.  If you'd like the browser
-to set the column widths automatically based on the column contents, you
-can use ``:widths: auto``.
+Параметр ``:widths:`` дозволяє визначити відносну ширину стовпців. За замовчуванням ширини стовпців однакові.
+Якщо ви маєте таблицю з трьома стовпчиками і хочете, щоб перший стовпчик був удвічі меншим за інші два стовпчики однакової ширини,
+ви можете вказати ``:widths: 1 2 2``. Якщо ви хочете, щоб браузер встановив ширину стовпців автоматично на основі вмісту стовпців,
+ви можете використати ``:widths: auto``.
 
-File Names and Commands
-***********************
+
+Імена файлів і команди
+**********************
 
 .. tabs::
 
    .. group-tab:: reST
 
-      Sphinx extends reST by supporting additional inline markup elements (called
-      "roles") used to tag text with special meanings and enable output formatting.
-      (You can refer to the `Sphinx Inline Markup`_ documentation for the full
-      list).
+      Sphinx розширює reST за рахунок підтримки додаткових елементів вбудованої розмітки (так званих "ролей"), 
+      які використовуються для позначення тексту спеціальними значеннями та увімкнення форматування виводу. 
+      (Повний список можна знайти у документації `Sphinx Inline Markup`_).
 
-      For example, there are roles for marking :file:`filenames`
-      (``:file:`name```) and command names such as :command:`make`
-      (``:command:`make```).  You can also use the \`\`inline code\`\`
-      markup (double backticks) to indicate a ``filename``.
+     Наприклад, існують ролі для позначення :file:`filenames` (``:file:`name``) і назв команд, таких як :command:`make` (``:command:`make``). 
+     Ви також можете використовувати розмітку \'\'вбудований код\'\' (подвійні зворотні лапки) для позначення ``імені файлу''.
 
-      Don't use items within a single backtick, for example ```word```. Instead
-      use double backticks: ````word````.
+      Не використовуйте елементи в межах однієї зворотної мітки, наприклад, ```word```. Замість цього використовуйте подвійні бектики: ````word````.
 
    .. group-tab:: markdown
 
-      MyST extends markdown by supporting additional inline markup elements
-      (called "roles") used to tag text with special meanings and enable output
-      formatting.
+      MyST розширює можливості розмітки, підтримуючи додаткові вбудовані елементи розмітки (так звані "ролі"),
+      які використовуються для позначення тексту спеціальними значеннями та уможливлюють форматування виводу.
 
-Branch-Specific File Links
+Посилання на файли в гілці 
 **************************
 
-You can add a link in the documentation to a specific file in the GitHub tree.
-Be sure the link points to the branch for that version of the documentation. For
-example, links in the v0.8 release of the documentation should be to files in
-the v0.8 branch. Do not link to files in the main branch because files in that
-branch could change or even be deleted after the release is made.
+YВи можете додати в документацію посилання на певний файл у дереві GitHub.
+Переконайтеся, що посилання вказує на гілку для цієї версії документації.
+Наприклад, посилання у версії документації v0.8 має вказувати на файли у гілці v0.8.
+Не посилайтеся на файли в головній гілці, оскільки файли в цій гілці можуть змінитися або навіть бути видалені після випуску релізу.
 
-In reST, to make this kind of file linking possible, use a special role that
-creates a hyperlink to that file in the branch currently checked out.
+У reST, щоб зробити такий тип зв'язування файлів можливим, використовуйте спеціальну роль, яка створює гіперпосилання на цей файл у гілці, що перевіряється в даний момент.
 
-.. note:: It's assumed that the checked out version of the **docs** repo when we
-   generate the HTML documentation is the same tagged version for all the repos
-   we want to reference.
+.. Примітка:: Передбачається, що перевірена версія репозиторію **docs**, коли ми генеруємо HTML-документацію, є однаковою тегованою версією для всіх репозиторіїв, на які ми хочемо посилатися.
 
-For example, a GitHub
-link to the reST file used to create this document can be generated
-using ``:docs_blob:`developer-guides/doc_guidelines```, which will
-appear as :docs_blob:`developer-guides/doc_guidelines.rst`, a link to
-the "blob" file in the GitHub repo as displayed by GitHub. There's also an
-``:docs_raw:`developer-guides/doc_guidelines.rst``` role that will link
-to the "raw" uninterpreted file,
-:docs_raw:`developer-guides/doc_guidelines.rst`. Click these links
-to see the difference.
+Наприклад, посилання GitHub на reST-файл, використаний для створення цього документа, можна створити за допомогою ``:docs_blob:`developer-guides/doc_guidelines``,
+яке буде виглядати як :docs_blob:`developer-guides/doc_guidelines.rst``, посилання на файл "blob" у репозиторії GitHub, як це відображається GitHub.
+Існує також роль ``:docs_raw:``developer-guides/doc_guidelines.rst``, яка посилатиметься на "сирий" неінтерпретований файл, :docs_raw:``developer-guides/doc_guidelines.rst``.
+Перейдіть за цими посиланнями, щоб побачити різницю
 
-If you don't want the whole path to the file name to
-appear in the text, you use the usual linking notation to define what link text
-is shown, for example, ``:docs_blob:`Guidelines <developer-guides/doc_guidelines.rst>```
-would show up as simply :docs_blob:`Guidelines <developer-guides/doc_guidelines.rst>`.
+Якщо ви не хочете, щоб у тексті відображався весь шлях до імені файлу, використовуйте звичайну нотацію для визначення тексту посилання,
+наприклад, ``:docs_blob:`Guidelines <developer-guides/doc_guidelines.rst>``` буде показано як просто :docs_blob:`Guidelines <developer-guides/doc_guidelines.rst>`.
 
 .. _internal-linking:
 
-Internal Cross-Reference Linking
-********************************
+Внутрішнє перехресне посилання
+******************************
 
 .. tabs::
 
    .. group-tab:: reST
 
-      Traditional reST links are supported only within the current file using the
-      notation:
+      Традиційні reST-посилання підтримуються лише в межах поточного файлу за допомогою нотації:
 
       .. code-block:: rest
 
          refer to the `internal-linking`_ documentation
 
-      which renders as,
+     що виводиться як,
 
          refer to the `internal-linking`_ documentation
 
-      Note the use of a trailing underscore indicates an **outbound link**. In this
-      example, the label was added immediately before a heading, so the text that's
-      displayed is the heading text itself.
+      Зверніть увагу, що використання останнього підкреслення вказує на **вихідне посилання**. У цьому
+      прикладі мітку було додано безпосередньо перед заголовком, тому текст, який
+      відображається, є текстом самого заголовка.
 
-      With Sphinx, we can create link-references to any tagged text within
-      the project documentation.
+      За допомогою Sphinx ми можемо створювати посилання на будь-який тегований текст у проєктній документації.
 
-      Target locations within documents are defined with a label directive:
+      Розташування елементів у документах визначається за допомогою директиви label:
 
          .. code-block:: rst
 
             .. _my label name:
 
-      Note the leading underscore indicating an **inbound link**. The content
-      immediately following this label is the target for a ``:ref:`my label name```
-      reference from anywhere within the documentation set. The label **must** be
-      added immediately before a heading so that there's a natural phrase to show
-      when referencing this label (for example, the heading text).
+      Зверніть увагу на перше підкреслення, що вказує на **вхідне посилання**.
+      Вміст безпосередньо після цієї мітки є ціллю для посилання ``:ref:``ім'я моєї мітки`` з будь-якого місця у наборі документації.
+      Мітку **необхідно** додавати безпосередньо перед заголовком, щоб при посиланні на цю мітку можна було побачити природну фразу (наприклад, текст заголовка).
 
-      This directive is also used to define a label that's a reference to a URL:
+      Ця директива також використовується для визначення мітки, яка є посиланням на URL-адресу:
 
       .. code-block:: rest
 
          .. _Hypervisor Wikipedia Page:
             https://en.wikipedia.org/wiki/Hypervisor
 
-      To enable easy cross-page linking within the site, each file should have a
-      reference label before its title so that it can be referenced from another
-      file.
+      Щоб забезпечити легке перелинковування сторінок на сайті, кожен файл повинен мати мітку посилання перед назвою, щоб на нього можна було посилатися з іншого файлу.
 
-      .. note:: These reference labels must be unique across the whole site, so generic
-         names such as "samples" or "introduction" should be avoided.
+      .. Примітка:: Ці посилання повинні бути унікальними для всього сайту, тому слід уникати загальних назв, таких як "зразки" або "вступ".
 
-      For example, the top of this document's ``.rst`` file is:
+     Наприклад, верхня частина файлу ``.rst`` цього документа:
 
       .. code-block:: rst
 
@@ -501,112 +428,85 @@ Internal Cross-Reference Linking
          Documentation Guidelines
          ########################
 
-      Other ``.rst`` documents can link to this document using the
-      ``:ref:`doc_guidelines``` tag, and it will appear as :ref:`doc_guidelines`.
-      This type of internal cross-reference works across multiple files. The link
-      text is obtained from the document source, so if the title changes, the link
-      text will automatically update as well.
+      Інші ``.rst`` документи можуть посилатися на цей документ за допомогою тегу ``:ref:`doc_guidelines``, і він буде відображатися як :ref:`doc_guidelines`.
+      Цей тип внутрішніх перехресних посилань працює в декількох файлах. Текст посилання отримується з джерела документа,
+      тому при зміні заголовка автоматично оновлюється і текст посилання.
 
-      There may be times when you'd like to change the link text that's shown in the
-      generated document.  In this case, you can specify alternate text using
-      ``:ref:`alternate text <doc_guidelines>``` (renders as
-      :ref:`alternate text <doc_guidelines>`).
+      Бувають випадки, коли ви хочете змінити текст посилання, який відображається у створеному документі.
+      У цьому випадку ви можете вказати альтернативний текст за допомогою ``:ref:`альтернативний текст <doc_guidelines>``
+      (відображається як :ref:`альтернативний текст <doc_guidelines>`).
 
    .. group-tab:: markdown
 
-      TODO
+      Зробити
 
 
 
-Non-ASCII Characters
-********************
+Не-ASCII символи
+****************
 
-You can insert non-ASCII characters such as a Trademark symbol (|trade|) by
-using the notation ``|trade|``.  (It's also allowed to use the UTF-8
-characters directly.) Available replacement names are defined in an include
-file used during the Sphinx processing of the reST files.  The names of these
-replacement characters are the same as those used in HTML entities to insert
-special characters such as \&trade; and are defined in the file
-``sphinx_build/substitutions.txt`` as listed here:
+Ви можете вставляти символи не в кодуванні ASCII, наприклад, символ торговельної марки (|trade|), використовуючи позначення ``|trade|``.
+(Також дозволено використовувати символи UTF-8 безпосередньо.) Доступні назви замін визначено у включаємому файлі, який використовується під час обробки reST-файлів у Sphinx.
+Назви цих символів-замінників збігаються з тими, що використовуються у HTML-об'єктах для вставки спеціальних символів, таких як \&trade;, і визначені у файлі ``phinx_build/substitutions.txt'', як зазначено тут:
 
 .. literalinclude:: ../sphinx/substitutions.txt
    :language: rst
 
-We've kept the substitutions list small but you can add others as needed by
-submitting a change to the ``substitutions.txt`` file.
+Ми залишили невеликий список замін, але ви можете додавати інші за потреби, вносячи зміни до файлу ``substitutions.txt``.
 
-Include Content from Other Files
+Включення вмісту з інших файлів
 
-You can directly incorporate a document fragment from another file into your reST or
-markdown content by using an ``include`` directive.
+Ви можете безпосередньо включити фрагмент документа з іншого файлу до вмісту reST або розмітки за допомогою директиви ``include``.
 
-.. important:: Be aware that references to content within the included content
-   are relative to the file doing the including. For example a relative reference
-   to an image must be correct from the point-of-view of the file doing the
-   inclusion, not the point-of-view of the included file.  Also, the included
-   file must be appropriate in the current document's context at the point of
-   the directive.  If an included document fragment contains section structure,
-   the title structure must match and be consistent in context.
+.. important:: Пам'ятайте, що посилання на вміст у включеному вмісті є відносними відносно файлу, який його включає.
+   Наприклад, відносне посилання на зображення має бути коректним з точки зору файлу, що включає його, а не з точки зору включеного файлу.
+   Крім того, файл, що включається, має бути доречним у контексті поточного документа на момент застосування директиви.
+   Якщо фрагмент документа, що включається, містить структуру розділів, структура заголовків повинна відповідати і бути узгодженою з контекстом.
 
 .. tabs::
 
    .. group-tab:: reST
 
-      In reST, you incorporate content from another file using an include
-      directive. Unless options are given, the included file is parsed in the
-      current document's context::
+      У reST ви включаєте вміст з іншого файлу за допомогою директиви include. Якщо не вказано жодних параметрів, включений файл аналізується у контексті поточного документа::
 
-         Here is some text in the reST document.
+         Ось деякий текст в документі reST.
 
          .. include::  path/to/file
 
-         And now we're back to the original document after the content in the
-         included file, as if that content were directly in the current file.
+         А тепер ми повернемося до вихідного документа після вмісту у включеному файлі, так, ніби цей вміст міститься безпосередньо в поточному файлі.
 
-      You can use options to alter how the included file is processed:
+      Ви можете змінити спосіб обробки включеного файлу за допомогою опцій:
 
       \:code\: language
-         The included content is treated as a ``code-block`` with ``language``
-         highlighting.
+         Включений вміст розглядається як ``код-блок`` з підсвічуванням ``мови``.
 
       \:parser\: text
-         By default, the included content is parsed the same as the current
-         document (e.g., rst). This option specifies another parser such as
-         ``:parser: myst_parser.sphinx_`` if the included file is markdown.
+        За замовчуванням включений вміст аналізується так само, як і поточний документ (наприклад, rst). Цей параметр вказує інший синтаксичний аналізатор, наприклад ``:parser: myst_parser.sphinx_``, якщо включений файл є розміткою.
 
       \:start-after\: text
-         Only the content after the first occurance of the specified ``text`` in
-         the external file will be included.
+        Буде включено лише вміст після першого входження вказаного ``тексту`` у зовнішньому файлі.
 
       \:end-before\:
-         Only the content before the first occurance of the specified ``text``
-         in the external file will be included.
+        Буде включено лише вміст до першого входження вказаного ``тексту`` у зовнішньому файлі.
 
-      These and other options described in the `docutils include directive <https://docutils.sourceforge.io/docs/ref/rst/directives.html#including-an-external-document-fragment>`_
-      documentation.
+      Ці та інші опції описано у документації `docutils, що включає директиву <https://docutils.sourceforge.io/docs/ref/rst/directives.html#including-an-external-document-fragment>`_.
 
    .. group-tab:: markdown
 
-         MyST directives can be used to incorporate content from another file
-         into the current document as if it were part of the current document::
+         Директиви MyST можна використовувати для включення вмісту з іншого файлу в поточний документ так, ніби він є частиною поточного документа::
 
             ```{include} relativepath/to/file
             ```
 
-        The ``relativepath/to/file`` can starts with a ``/`` to indicate a path
-        starting from the root of the document directory tree (not the root of
-        the underlying file system).  You can reference files outside the
-        document tree root using ``../../`` syntax to get to the file.
+        Параметр ``relativepath/to/file`` починається з ``/``, щоб вказати шлях, який починається з кореня дерева каталогів документів (а не з кореня базової файлової системи).
+        Ви можете посилатися на файли поза коренем дерева документів, використовуючи синтаксис ``.../.../``, щоб дістатися до файлу.
 
-        You can include an external file and show it as if it were a codeblock
-        by using the ``literalinclude`` directive::
+        Ви можете включити зовнішній файл і показати його як кодовий блок за допомогою директиви ``literalinclude``::
 
            ```{literalinclude} relativepath/to/file
            ```
 
-        You can include reST content, interpreted as reST by using the
-        ``eval-rst`` directive an using the reST syntax and options for an
-        ``include`` directive, such as::
+        Ви можете включити вміст reST, інтерпретований як reST, за допомогою директиви ``eval-rst``, використовуючи синтаксис reST та опції директиви ``include``, такі як::
 
            ```{eval-rst}
            .. include:: path/to-file
@@ -615,18 +515,17 @@ markdown content by using an ``include`` directive.
            ```
 
 
-Code and Command Examples
-*************************
+Приклади кодів і команд
+***********************
 
 .. tabs::
 
    .. group-tab:: reST
 
-        Use the reST ``code-block`` directive to create a highlighted block of
-        fixed-width text, typically used for showing formatted code or console
-        commands and output.  Smart syntax highlighting is also supported (using the
-        Pygments package). You can also directly specify the highlighting language.
-        For example:
+        Використовуйте директиву reST ``code-block`` для створення виділеного блоку тексту фіксованої ширини,
+        який зазвичай використовується для показу відформатованого коду або консольних команд і виводу.
+        Підтримується також розумне підсвічування синтаксису (за допомогою пакета Pygments).
+        Ви також можете безпосередньо вказати мову підсвічування. Наприклад:
 
         .. code-block:: rest
 
@@ -640,11 +539,10 @@ Code and Command Examples
                  u32_t data;
               } __packed;
 
-        Note that there is a blank line between the ``code-block`` directive and the
-        first line of the code-block body, and the body content is indented three
-        spaces (to the first non-blank space of the directive name).
+        Зверніть увагу, що між директивою ``code-block`` і першим рядком тіла кодового блоку є порожній рядок,
+        а вміст тіла відступається на три пробіли (до першого непустого пробілу імені директиви).
 
-        This example would render as:
+        У цьому прикладі буде показано наступне:
 
         .. code-block:: c
 
@@ -657,37 +555,31 @@ Code and Command Examples
           } __packed;
 
 
-        You can specify other languages for the ``code-block`` directive, including
-        ``c``, ``python``, and ``rst``, and also ``console``, ``bash``, or ``shell``.
-        If you want no syntax highlighting, specify ``none``. For example:
+       Для директиви ``code-block`` можна вказати інші мови, зокрема ``c``, ``python`` і ``rst``,
+       а також ``console``, ``bash`` або ``hell``. Якщо ви не хочете підсвічування синтаксису, вкажіть ``none``.
+       Наприклад:
 
         .. code-block:: rest
 
            .. code-block:: none
 
-              This block of text would be styled with a background
-              and box, but with no syntax highlighting.
+              Цей блок тексту буде стилізовано за допомогою фону та рамки, але без підсвічування синтаксису.
 
-        Would display as:
+        Буде відображатися як:
 
         .. code-block:: none
 
-          This block of text would be styled with a background
-          and box, but with no syntax highlighting.
+          Цей блок тексту буде стилізовано за допомогою фону та рамки, але без підсвічування синтаксису.
 
-        There's a shorthand for writing code blocks, too: end the introductory
-        paragraph with a double colon (``::``) and indent the code block content
-        by three spaces.  On output, only one colon will appear.
+        Існує також скорочення для написання блоків коду: закінчуйте вступний абзац подвійною двокрапкою (``::``) і відступайте вміст блоку коду трьома пробілами.
+        На виході з'явиться лише одна двокрапка.
 
-        .. note:: The highlighting package makes a best guess at the type of content
-           in the block, which can lead to odd
-           highlighting in the generated output.
+        .. Примітка:: Пакет виділення робить найкраще припущення щодо типу контенту в блоці, що може призвести до дивного виділення у згенерованому виводі.
 
    .. group-tab:: markdown
 
-      In markdown, fenced code blocks are used to define code blocks.  Use three
-      backticks ``````` on the lines before and after the code block, for
-      example:
+      У markdown для визначення кодових блоків використовуються огороджені кодові блоки.  Використовуйте три
+      зворотні мітки ``````` в рядках до і після блоку коду, наприклад:
 
       .. code-block:: none
 
@@ -699,7 +591,7 @@ Code and Command Examples
          }
          ```
 
-      The rendered output would look like this:
+      Вивід буде виглядати наступним чином:
 
       .. code-block:: none
 
@@ -709,8 +601,7 @@ Code and Command Examples
             "age": 25
          }
 
-      Syntax highlighting is also supported for fenced code blocks by specifying
-      a language next to the backticks before the fenced code block:
+      Підсвічування синтаксису також підтримується для огороджених блоків коду, якщо вказати мову поруч із символом лапки перед огородженим блоком коду:
 
       .. code-block:: none
 
@@ -722,7 +613,7 @@ Code and Command Examples
          }
          ```
 
-      The rendered output would look like this:
+      Вивід буде виглядати наступним чином:
 
       .. code-block:: json
 
@@ -732,19 +623,17 @@ Code and Command Examples
             "age": 25
          }
 
-      TODO: add the list of supported languages.
+      Зробити: додати список підтримуваних мов.
 
-Images
-******
+Зображення
+**********
 
-The image file name specified is relative to the document source file. We
-recommend putting images into an ``images`` folder where the document source
-is found.  The usual image formats handled by a web browser are supported:
-JPEG, PNG, GIF, and SVG.  Keep the image size only as large as needed,
-generally at least 500 px wide but no more than 1000 px, and no more than
-250 KB unless a particularly large image is needed for clarity.
+Ім'я файлу зображення вказується відносно файлу-джерела документа. Ми рекомендуємо розміщувати зображення в папці ``images``, де знаходиться джерело документа.
+Підтримуються звичайні формати зображень, які обробляються веб-браузером: JPEG, PNG, GIF і SVG.
+Розмір зображення повинен бути настільки великим, наскільки це необхідно, як правило, не менше 500 пікселів у ширину, але не більше 1000 пікселів,
+ і не більше 250 КБ, якщо тільки для наочності не потрібне особливо велике зображення.
 
-You can also specify an URL to an image file if needed.
+Ви також можете вказати URL-адресу файлу зображення, якщо це необхідно.
 
 .. tabs::
 
@@ -765,45 +654,40 @@ You can also specify an URL to an image file if needed.
 
    .. group-tab:: markdown
 
-In markdown, images are placed in documentation using this syntax::
+У markdown, зображення розміщуються в документації з використанням такого синтаксису::
 
           ![OPEA Logo](../images/opea-horizontal-color-w200.png)
 
 
 
-Tabs, Spaces, and Indenting
-***************************
+Табуляція, пробіли та відступи
+******************************
 
-Indenting is significant in reST file content, and using spaces is preferred.
-Extra indenting can (unintentionally) change the way content is rendered, too.
-For lists and directives, indent the content text to the first non-blank space
-in the preceding line.  For example:
+Відступи є важливими для вмісту reST-файлів, тому бажано використовувати пробіли.
+Додатковий відступ може (ненавмисно) змінити спосіб відображення вмісту.
+Для списків і директив відступайте текст вмісту до першого непустого пробілу у попередньому рядку.
+Наприклад:
 
 .. code-block:: rest
 
-   * List item that spans multiple lines of text
-     showing where to indent the continuation line.
+   * Елемент списку, який охоплює кілька рядків тексту, із зазначенням місця відступу від рядка продовження.
 
-   1. And for numbered list items, the continuation
-      line should align with the text of the line above.
+   1. А для нумерованих елементів списку рядок продовження повинен бути вирівняний з текстом рядка вище.
 
    .. code-block::
 
-      The text within a directive block should align with the
-      first character of the directive name.
+      Текст у блоці директив має бути вирівняний за першим символом назви директиви.
 
-Keep the line length for documentation fewer than 80 characters to make it
-easier for reviewing in GitHub. Long lines due to URL references are an
-allowed exception.
+Не перевищуйте довжину рядка документації до 80 символів, щоб полегшити її перегляд на GitHub.
+Довгі рядки через посилання на URL-адреси є дозволеним винятком.
 
-Background Colors
-*****************
+Кольори фону
+************
 
-We've defined some CSS styles for use as background colors for paragraphs.
-These styles can be applied using the ``.. rst-class`` directive using one of
-these style names.  You can also use the defined ``centered`` style to place the
-text centered within the element, useful for centering text within a table cell
-or column span:
+Ми визначили деякі стилі CSS для використання у якості кольорів фону для абзаців.
+Ці стилі можна застосувати за допомогою директиви ``...rst-class`` з використанням однієї з цих назв стилів.
+Ви також можете використовувати визначений стиль ``centered`` для розміщення тексту по центру елемента,
+корисний для центрування тексту у комірці таблиці або діапазоні стовпців:
 
 .. rst-class:: bg-opea-lightorange centered
 
@@ -813,19 +697,17 @@ or column span:
 
    \.\. rst-class:: bg-opea-darkorange centered
 
-Drawings
-********
+Креслення
+*********
 
 .. tabs::
 
    .. group-tab:: reST
 
-      In reST, we've included the ``graphviz`` Sphinx extension to enable that
-      text description language to render drawings.  For more information, see
-      :ref:`graphviz-examples`.
+      У reST ми включили розширення ``graphviz`` Sphinx, щоб дозволити цій мові опису тексту відтворювати малюнки.
+      Докладнішу інформацію наведено на сторінці :ref:`graphviz-examples`..
 
-      We'v ealso included an extension providing ``mermaid`` support that also enables
-      that text description language to render drawings using::
+     Ми також включили розширення з підтримкою ``mermaid``, яке також дозволяє цій мові опису тексту відтворювати малюнки за допомогою::
 
          .. mermaid::
 
@@ -834,7 +716,7 @@ Drawings
               B--> A & C;
               C--> A & B;
 
-      This will be rendered into this graph drawing:
+      Це буде відображено на цьому графічному малюнку:
 
       .. mermaid::
 
@@ -843,13 +725,12 @@ Drawings
            B--> A & C;
            C--> A & B;
 
-      See the `Mermaid User Guide <https://mermaid.js.org/intro/getting-started.html>`_ for more
-      information.
+      Для отримання додаткової інформації див. `Посібник користувача Mermaid <https://mermaid.js.org/intro/getting-started.html>`_.
 
    .. group-tab:: markdown
 
-      In markdown, we've included the MyST ``mermaid`` extensions to enable that text
-      description language to render drawings using::
+      У markdown ми включили розширення MyST ``mermaid``, щоб увімкнути цю текстову
+      мову опису тексту для відображення креслень за допомогою::
 
          ```{mermaid}
          graph LR;
@@ -860,7 +741,7 @@ Drawings
            E--> B & C & D;
          ```
 
-      This will be rendered into this graph drawing:
+      Це буде відображено на цьому графічному малюнку:
 
       .. mermaid::
 
@@ -871,16 +752,14 @@ Drawings
            D--> A & E;
            E--> B & C & D;
 
-      See the `Mermaid User Guide <https://mermaid.js.org/intro/getting-started.html>`_ for more
-      information.
+      Для отримання додаткової інформації див. `Посібник користувача Mermaid <https://mermaid.js.org/intro/getting-started.html>`_.
 
-Alternative Tabbed Content
-**************************
+Альтернативний вміст вкладок
+****************************
 
-In ResST, instead of creating multiple documents with common material except for some
-specific sections, you can write one document and provide alternative content
-to the reader via a tabbed interface. When the reader clicks a tab, the
-content for that tab is displayed. For example::
+У ResST замість того, щоб створювати кілька документів зі спільним матеріалом, за винятком деяких специфічних розділів,
+ви можете написати один документ і надати читачеві альтернативний контент за допомогою інтерфейсу з вкладками.
+Коли читач натискає на вкладку, відображається вміст цієї вкладки. Наприклад::
 
    .. tabs::
 
@@ -896,7 +775,7 @@ content for that tab is displayed. For example::
 
          Oranges are orange.
 
-will display as:
+відобразиться як:
 
 .. tabs::
 
@@ -912,8 +791,7 @@ will display as:
 
       Oranges are orange.
 
-Tabs can also be grouped so that changing the current tab in one area
-changes all tabs with the same name throughout the page.  For example:
+Вкладки можна також згрупувати так, щоб зміна поточної вкладки в одній області змінювала всі однойменні вкладки на всій сторінці. Наприклад:
 
 .. tabs::
 
@@ -943,23 +821,21 @@ changes all tabs with the same name throughout the page.  For example:
 
       Windows Line 2
 
-In this latter case, we're using a ``.. group-tab::`` directive instead of
-a ``.. tab::`` directive.  Under the hood, we're using the `sphinx-tabs
-<https://github.com/djungelorm/sphinx-tabs>`_ extension that's included
-in the OPEA docs (requirements.txt)  setup.  Within a tab, you can have most
-any content *other than a heading* (code-blocks, ordered and unordered
-lists, pictures, paragraphs, and such).
+В останньому випадку ми використовуємо директиву ``... group-tab::`` замість
+директиву ``.. tab::``.  Під капотом ми використовуємо розширення `phinx-tabs
+<https://github.com/djungelorm/sphinx-tabs>`_ розширення, яке включено
+у файлі OPEA docs (requirements.txt).  У межах вкладки ви можете мати майже будь-який вміст
+будь-який вміст *крім заголовка* (кодові блоки, впорядковані та невпорядковані
+списки, зображення, абзаци тощо).
 
-Instruction Steps
-*****************
+Кроки інструкції
+****************
 
-In reST, a numbered instruction steps style makes it easy to create tutorial guides
-with clearly identified steps. Add the ``.. rst-class:: numbered-step``
-directive immediately before a second-level heading (by project convention, a
-heading underlined with asterisks ``******``, and it will be displayed as a
-numbered step, sequentially numbered within the document.  (Second-level
-headings without this ``rst-class`` directive will not be numbered.)
-For example::
+У reST стиль нумерованих кроків інструкцій дозволяє легко створювати посібники з чітко визначеними кроками.
+Додайте директиву ``...rst-class:: numbered-step`` безпосередньо перед заголовком другого рівня 
+(за правилами проекту, заголовком, підкресленим зірочками ``******``), і він буде показаний як нумерований крок, послідовно пронумерований у документі. 
+(Заголовки другого рівня без цієї директиви ``rst-class`` не нумеруватимуться).
+Наприклад::
 
    .. rst-class:: numbered-step
 
@@ -968,27 +844,23 @@ For example::
 
 .. rst-class:: numbered-step
 
-First Instruction Step
+Перший крок інструкції
 **********************
 
-This is the first instruction step material.  You can do the usual paragraph
-and pictures as you'd use in normal document writing. Write the heading to be
-a summary of what the step is (the step numbering is automated so you can move
-steps around easily if needed).
+Це перший крок інструкції. Ви можете використовувати звичайні абзаци та малюнки, як ви використовуєте при написанні звичайних документів.
+Напишіть заголовок, який має бути коротким викладом суті кроку (нумерація кроків автоматизована, тому ви можете легко переміщатися по кроках, якщо це необхідно).
 
 .. rst-class:: numbered-step
 
-Second Instruction Step
-***********************
+Другий крок інструкції
+**********************
 
-This is the second instruction step.
+Це другий крок інструкції.
 
-.. note:: As implemented,
-   only one set of numbered steps is intended per document and the steps
-   must be level 2 headings.
+.. Примітка:: Як реалізовано, для кожного документа передбачено лише один набір пронумерованих кроків, і ці кроки мають бути заголовками 2-го рівня.
 
 
-Documentation Generation
-************************
+Створення документації
+**********************
 
-For instructions on building the documentation, see :ref:`opea_doc_generation`.
+Для отримання інструкцій щодо створення документації дивиться :ref:`opea_doc_generation`.

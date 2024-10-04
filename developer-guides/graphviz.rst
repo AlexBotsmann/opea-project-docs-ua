@@ -1,17 +1,15 @@
 .. _graphviz-examples:
 
-Drawings Using Graphviz
-#######################
+Креслення за допомогою Graphviz
+###############################
 
-We support using the Sphinx `Graphviz extension`_ for creating simple
-graphs and line drawings using the dot language.  The advantage of using
-Graphviz for drawings is that the source for a drawing is a text file that
-can be edited and maintained in the repo along with the documentation.
+Ми підтримуємо використання розширення Sphinx `Graphviz`_ для створення простих графіків і лінійних малюнків за допомогою крапкової мови. 
+Перевага використання Graphviz для креслень полягає в тому, що джерелом для креслення є текстовий файл, 
+який можна редагувати і зберігати в репозиторії разом з документацією.
 
 .. _graphviz extension: http://graphviz.gitlab.io
 
-These source ``.dot`` files are generally kept separate from the document
-itself, and included by using a Graphviz directive:
+Ці вихідні ``.dot`` файли зазвичай зберігаються окремо від самого документа і включаються за допомогою директиви Graphviz:
 
 .. code-block:: none
 
@@ -20,11 +18,11 @@ itself, and included by using a Graphviz directive:
       :align: center
       :caption: Hypervisor Boot Flow
 
-where the boot-flow.dot file contains the drawing commands:
+де файл boot-flow.dot містить команди малювання:
 
 .. literalinclude:: images/boot-flow.dot
 
-and the generated output would appear as:
+і згенерований вивід матиме вигляд:
 
 .. graphviz:: images/boot-flow.dot
   :name: boot-flow-example
@@ -32,15 +30,13 @@ and the generated output would appear as:
   :caption: Hypervisor Boot Flow
 
 
-Let's look at some more examples and then we'll get into more details about
-the dot language and drawing options.
+Давайте розглянемо ще кілька прикладів, а потім більш детально поговоримо про мову крапок і параметри малювання.
 
-Simple Directed Graph
-*********************
+Простий орієнтовний граф
+************************
 
-For simple drawings with shapes and lines, you can put the Graphviz commands
-in the content block for the directive. For example, for a simple directed
-graph (digraph) with two nodes connected by an arrow, you can write:
+Для простих малюнків з фігурами та лініями ви можете помістити команди Graphviz у блок вмісту директиви. 
+Наприклад, для простого орієнтованого графа (диграфа) з двома вершинами, з'єднаними стрілкою, можна написати:
 
 
 .. code-block:: none
@@ -51,7 +47,7 @@ graph (digraph) with two nodes connected by an arrow, you can write:
           "a" -> "b"
        }
 
-and get this drawing:
+і отримаєте цей малюнок:
 
 .. graphviz::
 
@@ -60,62 +56,58 @@ and get this drawing:
    }
 
 
-You can change the following attributes:
+Ви можете змінити наступні атрибути:
 
-* Graph layout (from top-to-bottom to left-to-right)
-* Node shapes (rectangles, circles, houses, stars, etc.)
-* Style (filled, rounded)
-* Colors
-* Text displayed in the node
-* Placement of the resulting image on the page (centered)
+* Розташування графіків (зверху вниз і зліва направо)
+* Форми вузлів (прямокутники, кола, будинки, зірки тощо)
+* Стиль (заповнений, закруглений)
+* Кольори
+* Текст, що відображається у вузлі
+* Розміщення отриманого зображення на сторінці (по центру)
 
-Example: 
+Приклад: 
 
 .. literalinclude:: images/circle-square.dot
 
 .. graphviz:: images/circle-square.dot
    :align: center
 
-You can use the `standard HTML color names`_ or use RGB values for colors,
-as shown.
+Ви можете використовувати `стандартні назви кольорів HTML`_ або використовувати значення RGB для кольорів, як показано нижче.
 
 .. _standard HTML color names:
    https://www.w3schools.com/colors/colors_hex.asp
 
-Adding Edge Labels
-******************
+Додавання крайових міток
+************************
 
-Here's an example of a drawing with labels on the edges (arrows) between
-nodes. We also show how to change the default attributes for all nodes and
-edges within this graph:
+Ось приклад креслення з підписами на ребрах (стрілками) між вузлами. Ми також покажемо, як змінити атрибути за замовчуванням для всіх вершин і ребер у цьому графі:
 
 .. literalinclude:: images/node-shape-edges.dot
 
 .. graphviz:: images/node-shape-edges.dot
    :align: center
 
-Tables
-******
+Таблиці
+*******
 
-For nodes with a ``record`` shape attribute, the text of the label is
-presented in a table format:  a vertical bar ``|`` starts a new row or
-column and curly braces ``{ ... }`` specify a new row (if you're in a
-column) or a new column (if you're in a row).  For example:
+Для вузлів з атрибутом форми ``record`` текст мітки
+представлено у форматі таблиці: вертикальна риска ``|`` починає новий рядок або
+стовпець, а фігурні дужки ``{ ... }`` задають новий рядок (якщо ви знаходитесь у
+стовпця) або новий стовпець (якщо ви знаходитесь у рядку).  Наприклад:
 
 .. literalinclude:: images/record.dot
 
 .. graphviz:: images/record.dot
    :align: center
 
-Note that you can also specify the horizontal alignment of text using escape
-sequences ``\n``, ``\l``, and ``\r``, which divide the label into lines that
-are centered, left-justified, and right-justified, respectively.
+Зверніть увагу, що ви також можете вказати горизонтальне вирівнювання тексту
+за допомогою екранованих послідовностей ``\n``, ``\l`` і ``\r``, 
+які розділяють мітку на рядки, вирівняні по центру, по лівому краю і по правому краю відповідно.
 
-Finite-State Machine
-********************
+Закінчений стан машини
+**********************
 
-Here's an example of using Graphviz for defining a finite-state machine
-for pumping gas:
+Ось приклад використання Graphviz для визначення закінченого стану машини для перекачування газу:
 
 .. literalinclude:: images/gaspump.dot
 

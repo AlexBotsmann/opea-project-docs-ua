@@ -1,58 +1,53 @@
 .. _opea_doc_generation:
 
-OPEA Documentation Generation
-#############################
+Створення документації OPEA
+###########################
 
-These instructions walk you through generating the OPEA project documentation
-and publishing it to https://opea-project.github.io.  You can also use these
-instructions to generate the OPEA documentation on your local system.
+Ці інструкції допоможуть вам створити проектну документацію OPEA та опублікувати її на сайті https://opea-project.github.io.
+Ви також можете використовувати ці інструкції для створення документації OPEA у вашій локальній системі.
 
 .. contents::
    :local:
    :depth: 1
 
-Documentation Overview
-**********************
+Огляд документації
+******************
 
-OPEA project content is written using combination of markdown (``.md``) and
-reStructuredText (``.rst``) markup languages (with Sphinx extensions), and
-processed using Sphinx to create a formatted stand-alone website. Developers can
-view this content either in its raw form as .rst markup files, or you can
-generate the HTML content and view it with a web browser directly on your
-workstation. The best reading experience is by viewing the generated HTML at
-https://opea-project.github.io.
+Вміст проекту OPEA написаний з використанням комбінації мов розмітки markdown (``.md``) і reStructuredText (``.rst``) (з розширеннями Sphinx),
+і оброблений за допомогою Sphinx для створення відформатованого автономного веб-сайту.
+Розробники можуть переглядати цей вміст або в необробленому вигляді у вигляді файлів розмітки .rst, 
+або ви можете згенерувати HTML-вміст і переглянути його за допомогою веб-браузера безпосередньо на своїй робочій станції. 
+Найкращий досвід читання - це перегляд згенерованого HTML на сайті https://opea-project.github.io.
 
-You can read details about `markdown`_, `reStructuredText`_, and `Sphinx`_ from
-their respective websites.
+Детальніше про `markdown`_, `reStructuredText`_ та `Sphinx`_ ви можете прочитати на їхніх відповідних сайтах.
 
-The project's documentation contains the following items:
+Документація проекту містить наступні пункти:
 
-* ReStructuredText and markdown source files used to generate documentation found at the
-  https://opea-project.github.io website. All of the documentation sources
-  are found in the ``github.com/opea-project`` repos, rooted in the ``docs`` repo.
-  There's also documentation in the repos where the project's code is
-  maintained: ``GenAIComps``, ``GenAIEval``, ``GenAIExamples``, and ``GenAIInfra``.
+* Вихідні файли ReStructuredText і markdown, що використовуються для створення документації, можна знайти на
+  https://opea-project.github.io. Всі джерела документації
+  знаходяться у репозиторіях ``github.com/opea-project``, вкорінених у репозиторії ``docs``.
+  Також документація міститься у репозиторіях, де  підтримується код проекту: ``GenAIComps``, ``GenAIEval``, ``GenAIExamples`` і ``GenAIInfra``.
 
 .. graphviz:: images/doc-gen-flow.dot
    :align: center
    :caption: Documentation Generation Flow
 
 
-Set Up the Documentation Working Folders
-****************************************
+Налаштування робочих папок документації
+***************************************
 
-You'll need ``git`` installed to get the working folders set up:
+Вам потрібно встановити ``git``, щоб налаштувати робочі папки:
 
-* For an Ubuntu development system use:
+* Для системи розробки Ubuntu використовуйте:
 
   .. code-block:: bash
 
      sudo apt install git
 
-Here's the recommended folder setup for documentation contributions and
-generation, a parent folder called ``opea-project`` holds six locally
-cloned repos from the opea-project.  You can use a different name for the parent
-folder but the doc build process assumes the repo names are as shown here:
+Ось рекомендоване налаштування папок для внесків та генерації документації:
+батьківська папка з назвою ``opea-project`` містить шість локально клонованих репозиторіїв з opea-project.
+Ви можете використати іншу назву для батьківської теки, але процес збірки документації передбачає,
+що назви сховищ будуть такими, як показано тут:
 
 .. code-block:: none
 
@@ -64,25 +59,21 @@ folder but the doc build process assumes the repo names are as shown here:
    ├── GenAIInfra
    ├── opea-project.github.io
 
-The parent ``opea-project`` folder is there to organize the cloned repos
-from the project.  If you have repo publishing rights, we'll also be cloning the
-publishing repo opea-project.github.io later in these steps.
+Батьківська папка ``opea-project`` призначена для організації клонованих репозиторіїв з проекту.
+Якщо у вас є права на публікацію репозиторію, ми також клонуємо репозиторій публікації opea-project.github.io пізніше в цих кроках.
 
-In the following steps, you'll create a fork of all the upstream OPEA project
-repos needed to build the documentation to your personal GitHub account, clone
-your personal fork to your local development computer, and then link that to the
-upstream repo as well.  You'll only need to do this once to set up the folder
-structure:
+На наступних кроках ви створите вилку всіх репозиторіїв проекту OPEA, необхідних для створення документації, у вашому особистому акаунті GitHub, 
+клонуєте вашу особисту вилку на ваш локальний комп'ютер для розробки, а потім прив'яжете її до висхідного репозиторію. 
+Вам потрібно буде зробити це лише один раз, щоб налаштувати структуру папок:
 
-#. Use your browser to visit https://github.com/opea-project and do a
-   fork of the **docs** repo to your personal GitHub account.)
+#. За допомогою браузера перейдіть на https://github.com/opea-project і зробіть форк репозиторію **docs** до вашого особистого акаунта на GitHub.
 
    .. image:: images/opea-docs-fork.png
       :align: center
       :class: drop-shadow
 
-#. At a command prompt, create a working folder on your development computer and
-   clone your personal ``docs`` repository:
+#. У командному рядку створіть робочу папку на вашому комп'ютері для розробки та
+   клонуйте ваше персональний репозиторій ``docs``:
 
    .. code-block:: bash
 
@@ -90,20 +81,17 @@ structure:
       mkdir opea-project && cd opea-project
       git clone https://github.com/<github-username>/docs.git
 
-#. For the cloned local repo, tell git about the upstream repo:
+#. Для клонованого локального репозиторію повідомте git про попередній репозиторій:
 
    .. code-block:: bash
 
       cd docs
       git remote add upstream https://github.com/opea-project/docs.git
 
-   After that, you'll have ``origin`` pointing to your cloned personal repo and
-   ``upstream`` pointing to the project repo.
+   Після цього у вас з'явиться ``origin``, що вказує на ваш клонований особистий репозиторій, і ``upstream``, що вказує на репозиторій проєкту.
 
-#. Do the same steps (fork to your personal account, clone to your local
-   computer, and setup the git upstream remote) for the other repos containing
-   project documentation, replacing the docs.git repo name in the previous step
-   with the appropriate repo name in this list:
+#. Виконайте ті ж самі дії (розгалуження на ваш особистий акаунт, клонування на локальний комп'ютер і налаштування віддаленого доступу до git'а) для інших репозиторіїв,
+   що містять документацію проекту, замінивши назву репозиторію docs.git у попередньому кроці на відповідну назву репозиторію у цьому переліку:
 
    * GenAIComps
    * GenAIEval
@@ -111,19 +99,17 @@ structure:
    * GenAIInfra
 
 
-#. If you haven't done so already, be sure to configure git with your name
-   and email address for the ``Signed-off-by`` line in your commit messages:
+#. Якщо ви ще не зробили цього, обов'язково налаштуйте git з вашим ім'ям та адресою електронної пошти для рядка ``Підписано: by`` у ваших повідомленнях про комміти.:
 
    .. code-block:: bash
 
       git config --global user.name "David Developer"
       git config --global user.email "david.developer@company.com"
 
-Install the Documentation Tools
-*******************************
+Встановлення інструментів для документування
+********************************************
 
-Our documentation processing has been tested to run with Python 3.8.10 and
-later, and these other tools:
+Наша обробка документації була протестована для роботи з Python 3.8.10 і новіших версій, а також з цими іншими інструментами:
 
 * sphinx                    version: 7.3.0
 * docutils                  version: 0.20
@@ -133,31 +119,28 @@ later, and these other tools:
 * sphinxcontrib-mermaid     version: 0.9.2
 * pymarkdownlnt             version: 0.9.21
 
-Depending on your Linux version, install the needed tools.  You should consider
-using the `Python virtual environment`_
-tools to maintain your Python environment from being changed by other work on
-your computer.
+Залежно від версії Linux, встановіть необхідні інструменти.
+Вам слід розглянути можливість використання інструментів `Python virtual environment`_,
+щоб захистити ваше середовище Python від змін, спричинених іншими роботами на вашому комп'ютері.
 
 .. _Python virtual environment: https://https://docs.python.org/3/library/venv.html
 
-For Ubuntu, use:
+Для Ubuntu використовуйте:
 
 .. code-block:: bash
 
    sudo apt install python3-pip python3-wheel make graphviz
 
-Then use ``pip3`` to install the remaining Python-based tools specified in the
-`scripts/requirements.txt` file
+Потім за допомогою ``pip3`` встановіть решту інструментів на основі Python, зазначених у файлі ``cripts/requirements.txt``.
 
 .. code-block:: bash
 
    cd ~/opea-project/docs
    pip3 install --user -r scripts/requirements.txt
 
-Use this command to add ``$HOME/.local/bin`` to the front of your ``PATH`` so
-the system will find expected versions of these Python utilities such as
-``sphinx-build`` (you should first check whether this folder is already on your
-path):
+Використовуйте цю команду, щоб додати ``$HOME/.local/bin`` до початку вашого ``PATH``, 
+щоб система знайшла очікувані версії таких утиліт Python, 
+як ``phinx-build`` (попередньо перевірте, чи ця тека вже є у вашому шляху):
 
 .. code-block:: bash
 
@@ -165,21 +148,20 @@ path):
 
 .. important::
 
-   You will need to open a new terminal for this change to take effect.
-   Adding this to your ``~/.bashrc`` file ensures it is set by default.
+   Щоб ця зміна набула чинності, вам потрібно буде відкрити новий термінал. Додавання цього параметра до файлу ``~/.bashrc`` гарантує, що його буде встановлено за замовчуванням.
 
-And with that you're ready to generate the documentation.
+Після цього ви готові до створення документації.
 
-.. note::
+.. Примітка::
 
-   We've provided a script in the docs repo you can run to show what versions of
-   the documentation building tools are installed and compare with the tool
-   versions shown above. This tool will also verify you're using tool versions
-   known to work together::
+   Ми надали скрипт у репозиторії docs, який ви можете запустити, щоб побачити,
+   які версії інструментів для створення документації встановлено,
+   і порівняти їх з версіями інструментів, показаними вище. Цей інструмент також перевірить, 
+   чи ви використовуєте версії інструментів, які, як відомо, працюють разом::
 
       docs/scripts/show-versions.py
 
-   for example:
+   наприклад:
 
    .. code-block:: console
 
@@ -196,32 +178,27 @@ And with that you're ready to generate the documentation.
       sphinxcontrib-mermaid     version: 0.9.2
       pymarkdownlnt             version: 0.9.21
 
-Documentation Presentation Theme
-********************************
+Тема презентації документації  
+*****************************
 
-Sphinx supports easy customization of the generated HTML documentation
-appearance through the use of themes.  The ``sphinx-rtd-theme`` (Read The Docs)
-theme is installed as part of the ``requirements.txt`` list above.  Tweaks to
-the standard ``read-the-docs`` appearance are added by using CSS and JavaScript
-customization found in ``doc/_static``, and theme template overrides found in
-``doc/_templates``. If you change to another theme, you'll need to tweak
-these customizations, not something for the faint of heart.
+Sphinx підтримує просту настройку зовнішнього вигляду створеної HTML-документації за допомогою тем.
+Тема ``phinx-rtd-theme`` (Read The Docs) встановлюється як частина списку ``requirements.txt`` вище. 
+Налаштування стандартного вигляду ``read-the-docs`` додаються за допомогою CSS і JavaScript, які можна знайти у ``doc/_static``, 
+а також перевизначення шаблонів теми, які можна знайти у ``doc/_templates``. 
+Якщо ви перейдете на іншу тему, вам доведеться змінити ці налаштування, а це не для людей зі слабкими нервами.
 
-The Sphinx build system creates document cache information that attempts to
-expedite documentation rebuilds, but occasionally can cause an unexpected error
-or warning to be generated.  Doing a ``make clean`` to create a clean generation
-environment and a ``make html`` again generally fixes these issues.
+Система збирання Sphinx створює інформацію кешу документів, яка намагається прискорити відновлення документації, 
+але іноді може спричинити появу несподіваної помилки або попередження. 
+Виконання ``make clean`` для створення чистого середовища збирання і повторне виконання ``make html`` зазвичай виправляє ці проблеми.
 
 
-Run the Documentation Processors
-********************************
+Запущення процесорів документації
+*********************************
 
-The ``docs`` folder (with all cloned sibling repos) have all the doc source files,
-images, extra tools, and ``Makefile`` for generating a local copy of the OPEA
-technical documentation. It's best to start with a clean doc-build environment
-so use ``make clean`` to remove the ``_build`` working folder if it exists.  The
-``Makefile`` creates the ``_build`` folder (if it doesn't exist) and copies all
-needed files from these cloned repos into the ``_build/rst`` working folder.
+Папка ``docs`` (з усіма клонованими репозиторіями) містить усі вихідні файли doc, зображення, додаткові інструменти та
+``Makefile`` для створення локальної копії технічної документації OPEA. Найкраще починати з чистого середовища збірки документації, 
+тому скористайтеся ``make clean``, щоб вилучити робочу теку ``_build``, якщо вона існує. 
+За допомогою ``makefile`` створюється папка ``_build`` (якщо вона не існує) і копіюються всі необхідні файли з цих клонованих сховищ до робочої папки ``_build/rst``.
 
 .. code-block:: bash
 
@@ -229,58 +206,48 @@ needed files from these cloned repos into the ``_build/rst`` working folder.
    make clean
    make html
 
-Depending on your development system, it will take less a minute to collect and
-generate the HTML content.  When done, you can view the HTML output in
-``~/opea-project/docs/_build/html/index.html``.
+Залежно від вашої системи розробки, збір і генерація HTML-контенту займе менше хвилини. 
+Після завершення ви можете переглянути вихідні дані HTML у файлі ``~/opea-project/docs/_build/html/index.html``.
 
-As a convenience, there's a make target that will ``cd`` to the ``_build/html``
-folder and run a local Python web server:
+Для зручності існує ціль make, яка буде ``cd`` до папки ``_build/html`` і запустить локальний веб-сервер Python:
 
 .. code-block:: bash
 
    make server
 
-and use your web browser to open the URL:  ``http://localhost:8000``.  When
-done, press :kbd:`ctrl-C` in your command-prompt window to stop the web server.
+і відкрийте URL-адресу за допомогою веб-браузера: ``http://localhost:8000``. 
+Після цього натисніть :kbd:`ctrl-C` у вікні командного рядка, щоб зупинити веб-сервер.
 
-Publish Content
-***************
+Опублікування вмісту
+********************
 
-If you have merge rights to the opea-project repo called
-``opea-project.github.io``, you can update the public project documentation
-found at https://opea-project.github.io.
+Якщо у вас є права на об'єднання в репозиторій opea-project під назвою ``opea-project.github.io``, 
+ви можете оновити загальнодоступну документацію проекту, яку можна знайти за адресою https://opea-project.github.io.
 
-You'll need to do a one-time clone of the upstream repo (we publish
-directly to the upstream repo rather than to a personal forked copy):
+Вам потрібно буде зробити одноразовий клон висхідного репозиторію (ми публікуємо безпосередньо в висхідний репозиторій, а не в особисту форковану копію):
 
 .. code-block:: bash
 
    cd ~/opea-project
    git clone https://github.com/opea-project/opea-project.github.io.git
 
-Then, after you've verified the generated HTML produced by ``make html`` looks
-good, you can push to the publishing site with:
+Після того, як ви переконалися, що згенерований HTML, створений за допомогою ``make html``, виглядає добре, ви можете відправляти його на сайт для публікації:
 
 .. code-block:: bash
 
    make publish
 
-This uses git commands to synchronize the new content with what's
-already published and will delete files in the publishing repo's
-**latest** folder that are no longer needed. New or changed files from
-the newly-generated HTML content are pushed to the GitHub pages
-publishing repo.  The public site at https://opea-project.github.io will
-be automatically updated by the `GitHub pages system
-<https://guides.github.com/features/pages/>`_, typically within a few
-minutes.
+Він використовує команди git для синхронізації нового контенту з уже опублікованим і видаляє файли з папки **latest** репозиторію публікації, які більше не потрібні. 
+Нові або змінені файли з новоствореного HTML-контенту переміщуються до репозиторію публікацій сторінок GitHub. 
+Загальнодоступний сайт за адресою https://opea-project.github.io буде автоматично оновлений системою `GitHub pages <https://guides.github.com/features/pages/>`_, 
+зазвичай протягом декількох хвилин.
 
-Document Versioning
-*******************
 
-The https://opea-project.github.io site has a document version selector
-at the top of the left nav panel.  The contents of this version
-selector are defined in the ``conf.py`` sphinx configuration file,
-specifically something like this:
+Керування версіями документів
+*****************************
+
+На сайті https://opea-project.github.io у верхній частині лівої навігаційної панелі є селектор версій документів. 
+Вміст цього перемикача версій визначається у конфігураційному файлі ``conf.py`` сфінкса, а саме приблизно так:
 
 .. code-block:: python
    :emphasize-lines: 5-6
@@ -296,16 +263,12 @@ specifically something like this:
        }
 
 
-As new versions of OPEA documentation are added, typically when a new release is
-made, update this ``versions`` selection list to include the version number and
-publishing folder.  Note that there's no direct selection to go to a newer
-version from an older one, without going to ``latest`` first.
+У міру додавання нових версій документації OPEA, як правило, при випуску нового релізу, оновлюйте цей список вибору "версій", 
+щоб включити номер версії та папку публікації. Зауважте, що не існує прямого вибору для переходу до новішої версії зі старішої, без попереднього переходу до "найновішої".
 
-By default, documentation build and publishing both assume we're generating
-documentation for the main branch and publishing to the ``/latest/`` area on
-https://opea-project.github.io. When we're generating the documentation for a
-tagged version (e.g., 0.8), check out that version of **all** the component
-repos, and add some extra flags to the ``make`` commands:
+За замовчуванням, збірка і публікація документації передбачають, що ми створюємо документацію для головної гілки 
+і публікуємо її у розділі ``/latest/`` на https://opea-project.github.io. 
+Якщо ми створюємо документацію для тегованої версії (наприклад, 0.8), перевірте цю версію у **всіх** сховищах компонентів і додайте кілька додаткових прапорів до команд ``make``:
 
 .. code-block:: bash
 
@@ -322,22 +285,19 @@ repos, and add some extra flags to the ``make`` commands:
 
 .. _filter_expected:
 
-Filter Expected Warnings
-************************
+Фільтрувати очікувані попередження
+**********************************
 
-Alas, there are some known issues with the Sphinx processing that generate
-warnings.  We've added a post-processing filter on the output of the
-documentation build process to check for "expected" warning messages in the generated
-log output. By doing this, only "unexpected" messages will be reported and
-cause the build process to fail with a message:
+На жаль, є деякі відомі проблеми з обробкою Sphinx, які генерують попередження. Ми додали фільтр постобробки на виході процесу збирання документації, 
+щоб перевірити наявність "очікуваних" попереджень у згенерованому виводі журналу. Таким чином, буде повідомлено лише про "неочікувані" повідомлення, 
+які призведуть до збою у процесі збирання з повідомленням:
 
 .. code-block:: console
 
    New errors/warnings found, please fix them:
 
-followed by messages that weren't expected. Note that the file names shown in
-the error/warning messages will be for files in the ``_build/rst`` folder
-(copied from the repos). For example,
+за якими слідують повідомлення, яких не очікувалося. Зверніть увагу, що імена файлів, показані у повідомленнях про помилки/попередження, 
+стосуються файлів з теки ``_build/rst`` (скопійованих з репозиторіїв). Наприклад,
 
 .. code-block:: console
 
@@ -347,30 +307,25 @@ the error/warning messages will be for files in the ``_build/rst`` folder
    /home/david/opea-project/docs/_build/rst/GenAIInfra/kubernetes-addons/Observability/README.md:5: WARNING: Non-consecutive header level increase; H1 to H4 [myst.header]
    /home/david/opea-project/docs/_build/rst/GenAIInfra/kubernetes-addons/Observability/README.md:111: WARNING: Non-consecutive header level increase; H3 to H6 [myst.header]
 
-For files copied from repos other than the docs repo, you'll see the repo name
-in the file path, for example, ``_build/rst/GenAIInfra`` with the path to
-specific file with an issue. For example, the warnings shown here indicate
-a heading level problem on lines 5 and 111 in
+Для файлів, скопійованих з репозиторіїв, відмінних від репозиторію docs, ви побачите назву репозиторію
+у шляху до файлу, наприклад, ``_build/rst/GenAIInfra`` зі шляхом до
+конкретного файлу з проблемою. Наприклад, попередження, показані тут, вказують на
+проблему на рівні заголовків у рядках 5 і 111 у файлі
 ``GenAIInfra/kubernetes-addons/Observability/README.md``.
 
-If you do a ``make html`` without first doing a ``make clean``, there may be
-files left behind from a previous build that can cause some unexpected messages
-to be reported.
+Якщо ви зробите ``make html`` без попереднього виконання ``make clean``, можуть залишитися файли з попередньої збірки, 
+які можуть спричинити появу деяких несподіваних повідомлень.
 
-If all messages were filtered away,
-the build process will report as successful, reporting:
+Якщо всі повідомлення було відфільтровано, процес збирання завершиться успішно, повідомивши:
 
 .. code-block:: console
 
    No new errors/warnings.
 
-The output from the Sphinx build is processed by the Python script
-``scripts/filter-known-issues.py`` together with a set of filter
-configuration files in the ``.known-issues`` folder.  (This
-filtering is done as part of the ``Makefile``.)
+Вихідні дані збірки Sphinx обробляються скриптом Python ``scripts/filter-known-issues.py`` разом з набором файлів конфігурації фільтрів у теці ``.known-issues``. 
+(Ця фільтрація виконується як частина ``Makefile``).
 
-You can modify the filtering by adding or editing a conf file in the
-``.known-issues`` folder, following the examples found there.
+Ви можете змінити фільтрацію, додавши або відредагувавши conf-файл у папці ``.known-issues``, слідуючи прикладам, наведеним у ньому.
 
 .. _reStructuredText: https://sphinx-doc.org/rest.html
 .. _markdown: https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
