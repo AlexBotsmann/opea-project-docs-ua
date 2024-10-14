@@ -1,25 +1,25 @@
-# Kubernetes installation using Kubespray
+# Встановлення Kubernetes за допомогою Kubespray
 
-In this document, we'll install Kubernetes v1.29 using [Kubespray](https://github.com/kubernetes-sigs/kubespray) on a 2-node cluster.
+У цьому документі ми встановимо Kubernetes v1.29 за допомогою [Kubespray](https://github.com/kubernetes-sigs/kubespray) на 2-вузловий кластер.
 
-There are several ways to use Kubespray to deploy a Kubernetes cluster. In this document, we choose to use the Ansible way. For other ways to use Kubespary, refer to [Kubespray's document](https://github.com/kubernetes-sigs/kubespray).
+Існує декілька способів використання Kubespray для розгортання кластера Kubernetes. У цьому документі ми обираємо спосіб Ansible. Інші способи використання Kubespary наведено у [документі Kubespray](https://github.com/kubernetes-sigs/kubespray).
 
-## Node preparation
+## Підготовка вузла
 
 | hostname   | ip address         | Operating System |
 | ---------- | ------------------ | ---------------- |
 | k8s-master | 192.168.121.35/24  | Ubuntu 22.04     |
 | k8s-worker | 192.168.121.133/24 | Ubuntu 22.04     |
 
- We assume these two machines are used for Kubernetes 2-node cluster. They have direct internet access both in bash terminal and in apt repository.
+ Ми припускаємо, що ці дві машини використовуються для 2-вузлового кластера Kubernetes. Вони мають прямий доступ до інтернету як у терміналі bash, так і в репозиторії apt.
 
- If on any of the above 2 nodes, you have previously installed either Kubernetes, or any other container runtime(i.e. docker, containerd, etc.), please make sure you have clean-up those first. Refer to [Kubernetes installation demo using kubeadm](./k8s_install_kubeadm.md) to clean up the environment.
+ Якщо на будь-якому з вищевказаних 2 вузлів раніше було встановлено або Kubernetes, або будь-яке інше середовище виконання контейнерів (наприклад, docker, containerd тощо), будь ласка, переконайтеся, що ви очистили їх спочатку. Зверніться до [Демонстрація встановлення Kubernetes за допомогою kubeadm](./k8s_install_kubeadm.md), щоб очистити середовище.
 
-## Prerequisites
+## Передумови
 
- We assume that there is a third machine as your operating machine. You can log in to this machine and execute the Ansible command. Any of the above two K8s nodes can be used as the operating machine. Unless otherwise specified, all the following operations are performed on the operating machine.
+ Ми припускаємо, що існує третя машина, яка є вашою робочою машиною. Ви можете увійти на цю машину і виконати команду Ansible. Будь-який з двох вищезгаданих вузлів K8s може бути використаний як робоча машина. Якщо не вказано інше, всі наступні операції виконуються на робочій машині.
 
-Please make sure that the operating machine can login to both K8s nodes via SSH without a password prompt. There are different ways to configure the ssh login without password promotion. A simple way is to copy the public key of the operating machine to the K8s nodes. For example:
+Будь ласка, переконайтеся, що робоча машина може увійти до обох вузлів K8s через SSH без запиту пароля. Існують різні способи налаштувати вхід по ssh без запиту пароля. Простий спосіб - скопіювати відкритий ключ робочої машини на вузли K8s. Наприклад:
 
 ```
 # generate key pair in the operation machine
@@ -29,12 +29,11 @@ cat ~/.ssh/id_rsa.pub | ssh username@k8s-master "mkdir -p ~/.ssh && cat >> ~/.ss
 cat ~/.ssh/id_rsa.pub | ssh username@k8s-worker "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
 ```
 
-## Step 1. Set up Kubespray and Ansible
+## Крок 1. Налаштуйте Kubespray та Ansible
 
-Python3 (version >= 3.10) is required in this step. If you don't have, go to [Python website](https://docs.python.org/3/using/index.html) for installation guide.
+На цьому кроці потрібен Python3 (версія >= 3.10). Якщо у вас його немає, перейдіть на [веб-сайт Python](https://docs.python.org/3/using/index.html) для отримання інструкції з встановлення.
 
-You shall set up a Python virtual environment and install Ansible and other Kubespray dependencies. Simply, you can just run following commands. You can also go to [Kubespray Ansible installation guide](https://github.com/kubernetes-sigs/kubespray/blob/master/docs/ansible/ansible.md#installing-ansible) for details. To get the kubespray code, please check out the [latest release version](https://github.com/kubernetes-sigs/kubespray/releases) tag of kubespray. Here we use kubespary v2.25.0 as an example.
-
+Вам потрібно створити віртуальне середовище Python і встановити Ansible та інші залежності Kubespray. Для цього ви можете просто виконати наступні команди. Ви також можете звернутися до [Посібника з встановлення Kubespray Ansible](https://github.com/kubernetes-sigs/kubespray/blob/master/docs/ansible/ansible.md#installing-ansible) для отримання детальної інформації. Щоб отримати код kubespray, зверніться до [останньої версії](https://github.com/kubernetes-sigs/kubespray/releases) тегу kubespray. Тут ми використовуємо kubespary v2.25.0 як приклад.
 
 ```
 git clone https://github.com/kubernetes-sigs/kubespray.git
@@ -48,15 +47,15 @@ git checkout v2.25.0
 pip install -U -r requirements.txt
 ```
 
-## Step 2. Build your own inventory
+## Крок 2. Створіть власний інвенторій
 
-Ansible inventory defines the hosts and groups of hosts on which Ansible tasks are to be executed. You can copy a sample inventory with following command:
+Інвентаризація Ansible визначає хости і групи хостів, на яких будуть виконуватися завдання Ansible. Ви можете скопіювати зразок інвентаризації за допомогою наступної команди:
 
 ```
 cp -r inventory/sample inventory/mycluster
 ```
 
-Edit your inventory file `inventory/mycluster/inventory.ini` to config the node name and IP address. The inventory file used in this demo is as follows:
+Відредагуйте файл інвентаризації `inventory/mycluster/inventory.ini`, щоб налаштувати ім'я та IP-адресу вузла. Файл інвентаризації, який використовується у цій демонстрації, наведено нижче:
 ```
 [all]
 k8s-master ansible_host=192.168.121.35
@@ -79,19 +78,20 @@ kube_control_plane
 kube_node
 calico_rr
 ```
-## Step 3. Define Kubernetes configuration
+## Крок 3. Визначте конфігурацію Kubernetes
 
-Kubespray gives you ability to customize Kubernetes instalation, for example define:
-- network plugin
-- container manager
+Kubespray дає вам можливість налаштувати інсталяцію Kubernetes, наприклад, визначити:
+- мережевий плагін
+- менеджер контейнерів
 - kube_apiserver_port
 - kube_pods_subnet
-- all K&s addons configurations, or even define to deploy cluster on hyperscaller like AWS or GCP.
-All of those settings are stored in group vars defined in `inventory/mycluster/group_vars`
+- всі конфігурації аддонів K&s, або навіть визначити розгортання кластера на гіперскейлері, такому як AWS або GCP.
 
-For K&s settings look in `inventory/mycluster/group_vars/k8s_cluster/k8s-cluster.yml`
+Всі ці налаштування зберігаються у групових змінних, визначених у `inventory/mycluster/group_vars`.
 
-**_NOTE:_** If you noted issues on `TASK [kubernetes/control-plane : Kubeadm | Initialize first master]` in K& deployment, change the port on which API Server will be listening on from 6443 to 8080. By default Kubespray configures kube_control_plane hosts with insecure access to kube-apiserver via port 8080. Refer to [kubespray getting-started](https://github.com/kubernetes-sigs/kubespray/blob/master/docs/getting_started/getting-started.md)
+Налаштування K&s дивіться у файлі `inventory/mycluster/group_vars/k8s_cluster/k8s-cluster.yml`.
+
+**_Примітка:_** Якщо ви помітили проблеми з `TASK [kubernetes/control-plane : Kubeadm | Initialize first master]` у розгортанні K&, змініть порт, на якому буде слухатися сервер API, з 6443 на 8080. За замовчуванням Kubespray налаштовує хости kube_control_plane з незахищеним доступом до kube-apiserver через порт 8080. Зверніться до [kubespray getting-started](https://github.com/kubernetes-sigs/kubespray/blob/master/docs/getting_started/getting-started.md)
 
 ```
 # The port the API Server will be listening on.
@@ -99,9 +99,9 @@ kube_apiserver_ip: "{{ kube_service_addresses | ansible.utils.ipaddr('net') | an
 kube_apiserver_port: 8080  # (http)
 ```
 
-## Step 4. Deploy Kubernetes
+## Крок 4. Розгортаємо Kubernetes
 
-You can clean up old Kubernetes cluster with Ansible playbook with following command:
+Ви можете очистити старий кластер Kubernetes за допомогою плейбука Ansible виконуючи наступні команди:
 ```
 # Clean up old Kubernetes cluster with Ansible Playbook - run the playbook as root
 # The option `--become` is required, as for example cleaning up SSL keys in /etc/,
@@ -111,7 +111,7 @@ You can clean up old Kubernetes cluster with Ansible playbook with following com
 ansible-playbook -i inventory/mycluster/inventory.ini  --become --become-user=root -e override_system_hostname=false reset.yml
 ```
 
-Then you can deploy Kubernetes with Ansible playbook with following command:
+Після цього ви можете розгорнути Kubernetes з плейбуком Ansible за допомогою наступної команди:
 
 ```
 # Deploy Kubespray with Ansible Playbook - run the playbook as root
@@ -121,11 +121,11 @@ Then you can deploy Kubernetes with Ansible playbook with following command:
 ansible-playbook -i inventory/mycluster/inventory.ini  --become --become-user=root -e override_system_hostname=false cluster.yml
 ```
 
-The Ansible playbooks will take several minutes to finish. After playbook is done, you can check the output. If `failed=0` exists, it means playbook execution is successfully done.
+Виконання плейбуків Ansible займе кілька хвилин. Після того, як плейбук буде виконано, ви можете перевірити вивід. Якщо існує `failed=0`, це означає, що виконання плейбука успішно завершено.
 
-## Step 5. Create kubectl configuration
+## Крок 5. Створіть конфігурацію kubectl
 
-If you want to use Kubernetes command line tool `kubectl` on **k8s-master** node, please login to the node **k8s-master** and run the following commands:
+Якщо ви хочете скористатися інструментом командного рядка Kubernetes `kubectl` на вузлі **k8s-master**, будь ласка, увійдіть на вузол **k8s-master** і виконайте наступні команди:
 
 ```
 mkdir -p $HOME/.kube
@@ -133,9 +133,9 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-If you want to access this Kubernetes cluster from other machines, you can install kubectl by `sudo apt-get install -y kubectl` and copy over the configuration from the k8-master node and set ownership as above.
+Якщо ви хочете отримати доступ до цього кластера Kubernetes з інших машин, ви можете встановити kubectl командою sudo apt-get install -y kubectl` і скопіювати конфігурацію з вузла k8-master та встановити права власності, як описано вище.
 
-Then run following command to check the status of your Kubernetes cluster:
+Потім виконайте наступну команду, щоб перевірити стан вашого кластера Kubernetes:
 ```
 $ kubectl get node
 NAME          STATUS   ROLES           AGE     VERSION
@@ -158,29 +158,29 @@ kube-system                  nginx-proxy-satg-opea-3                    1/1     
 kube-system                  nodelocaldns-kbcnv                         1/1     Running   0          23m
 kube-system                  nodelocaldns-wvktt                         1/1     Running   0          24m
 ```
-Now congratulations. Your two-node K8s cluster is ready to use.
+А тепер вітаємо. Ваш двовузловий кластер K8s готовий до роботи.
 
-## Quick reference
+## Коротка довідка
 
-### How to deploy a single node Kubernetes?
+### Як розгорнути один вузол Kubernetes?
 
-Deploying a single-node K8s cluster is very similar to setting up a multi-node (>=2) K8s cluster.
+Розгортання одновузлового кластера K8s дуже схоже на розгортання багатовузлового (>=2) кластера K8s.
 
-Follow the previous [Step 1. Set up Kubespray and Ansible](#step-1-set-up-kubespray-and-ansible) to set up the environment.
+Дотримуйтесь попереднього [Крок 1. Налаштування Kubespray і Ansible](#step-1-set-up-kubespray-and-ansible), щоб налаштувати середовище.
 
-And then in [Step 2. Build your own inventory](#step-2-build-your-own-inventory), you can create single-node Ansible inventory by copying the single-node inventory sample as following:
+А потім у [Крок 2. Створіть власний інвенторій] (#step-2-build-your-own-inventory) ви можете створити одновузловий інвенторій Ansible, скопіювавши зразок одновузлового інвенторію, як показано нижче:
 
 ```
 cp -r inventory/local inventory/mycluster
 ```
 
-Edit your single-node inventory `inventory/mycluster/hosts.ini` to replace the node name from `node1` to your real node name (for example `k8s-master`) using following command:
+Відредагуйте інвентарний файл `inventory/mycluster/hosts.ini` для одного вузла, замінивши назву вузла з `node1` на вашу справжню назву (наприклад, `k8s-master`) за допомогою наступної команди:
 
 ```
 sed -i "s/node1/k8s-master/g" inventory/mycluster/hosts.ini
 ```
 
-Then your single-node inventory will look like below:
+Тоді ваш одновузловий інвенторій буде виглядати так, як показано нижче:
 
 ```
 k8s-master ansible_connection=local local_release_dir={{ansible_env.HOME}}/releases
@@ -199,21 +199,21 @@ kube_node
 kube_control_plane
 ```
 
-And then follow [Step 3. Deploy Kubernetes](#step-3-deploy-kubernetes), please pay attention to the **inventory name** while executing Ansible playbook, which is `inventory/mycluster/hosts.ini` in single node deployment. When the playbook is executed successfully, you will get a 1-node K8s ready.
+А потім виконайте [Крок 3. Розгортання Kubernetes](#step-3-deploy-kubernetes), будь ласка, зверніть увагу на **inventory name** під час виконання Ansible playbook, а саме `inventory/mycluster/hosts.ini` в одновузловому розгортанні. Після успішного виконання плейбука ви отримаєте готовий 1-вузловий K8s.
 
-And the follow [Step 4. Create kubectl configuration](#step-4-create-kubectl-configuration) to set up `kubectl`. You can check the status by `kubectl get nodes`.
+І виконайте наступний [Крок 4. Створення конфігурації kubectl](#step-4-create-kubectl-configuration), щоб налаштувати `kubectl`. Ви можете перевірити стан за допомогою `kubectl get nodes`.
 
-### How to scale Kubernetes cluster to add more nodes?
+### Як масштабувати кластер Kubernetes, щоб додати більше вузлів?
 
-Assume you've already have a two-node K8s cluster and you want to scale it to three nodes. The third node information is:
+Припустимо, у вас вже є двовузловий кластер K8s і ви хочете масштабувати його до трьох вузлів. Інформація про третій вузол наступна:
 
 | hostname   | ip address         | Operating System |
 | ---------- | ------------------ | ---------------- |
 | third-node | 192.168.121.134/24  | Ubuntu 22.04     |
 
-Make sure the third node has internet access and can be logged in via `SSH` without password promotion from your operating machine.
+Переконайтеся, що третій вузол має доступ до Інтернету і може увійти в систему за допомогою `SSH` без введення пароля з вашого робочого комп'ютера.
 
-Edit your Ansible inventory file to add the third node information to `[all]` and `[kube_node]` section as following:
+Відредагуйте файл інвентаризації Ansible, щоб додати інформацію про третій вузол до розділів `[all]` та `[kube_node]` наступним чином:
 ```
 [all]
 k8s-master ansible_host=192.168.121.35
@@ -239,7 +239,7 @@ kube_node
 calico_rr
 ```
 
-Then you can deploy Kubernetes to the third node with Ansible playbook with following command:
+Потім ви можете розгорнути Kubernetes на третьому вузлі за допомогою плейбука Ansible за допомогою наступної команди:
 
 ```
 # Deploy Kubespray with Ansible Playbook - run the playbook as root
@@ -248,24 +248,24 @@ Then you can deploy Kubernetes to the third node with Ansible playbook with foll
 # Without --become the playbook will fail to run!
 ansible-playbook -i inventory/mycluster/inventory.ini --limit third-node --become --become-user=root scale.yml -b -v
 ```
-When the playbook is executed successfully, you can check if the third node is ready with following command:
+Після успішного виконання плейбуку ви можете перевірити готовність третього вузла за допомогою наступної команди:
 ```
 kubectl get nodes
 ```
 
-For more information, you can visit [Kubespray document](https://github.com/kubernetes-sigs/kubespray/blob/master/docs/operations/nodes.md#addingreplacing-a-worker-node) for adding/removing Kubernetes node.
+Для отримання додаткової інформації про додавання/видалення вузла Kubernetes ви можете відвідати [Документ Kubespray](https://github.com/kubernetes-sigs/kubespray/blob/master/docs/operations/nodes.md#addingreplacing-a-worker-node).
 
-### How to config proxy?
+### Як налаштувати проксі-сервер?
 
-If your nodes need proxy to access internet, you will need extra configurations during deploying K8s. 
+Якщо вашим вузлам потрібен проксі для доступу до інтернету, вам знадобляться додаткові конфігурації під час розгортання K8. 
 
-We assume your proxy is as below:
+Ми припускаємо, що ваш проксі виглядає наступним чином:
 ```
 - http_proxy="http://proxy.fake-proxy.com:911"
 - https_proxy="http://proxy.fake-proxy.com:912"
 ```
 
-You can change parameters in `inventory/mycluster/group_vars/all/all.yml` to set `http_proxy`,`https_proxy`, and `additional_no_proxy` as following. Please make sure you've added all the nodes' ip addresses into the `additional_no_proxy` parameter. In this example, we use `192.168.121.0/24` to represent all nodes' ip addresses.
+Ви можете змінити параметри у файлі `inventory/mycluster/group_vars/all/all.yml`, щоб встановити `http_proxy`, `https_proxy` та `additional_no_proxy` наступним чином. Будь ласка, переконайтеся, що ви додали ip-адреси всіх вузлів у параметр `additional_no_proxy`. У цьому прикладі ми використовуємо `192.168.121.0/24` для представлення всіх IP-адрес вузлів.
 
 ```
 ## Set these proxy values in order to update package manager and docker daemon to use proxies and custom CA for https_proxy if needed

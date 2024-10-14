@@ -1,41 +1,40 @@
-# Kubernetes installation demo using kubeadm
+# Демонстрація встановлення Kubernetes за допомогою kubeadm
 
-In this demo, we'll install Kubernetes v1.29 using official [kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/) on a 2 node cluster.
+У цій демонстрації ми встановимо Kubernetes v1.29 за допомогою офіційного [kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/) на 2-вузловий кластер.
 
-## Node configuration
+## Конфігурація вузла
 
 | hostname   | ip address         | Operating System |
 | ---------- | ------------------ | ---------------- |
 | k8s-master | 192.168.121.35/24  | Ubuntu 22.04     |
 | k8s-worker | 192.168.121.133/24 | Ubuntu 22.04     |
 
-These 2 nodes needs the following proxy to access the internet:
+Ці 2 вузли потребують наступного проксі для доступу до інтернету:
 
 - http_proxy="http://proxy.fake-proxy.com:911"
 - https_proxy="http://proxy.fake-proxy.com:912"
 
-We assume these 2 nodes have been set correctly with the corresponding proxy so we can access the internet both in bash terminal and in apt repository.
+Ми припускаємо, що ці 2 вузли правильно налаштовані з відповідними проксі, тому ми можемо отримати доступ до інтернету як в терміналі bash, так і в репозиторії apt.
 
-## Step 0. Clean up the environment
+## Крок 0. Очистіть навколишнє середовище
 
-If on any of the above 2 nodes, you have previously installed either Kubernetes, or any other container runtime(i.e. docker, containerd, etc.), please make sure you have clean-up those first.
+Якщо на будь-якому з вищевказаних 2 вузлів раніше було встановлено Kubernetes або будь-яке інше контейнерне середовище виконання (наприклад, docker, containerd і т.д.), будь ласка, переконайтеся, що ви їх спочатку видалили.
 
-If there is any previous Kubernetes installed on any of these nodes by `kubeadm`, please refer to the listed steps to [tear down the Kubernetes](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#tear-down) first.
+Якщо на одному з цих вузлів за допомогою `kubeadm` було встановлено попередній Kubernetes, зверніться до перелічених кроків, щоб спочатку [знести Kubernetes](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#tear-down).
+Якщо на одному з цих вузлів за допомогою `kubespray` було встановлено попередню версію Kubernetes, спершу зверніться до kubespray doc, щоб [очистити Kubernetes](https://kubespray.io/#/?id=quick-start).
 
-If there is any previous Kubernetes installed on any of these nodes by `kubespray`, please refer to kubespray doc to [clean up the Kubernetes](https://kubespray.io/#/?id=quick-start) first.
-
-Once the Kubernetes is teared down or cleaned up, please run the following command on all the nodes to remove relevant packages:
+Після того, як Kubernetes буде зруйновано або очищено, будь ласка, виконайте наступну команду на всіх вузлах, щоб видалити відповідні пакунки:
 
 ```bash
 sudo apt-get purge docker docker-engine docker.io containerd runc containerd.io kubeadm kubectl kubelet
 sudo rm -r /etc/cni /etc/kubernetes /var/lib/kubelet /var/run/kubernetes /etc/containerd /etc/systemd/system/containerd.service.d /etc/default/kubelet
 ```
 
-## Step 1. Install relevant components
+## Крок 1. Встановіть відповідні компоненти
 
-Run the following on all the nodes:
+Виконайте наступні дії на всіх вузлах:
 
-1. Export proxy settings in bash
+1. Експортуйте налаштування проксі в bash
 
 ```bash
 export http_proxy="http://proxy.fake-proxy.com:911"
@@ -44,7 +43,7 @@ export https_proxy="http://proxy.fake-proxy.com:912"
 export no_proxy="localhost,127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,192.168.121.35,192.168.121.133"
 ```
 
-2. Config system settings
+2. Налаштуйте системні параметри
 
 ```bash
 # Disable swap
@@ -66,7 +65,7 @@ EOF
 sudo sysctl --system
 ```
 
-3. Install containerd CRI and relevant components
+3. Встановіть контейнерний CRI та відповідні компоненти
 
 ```bash
 # You may change the component version if necessary
@@ -132,10 +131,10 @@ sudo systemctl enable --now buildkit
 sudo systemctl restart buildkit
 ```
 
-4. Install kubeadm and related components
+4. Встановіть kubeadm і пов'язані компоненти
 
 ```bash
-# You may change the component version if necessary
+# Ви можете змінити версію компонента, якщо це необхідно
 K8S_VER="1.29"
 
 #Install kubeadm/kubectl/kubelet
@@ -148,9 +147,9 @@ sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 ```
 
-## Step 2. Create the k8s cluster
+## Крок 2. Створіть кластер k8s
 
-1. (optional) Install helm v3: on node k8s-master, run the following commands:
+1. (необов'язково) Встановіть helm v3: на вузлі k8s-master виконайте наступні команди:
 
 ```bash
 #You may skip helm v3 installation if you don't plan to use helm
@@ -160,14 +159,14 @@ sudo apt-get update
 sudo apt-get install -y helm
 ```
 
-2. Initialize the Kubernetes control-plane node: on node k8s-master, run the following commands:
+2. Ініціалізуйте вузол площини керування Kubernetes: на вузлі k8s-master виконайте наступні команди:
 
 ```bash
 POD_CIDR="10.244.0.0/16"
 sudo -E kubeadm init --pod-network-cidr "${POD_CIDR}"
 ```
 
-Once succeed, you'll find the kubeadm's output such as the following. Please record the `kubeadm join` command line for later use.
+Після успішного завершення ви побачите вивід kubeadm, подібний до наведеного нижче. Будь ласка, запишіть командний рядок `kubeadm join` для подальшого використання.
 
 ```
 Your Kubernetes control-plane has initialized successfully!
@@ -192,7 +191,7 @@ kubeadm join 192.168.121.35:6443 --token 26tg15.km2ru94h9ht9h6ou \
        --discovery-token-ca-cert-hash sha256:123f3f8ebaf62f8dfc4542360e5103842408a6cdf630af159e2abc260201ba99
 ```
 
-3. Create kubectl configuration for a regular user: on node k8s-master, run the following commands:
+3. Створіть конфігурацію kubectl для звичайного користувача: на вузлі k8s-master виконайте наступні команди:
 
 ```bash
 mkdir -p $HOME/.kube
@@ -203,7 +202,7 @@ sudo apt-get install -y bash-completion
 kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl
 ```
 
-4. Install Kubernetes CNI Calico: on node k8s-master, run the following commands:
+4. Встановіть Kubernetes CNI Calico: на вузлі k8s-master виконайте наступні команди:
 
 ```bash
 # Please set correct NODE_CIDR based on your node ip address.
@@ -244,18 +243,16 @@ spec: {}
 EOF
 ```
 
-5. Join Kubernetes worker nodes: on node k8s-worker, run the following commands:
-
+5. Приєднайтеся до робочих вузлів Kubernetes: на вузлі k8s-worker виконайте наступні команди:
 ```bash
 # run the kubeadm join command which we recorded at the end of the step 2.4
 sudo kubeadm join 192.168.121.35:6443 --token 26tg15.km2ru94h9ht9h6ou --discovery-token-ca-cert-hash sha256:123f3f8ebaf62f8dfc4542360e5103842408a6cdf630af159e2abc260201ba99
 ```
 
-6. On Kubernetes master node, verify that all nodes are joined successfully:
+6. На головному вузлі Kubernetes переконайтеся, що всі вузли успішно приєднано:
 
-Run command `kubectl get pod -A` to make sure all pods are in 'Running' status. If any of the pods are not in 'Running' status, please retry the above command. It could take up to several minutes for all the pods to be ready.
-
-Possible output of pod status could be something like
+Запустіть команду `kubectl get pod -A`, щоб переконатися, що всі pod'и перебувають у статусі 'Running'. Якщо якийсь із pod'ів не перебуває у статусі «Виконується», спробуйте виконати наведену вище команду ще раз. Для того, щоб підготувати всі pod'и, може знадобитися кілька хвилин.
+Можливий вивід статусу pod може бути приблизно таким
 
 ```
 vagrant@k8s-master:~$ kubectl get pod -A
@@ -279,7 +276,7 @@ kube-system        kube-scheduler-k8s-master                  1/1     Running   
 tigera-operator    tigera-operator-76c4974c85-lx79h           1/1     Running   0          10m
 ```
 
-Run command `kubectl get node` to make sure all node are in 'Ready' status. Possible output should be something like:
+Виконайте команду `kubectl get node`, щоб переконатися, що всі вузли перебувають у стані 'Ready'. Можливий вивід має бути приблизно таким:
 
 ```
 vagrant@k8s-master:~$ kubectl get node
@@ -288,50 +285,51 @@ k8s-master    Ready    control-plane   31m     v1.29.6
 k8s-worker1   Ready    <none>          7m31s   v1.29.6
 ```
 
-## Step 3 (optional) Reset Kubernetes cluster
+## Крок 3 (необов'язково) Перезавантажте кластер Kubernetes
 
-In some cases, you may want to reset the Kubernetes cluster in case some commands after `kubeadm init` fail and you want to reinstall Kubernetes. Please check [tear down the Kubernetes](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#tear-down) for details.
+У деяких випадках вам може знадобитися скинути кластер Kubernetes, якщо деякі команди після `kubeadm init` не вдасться виконати, і ви захочете перевстановити Kubernetes. Будь ласка, зверніться до статті [tear down the Kubernetes](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#tear-down) для отримання детальної інформації.
 
-Below is the example of how to reset the Kubernetes cluster we just created:
+Нижче наведено приклад того, як скинути щойно створений кластер Kubernetes:
 
-On node k8s-master, run the following command:
+На вузлі k8s-master виконайте наступну команду:
 
 ```bash
 # drain node k8s-worker1
 kubectl drain k8s-worker1 --delete-emptydir-data --force --ignore-daemonsets
 ```
 
-On node k8s-worker1, run the following command:
+На вузлі k8s-worker1 виконайте наступну команду:
 
 ```bash
 sudo kubeadm reset
 # manually reset iptables/ipvs if necessary
 ```
 
-On node k8s-master, delete node k8s-worker1:
+На вузлі k8s-master видаліть вузол k8s-worker1:
 
 ```bash
 kubectl delete node k8s-worker1
 ```
 
-On node k8s-master, clean up the master node:
+На вузлі k8s-master очистіть головний вузол:
 
 ```bash
 sudo kubeadm reset
 # manually reset iptables/ipvs if necessary
 ```
 
-## NOTES
+## Примітки
 
-1. By default, normal workload won't be scheduled to nodes in `control-plane` K8S role(i.e. K8S master node). If you want K8S to schedule normal workload to those nodes, please run the following commands on K8S master node:
+1. За замовчуванням, нормальне навантаження не планується для вузлів у ролі K8S `control-plane` (тобто для головного вузла K8S). Якщо ви хочете, щоб K8S планував нормальне навантаження на ці вузли, будь ласка, виконайте наступні команди на головному вузлі K8S:
 
 ```bash
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 kubectl label nodes --all node.kubernetes.io/exclude-from-external-load-balancers-
 ```
 
-2. Verifying K8S CNI
-   If you see any issues of the inter-node pod-to-pod communication, please use the following steps to verify that k8s CNI is working correctly:
+2. Верифікація K8S CNI
+
+   Якщо у вас виникли проблеми з міжвузловим зв'язком, будь ласка, виконайте наступні кроки, щоб переконатися, що k8s CNI працює належним чином:
 
 ```bash
 # Create the K8S manifest file for our debug pods
@@ -371,7 +369,7 @@ EOF
 kubectl apply -f debug.yaml
 ```
 
-Wait until all 2 debug pods are in 'Running' status:
+Зачекайте, доки всі 2 налагоджувальні модулі не перейдуть у стан «Виконується»:
 
 ```
 vagrant@k8s-master:~$ kubectl get pod -owide
@@ -380,7 +378,7 @@ debug-ddfd698ff-7gsdc   1/1     Running   0          91s   10.244.194.66    k8s-
 debug-ddfd698ff-z5qpv   1/1     Running   0          91s   10.244.235.199   k8s-master    <none>           <none>
 ```
 
-Make sure pod `debug-ddfd698ff-z5qpv` on node k8s-master can ping to the ip address of another pod `debug-ddfd698ff-7gsdc` on node k8s-worker1 to verify east-west traffic is working in K8S.
+Переконайтеся, що pod `debug-ddfd698ff-z5qpv` на вузлі k8s-master може пінгувати ip-адресу іншого pod `debug-ddfd698ff-7gsdc` на вузлі k8s-worker1, щоб перевірити роботу трафіку зі сходу на захід у K8S.
 
 ```
 vagrant@k8s-master:~$ kubectl exec debug-ddfd698ff-z5qpv -- ping -c 1 10.244.194.66
@@ -392,7 +390,7 @@ PING 10.244.194.66 (10.244.194.66) 56(84) bytes of data.
 rtt min/avg/max/mdev = 1.755/1.755/1.755/0.000 ms
 ```
 
-Make sure pod `debug-ddfd698ff-z5qpv` on node k8s-master can ping to the ip address of another node `k8s-worker1` to verify north-south traffic is working in K8S.
+Переконайтеся, що pod `debug-ddfd698ff-z5qpv` на вузлі k8s-master може пінгувати ip-адресу іншого вузла `k8s-worker1`, щоб перевірити, чи працює трафік північ-південь у K8S.
 
 ```
 vagrant@k8s-master:~$ kubectl exec debug-ddfd698ff-z5qpv -- ping -c 1 192.168.121.133
@@ -404,7 +402,7 @@ PING 192.168.121.133 (192.168.121.133) 56(84) bytes of data.
 rtt min/avg/max/mdev = 1.339/1.339/1.339/0.000 ms
 ```
 
-Delete debug pods after use:
+Видаліть налагоджувальні pod'и після використання:
 
 ```bash
 kubectl delete -f debug.yaml

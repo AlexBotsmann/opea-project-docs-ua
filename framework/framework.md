@@ -1,902 +1,624 @@
-# Open Platform for Enterprise AI (OPEA) Framework Draft Proposal
+# Проєкт Рамкової пропозиції щодо відкритої платформи для корпоративного штучного інтелекту (OPEA)
 
 Rev 0.5     April 15, 2024
 
-Initial draft by Intel. Contacts for content – Ke Ding (ke.ding@intel.com ), Gadi Singer
-(gadi.singer@intel.com)
+Початковий проект розроблений корпорацією Intel. Контакти для зв'язку - Ке Дінг (ke.ding@intel.com ), Гаді Зінгер (gadi.singer@intel.com)
 
-Feedback welcome at info@opea.dev
+Будь ласка, надішліть відгук на info@opea.dev
 
-## 1. Summary
+## 1.Резюме
 
-OPEA (Open Platform for Enterprise AI) is a framework that enables the creation and evaluation of
-open, multi-provider, robust and composable GenAI solutions that harness the best innovation across
-the ecosystem.
+OPEA (Open Platform for Enterprise AI) - це фреймворк, який дозволяє створювати та оцінювати відкриті, багатопрофільні, надійні та комбіновані рішення GenAI, які використовують найкращі інновації в екосистемі.
 
-OPEA is an ecosystem-wide program within the Linux Foundation Data & AI framework that aims to
-accelerate enterprise adoption of GenAI end-to-end solutions and realize business value. OPEA will
-simplify the implementation of enterprise-grade composite GenAI solutions, including Retrieval
-Augmented Generative AI (RAG). The platform is designed to facilitate efficient integration of secure,
-performant, and cost-effective GenAI workflows into business systems and manage its deployments.
+OPEA - це екосистемна програма в рамках Linux Foundation Data & AI, яка має на меті
+прискорити впровадження комплексних рішень GenAI на підприємствах і підвищити їхню цінність для бізнесу. OPEA допоможе
+спростити впровадження комплексних рішень GenAI корпоративного рівня, включаючи Пошуковий Розширений Генеративний ШІ (RAG). Платформа покликана сприяти ефективній інтеграції безпечних,
+продуктивних і економічно ефективних робочих процесів GenAI у бізнес-системи та керувати їх розгортанням.
 
-This platform’s definition will include an architectural blueprint, a comprehensive set of components for
-GenAI systems, and a suite of specifications\* for both individual components and entire systems. It will
-also include tools for building, tuning, and evaluating end-to-end GenAI workflows. These definitions will
-address key aspects such as performance, feature set, trustworthiness (security and transparency), and
-readiness for enterprise-grade applications. The specifications will also include a set of reference flows
-and demos that can be easily reproduced and adopted.
-
+Визначення цієї платформи включатиме архітектурний план, повний набір компонентів для систем GenAI, а також набір специфікацій, як для окремих компонентів, так і для цілих систем. Вона також включатиме інструменти для побудови, налаштування та оцінки наскрізних робочих процесів GenAI. Ці визначення будуть
+розглядати такі ключові аспекти, як продуктивність, набір функцій, надійність (безпека і прозорість) і готовність до використання в додатках корпоративного рівня. Специфікації також включатимуть набір еталонних потоків
+та демонстраційні приклади, які можна буде легко відтворити та адаптувати.
 
 ![OPEAs Core Values](images/framework-image1.png)
 
-Figure 1-1: OPEA’s Core Values
+Рисунок 1-1: Основні цінності OPEA
 
-\*Disclaimer – The term ‘specification’ is used throughout this draft whitepaper and appendix as a broad
-working term, referring generally to a detailed description of systems and their components. However, it
-is important to note that this term might be replaced or updated based on more precise characterization
-and applying the Linux Foundation licensing considerations.
+\*Зверніть увагу - Термін «специфікація» використовується в цьому проекті технічного документу і додатку як широкий робочий термін, що загалом стосується детального опису систем та їхніх компонентів. Однак, важливо зазначити, що цей термін може бути замінений або оновлений на основі більш точного опису і застосування міркувань ліцензування Фонду Linux.
 
 ![proposed Construction and Evaluation Framework for AI Solutions](images/framework-image2.png)
 
-Figure 1-2 OPEA – proposed Construction and Evaluation Framework for AI Solutions
+Рисунок 1-2 OPEA - пропонована структура побудови і оцінки рішень для штучного інтелекту
 
-We are now in an era where AI algorithms and models, that were initially developed in research
-environments and later introduced into consumer-focused settings, are now transitioning to widespread
-enterprise deployment. This transition provides an opportunity for partners to leverage decades of
-insights into enterprise-scale computing, security, trustworthiness, and datacenter integration, among
-other areas, to accelerate AI adoption and unlock its potential value.
+Ми живемо в епоху, коли алгоритми та моделі штучного інтелекту, які спочатку розроблялися в дослідницьких, а згодом впроваджені в середовище, орієнтоване на споживача, тепер переходять до широкого впровадження на підприємствах. Цей перехід дає можливість партнерам використовувати десятиліттями напрацьовані знання про обчислення, безпеку, надійність та інтеграцію центрів обробки даних, серед іншого, щоб прискорити впровадження штучного інтелекту та розкрити його потенційну цінність.
 
-## 2. Introduction
+## 2. Введення
 
-Recently, the practices for developing AI solutions have undergone significant transformation. Instead of
-considering AI model (e.g., a GenAI LLM) as the complete solution, these models are now being
-integrated into more comprehensive end-to-end AI solutions. These solutions consist of multiple
-components, including retrieval subsystems with embedding agents, a Vector Database for efficient
-storage and retrieval, and prompt engines, among others. This shift has led to the emergence of
-Composition Frameworks (such as LangChain or Haystack), which are used to assemble these
-components into end-to-end GenAI flows, like RAG solutions, for the development and deployment of AI
-solutions.
+Останнім часом практика розробки АІ-рішень зазнала значної трансформації. Замість того, щоб розглядати модель штучного інтелекту (наприклад, GenAI LLM) як повноцінне рішення, ці моделі тепер інтегруються в більш комплексні наскрізні АІ-рішення. Ці рішення складаються з багатьох компонентів, включаючи підсистеми пошуку з вбудованими агентами, векторну базу даних для ефективного зберігання та пошуку, а також швидкісні механізми, серед іншого. Цей зсув призвів до появи фреймворків композиції (таких як LangChain або Haystack), які використовуються для об'єднання цих компонентів у наскрізні потоки GenAI, такі як RAG-рішення, для розробки та розгортання рішень для ШІ.
 
-The ecosystem offers a range of composition frameworks, some are open-source (e.g., LangChain and
-LlamaIndex), while others are closed-sourced and come bundled with professional services (e.g.,
-ScaleAI). Additionally, some are offered by cloud service providers (e.g. AWS) or hardware/software
-providers (e.g., NVIDIA). However, as of Q2 2024 these represent individual perspectives and offerings
-for the intricate task of building an end-to-end AI solution.
+Екосистема пропонує ряд фреймворків для композиції, деякі з яких мають відкритий вихідний код (наприклад, LangChain і LlamaIndex), а інші - закритий і поставляються в комплекті з професійними сервісами (наприклад,
+ScaleAI). Крім того, деякі з них пропонуються постачальниками хмарних послуг (наприклад, AWS) або постачальниками апаратного/програмного забезпечення
+(наприклад, NVIDIA). Однак станом на 2 квартал 2024 року вони представляють індивідуальні перспективи і пропозиції для вирішення складного завдання побудови комплексного рішення зі штучного інтелекту.
 
-### 2.1 Key capabilities
+### 2.1 Основні можливості
 
-OPEA will offer key capabilities in both the Construction and Evaluation of end-to-end composite GenAI
-solutions, that are built with retrieval augmentation. As a construction platform, OPEA will enable
-creation of RAG-enabled AI solutions directly or through the use of compositional tools such as
-LangChain and Haystack. As an evaluation framework, OPEA will provide the means to assess and grade
-end-to-end composite GenAI solutions on aspects derived from four domains – performance, features,
-trustworthiness and Enterprise-readiness.
+OPEA запропонує ключові можливості як для побудови, так і для оцінки комплексних композитних рішень GenAI, створених за допомогою пошукової аугментації. Як платформа для створення, OPEA дозволить створювати ШІ-рішення на основі RAG безпосередньо або за допомогою таких композиційних інструментів, як LangChain і Haystack. Як система оцінки, OPEA надасть засоби для оцінки та класифікації наскрізних композитних рішень GenAI за аспектами, що випливають з чотирьох областей - продуктивність, функції, надійність і готовність до впровадження на рівні підприємства.
 
-#### 2.1.1 Construction of GenAI solutions, including retrieval augmentation
+#### 2.1.1 Побудова рішень GenAI, включаючи доповнення пошуку
 
-Composing an end-to-end AI solution (including retrieval augmentation) can be done by combining
-models and modules from multiple providers.
+Створити комплексне рішення зі штучного інтелекту (включно з доповненням пошуку) можна, об'єднавши моделі та модулі від різних постачальників.
 
-OPEA will offer or refer to a set of building blocks – models and modules – that can be called in a flow to
-achieve an AI task or service. The models and modules can be part of OPEA repository, or published in
-stable open repository (e.g., Hugging Face), or proprietary / closed source and cleared for use by an
-OPEA assessment.
+OPEA пропонуватиме або посилатиметься на набір будівельних блоків - моделей і модулів, які можна викликати в потоці для досягнення завдання або послуги ШІ. Моделі та модулі можуть бути частиною репозиторію OPEA або опубліковані у стабільному відкритому репозиторії (наприклад, Hugging Face), або бути власним / закритим кодом і дозволені до використання за результатами оцінки OPEA.
 
-* GenAI models – Large Language Models (LLMs), Large Vision Models (LVMs), multimodal models, etc.
-* Other modules - AI system components (other than LLM/LVM models) including
-  Ingest/Data Processing module, Embedding Models/Services, Vector Databases
-  (aka Indexing or Graph data stores), Prompt Engines, Memory systems, etc.
+* Моделі GenAI - великі мовні моделі (LLM), великі моделі бачення (LVM), мультимодальні моделі тощо.
+* Інші модулі - компоненти системи ШІ (крім LLM/LVM моделей), включаючи
+  Модуль поглинання/обробки даних, вбудовані моделі/сервіси, векторні бази даних
+  (також відомі як індексація або сховища графічних даних), механізми підказок, системи пам'яті тощо.
 
-Each module for the system will be characterized with its expected functionality and attributes. Those
-will be evaluated for every particular implementation choice (see following evaluation section). There
-will be multiple options offered from various providers for each module and model, to allow for choice
-and diversity.
+Кожен модуль системи буде охарактеризований очікуваною функціональністю та атрибутами. Ці характеристики
+будуть оцінюватися для кожного конкретного варіанту реалізації (див. наступний розділ про оцінку). Для кожного модуля та моделі буде запропоновано кілька варіантів від різних постачальників, щоб забезпечити вибір та різноманітність.
 
-This platform consists of a set of compositional capabilities that allow for building custom agents,
-customizing AI assistants, and creating a full end-to-end GenAI flow that includes retrieval augmentation
-as well as other functionality when needed. The platform will also include or reference tools for fine-
-tuning as well as optimization (like quantization assists) to support creation of performant, robust
-solutions that can run locally on target enterprise compute environments. Similar to building blocks, the
-composition capabilities could be part of OPEA repository, or published in stable open repository (e.g.,
-Hugging Face) or offered by the ecosystem (like LangChain, LlamaIndex and Haystack).
+Ця платформа складається з набору композиційних можливостей, які дозволяють створювати кастомні агенти, налаштовувати асистентів ШІ та створювати повний наскрізний потік GenAI, що включає розширення пошуку та інші функціональні можливості, коли це необхідно. Платформа також включатиме інструменти для тонкого налаштування та оптимізації, а також посилання на них, оптимізації (наприклад, квантування) для підтримки створення ефективних, надійних рішень, які можна буде запускати локально в цільових обчислювальних середовищах підприємств. Подібно до будівельних блоків, можливості композиції можуть бути частиною репозиторію OPEA, або опубліковані у стабільному відкритому репозиторії (наприклад, Hugging Face) або пропонуватися екосистемою (наприклад, LangChain, LlamaIndex та Haystack).
 
-An important part of the compositional offering will be a set of validated reference flows that are ready
-for downloading and recreation in the users’ environment. In the multitude of provided ready reference
-flows, there will be domain-independent flows (like a RAG flow for language-based Q&A, or a
-multimodal flow to interact with one’s images and videos) that were tuned for different HW providers
-and settings. There will also be domain-specific flows like financial service end-to-end flow or nutrition
-adviser, which are sometimes called microservices.
+Важливою частиною композиційної пропозиції буде набір перевірених довідкових потоків, готових до завантаження та відтворення в середовищі користувачів. Серед безлічі готових довідкових потоків будуть і незалежні від домену потоки (наприклад, потік RAG для мовних запитань і відповідей, або мультимодальний потік для взаємодії з зображеннями і відео), які були налаштовані для різних провайдерів HW і налаштувань. Будуть також специфічні для домену потоки, такі як наскрізний потік фінансових послуг або консультант з питань харчування, які іноді називають мікросервісами.
 
-There is a common visualizing language that is used to depict the component of each reference flow
-being provided.
+Існує загальна мова візуалізації, яка використовується для зображення компонента кожного потоку посилань, що надається.
 
-#### 2.1.2 Evaluation of GenAI solutions, including retrieval augmentation:
+#### 2.1.2 Оцінка рішень GenAI, включаючи доповнення пошуку
 
-OPEA will provide means and services to fully evaluate and grade components and end-to-end GenAI
-solutions across four domains – performance, functionality, trustworthiness and enterprise-readiness.
-The evaluation can be done on a flow created within OPEA, or created elsewhere but requesting to be
-assessed through the platform.
+OPEA надаватиме засоби та послуги для повного оцінювання та класифікації компонентів і комплексних рішень GenAI у чотирьох сферах - продуктивність, функціональність, надійність та готовність до роботи на підприємстві.
+Оцінка може бути проведена для потоку, створеного в рамках OPEA, або створеного в іншому місці, але з проханням оцінити його за допомогою платформи.
 
-Some of the evaluation tools will be part of the OPEA repository, while others will be references to
-selected benchmarks offered by the ecosystem.
+Деякі з інструментів оцінювання будуть частиною репозиторію OPEA, тоді як інші будуть посиланнями на окремі бенчмарки, запропоновані екосистемою.
 
-OPEA will offer tests for self-evaluation that can be done by the users. Furthermore, it will have the
-engineering setup and staffing to provide evaluations per request.
+OPEA пропонуватиме тести для самооцінки, які можуть виконувати користувачі. Крім того, він матиме технічне оснащення і персонал для проведення оцінювання за запитом.
 
-The OPEA evaluations can be viewed at the following levels:
+Оцінки OPEA можна переглянути на наступних рівнях:
 
-* Assessment – Detailed tests or benchmarks done for particular modules or
-  attributes of the end-to-end flow. Assessments will be elaborate and specific,
-  checking for the functionality and characteristics specified for that module
-  or flow.
-* Grading - Aggregation of the individual assessments to a grade per each of the
-  four domains – Performance, Features, Trustworthiness and
-  Enterprise-readiness. The aggregate grade per domain could be L1 Entry Level;
-  L2 Market Level; or L3 Advanced Level.
-* Certification – It has not yet been decided if certification will be offered
-  as part of OPEA.  However, the draft proposal for consideration is to allow
-  for OPEA Certification that will be determined by ensuring a minimum of Level
-  2 grading is achieved on all four domains.
+* Оцінювання - детальні тести або бенчмарки, проведені для певних модулів або
+  атрибутів наскрізного потоку. Оцінювання буде детальним і конкретним,
+  з перевіркою функціональності та характеристик, визначених для цього модуля
+  або потоку.
+* Градація - об'єднання індивідуальних оцінок в оцінку за кожною з чотирьох сфер
+  чотирьох доменів - Продуктивність, Функціональність, Надійність і
+  Готовність до роботи на підприємстві. Сукупна оцінка за кожну область може бути L1 Початковий рівень; L2 Ринковий рівень; або L3 Просунутий рівень.
+* Сертифікація - ще не вирішено, чи буде запропонована сертифікація
+  в рамках OPEA.  Однак, проект пропозиції для розгляду полягає в тому, щоб дозволити сертифікацію в рамках OPEA, яка буде визначатися шляхом забезпечення мінімального рівня 2 в усіх чотирьох сферах.
 
 ![Key capabilities provided by OPEA](images/framework-image3.png)
 
-Figure 2-1 Key capabilities provided by OPEA
+Рисунок 2-1 Основні можливості, які надає OPEA
 
-Appendix A of this document is an early draft of the proposed specification and sample reference flows.
+Додаток А до цього документу є попереднім проєктом запропонованої специфікації та зразків еталонних потоків.
 
-## 3. Framework Components, Architecture and Flow
+## 3. Компоненти фреймворку, архітектура і потік
 
-The OPEA definition (see Appendix A) includes characterization of components of State-of-the-Art (SotA)
-composite systems including retrieval-augmentation and their architecture as a flow and SW stack.
+Визначення OPEA (див. Додаток А) включає характеристику компонентів сучасного стану (SotA) композитних систем, включаючи пошук-доповнення, та їх архітектуру у вигляді потоку та стеку SW.
 
-There are six sections in the Appendix A which will provide a starting point for a more detailed and
-elaborate joint OPEA definition effort:
+У Додатку А є шість розділів, які стануть відправною точкою для більш детального та
+спільної роботи над визначенням OPEA:
 
-* A1: System Components - List of ingredients that comprise a composed system,
-  along with their key characteristics. Some systems that will be evaluated may
-  only include a subset of these components.
-* A2: SW architecture - Diagram providing the layering of components in a SW stack
-* A3: System flows – Diagram[s] illustrating the flow of end-to-end operation
-  through the relevant components.
-* A4: Select specifications at system and component level
-* A5: Grading – Grading of systems being evaluated based on performance,
-  features, trustworthiness and enterprise-grade readiness.
-* A6: Reference Flows – List of reference flows that demonstrate key use-cases
-  and allow for downloading and replication for a faster path to create an
-  instantiation of the flow.
+* A1: Компоненти системи - перелік компонентів, з яких складається система, разом  з їх ключовими характеристиками. Деякі системи, які будуть оцінюватися, можуть включати лише підмножину цих компонентів.
+* A2: Архітектура SW - Діаграма, що показує рівень компонентів у стеку SW
+* A3: Потоки системи - Діаграма(и), що ілюструє(ють) потік наскрізної операції  через відповідні компоненти.
+* A4: Вибір специфікацій на рівні системи і компонентів
+* A5: Градація - класифікація систем, що оцінюються на основі продуктивності, функцій, надійності та готовності до роботи на рівні підприємства.
+* A6: Еталонні потоки - список еталонних потоків, які демонструють ключові випадки використання і дозволяють завантажувати і реплікувати їх для швидшого створення екземплярів потоку.
 
-Assumptions for the development of OPEA sections include:
+Припущення для розробки розділів OPEA включають:
 
-* OPEA is a blueprint for composition frameworks and is not set to compete with
-  the popular frameworks. It is set to help assess the pros and cons of various
-  solutions and allow for improved interoperability of components.
-* In production, it is likely that many customers will deploy their own proprietary pipelines.
-* This framework blueprint is complementary and is intended to encourage
-  interoperability of system components as well as addition of specialized value
-  such as HW-aware optimizations, access to innovative features, and a variety
-  of assistants and microservices.
-* Flexible and allows easy pluggable and replaceable models and other
-  components. Ability to exchange components is an important factor in the fast
-  progression of the field.
-* Providing an environment to experiment with solution variations - e.g. What is
-  the impact (E2E system performance) when replacing a generic re-ranking
-  component with a particular provider’s re-ranking component.
+* OPEA є зразком композиційних фреймворків і не має на меті конкурувати з популярними фреймворками. Він покликаний допомогти оцінити плюси і мінуси різних рішень і покращити інтероперабельність компонентів.
+* У виробництві, ймовірно, багато клієнтів будуть використовувати власні власні трубопроводи.
+* Ця концептуальна схема є додатковою і призначена для заохочення сумісності компонентів системи, а також додавання спеціалізованих можливостей, таких як оптимізація з урахуванням вимог до гігієни, доступ до інноваційних функцій і різноманітних мікроасистентів. різноманітних помічників і мікросервісів.
+* Гнучкість і можливість легко підключати і замінювати моделі та інші компоненти. Можливість заміни компонентів є важливим фактором швидкого розвитку галузі.
+* Забезпечення середовища для експериментів з різними варіантами рішень - наприклад, який вплив (продуктивність системи E2E) при заміні загального компонента переранжування на компонент ранжування конкретного постачальника.
 
-It should be noted that the final shaping of the framework components, architecture and flows will be
-jointly defined by a technical committee as the full OPEA definition and governance structure is
-established. It is also expected that there will be a regular cadence of updates to the spec to reflect the
-rapidly shifting State-of-the-Art in the space.
+Слід зазначити, що остаточне формування компонентів структури, архітектури і потоків буде спільно визначено технічним комітетом після того, як буде створено повне визначення OPEA і структуру управління буде створено. Очікується також, що специфікація буде регулярно оновлюватися, щоб відображати
+швидко мінливого стану справ у просторі.
 
-## 4. Assessing GenAI components and flows
+## 4. Оцінка компонентів і потоків GenAI
 
-One of the important benefits to the ecosystem from the development and broad use of OPEA is a
-structured set of evaluation that can provide trusted feedback on GenAI flows – whether composed
-within OPEA, or composed elsewhere but has the visibility and access that allows for evaluations.
-Evaluations can be done by assessing individual components or complete end-to-end GenAI solutions.
-Evaluations in the OPEA context refer to assessment of individual aspects of a solution – like its latency
-or accuracy per defined suite of tests. Assessments are covered in this section. Grading is an aggregation
-of assessments and is covered in the next section.
+Однією з важливих переваг для екосистеми від розвитку та широкого використання OPEA є структурований набір оцінок, який може забезпечити надійний зворотний зв'язок щодо потоків GenAI - незалежно від того, чи вони створені в рамках OPEA, чи деінде, але мають видимість і доступ, що дозволяє проводити оцінювання.
+Оцінювання може здійснюватися шляхом аналізу окремих компонентів або повних комплексних рішень GenAI.
+Оцінювання в контексті OPEA стосується оцінки окремих аспектів рішення - наприклад, його затримки або точності відповідно до визначеного набору тестів. Оцінки розглядаються в цьому розділі. Градація - це сукупність оцінок, і вона розглядається в наступному розділі.
 
-Components and entire end-to-end flows will be evaluated in four domains – performance, features,
-trustworthiness and enterprise-readiness.
+Компоненти і цілі наскрізні потоки будуть оцінюватися в чотирьох сферах - продуктивність, функціональність, надійність і корпоративна готовність.
 
-Performance can be evaluated at the component level - e.g., Vector Database latency over a given large,
-indexed dataset, or latency and throughput of an LLM model. Moreover, performance needs to be
-evaluated for end-to-end solutions that perform defined tasks. The term ‘performance’ refers to aspects
-of speed (e.g., latency), capacity (e.g., memory or context size) as well as accuracy or results.
+Продуктивність можна оцінити на рівні компонентів - наприклад, затримку векторної бази даних на заданому великому індексованому наборі даних або затримку і пропускну здатність моделі LLM. Крім того, продуктивність потрібно 
+оцінювати для наскрізних рішень, які виконують визначені завдання. Термін «продуктивність» стосується аспектів швидкості (наприклад, затримки), пропускної здатності (наприклад, пам'яті або розміру контексту), а також точності або результатів.
 
-OPEA can utilize existing evaluation specs like those used by SotA RAG systems and other standard
-benchmarks wherever possible (e.g., MMLU). As for functionality, there are benchmarks and datasets
-available to evaluate particular target functionality such as multi-lingual (like FLORES) or code
-generations (e.g., Human-Eval).
+OPEA може використовувати існуючі специфікації оцінювання, такі як ті, що використовуються системами SotA RAG, та інші стандартні бенчмарки, де це можливо (наприклад, MMLU). Що стосується функціональності, існують еталони та набори даних доступні для оцінки конкретної цільової функціональності, наприклад, багатомовності (як FLORES) або коду поколінь (наприклад, Human-Eval).
 
-For evaluating trustworthiness/Hallucination safety the spec will leverage existing benchmarks such
-as  RGB benchmark/Truthful QA where possible.
+Для оцінки достовірності/безпеки галюцинацій специфікація буде використовувати існуючі бенчмарки, такі як RGB-бенчмарк / Truthful QA, де це можливо.
 
-Some assessment of enterprise readiness would include aspects of scalability (how large of data set the
-system can handle, size of vector store, size and type of models), infrastructure readiness (cloud vs bare
-metal), and software ease of deployment (any post-OPEA steps required for broad deployment). One of
-the measures that could be assessed in this category is overall Cost/TCO of a full end-to-end GenAI flow.
+Деякі оцінки готовності підприємства включають аспекти масштабованості (наскільки великий набір даних може обробляти система, розмір векторного сховища, розмір і тип моделей), готовність інфраструктури (хмарна чи «голий метал») і простота розгортання програмного забезпечення (будь-які кроки після OPEA, необхідні для широкого розгортання). Одним із показників, які можна оцінити в цій категорії, є загальна вартість/сукупна вартість володіння повним наскрізним потоком GenAI.
 
-When aspects of composite GenAI solutions are not freely available, reliable benchmarks or tests,
-efforts will be made to ensure creation of such. As many of the current (early 2024) benchmarks are
-focusing on performance and features, there will be an effort to complement those as needed for
-assessing trustworthiness and enterprise-readiness.
+Якщо для деяких аспектів композитних рішень GenAI немає у вільному доступі надійних еталонів або тестів, будуть докладені зусилля для забезпечення їх створення. Оскільки багато з поточних (на початок 2024 року) тестів зосереджені на продуктивності та функціях, будуть докладені зусилля, щоб доповнити їх за необхідності для оцінювання надійності та готовності підприємства.
 
-The development of assessments should use learnings from similar evaluations when available. For
-example, referring to RAG evaluation as reported by Cohere’s Nils Reimers.  See more details here:
+При розробці оцінок слід використовувати досвід аналогічних оцінок, якщо такий є. Наприклад, посилаючись на оцінку RAG, проведену Нільсом Реймерсом з Coere.  Детальніше див. тут:
 
-* Human preference
-* Average accuracy of an E2E
-* Multi-lingual
-* Long-context “Needles in Haystack”
-* Domain specific
+* Людські уподобання
+* Середня точність E2E
+* Багатомовність
+* Довготривалий контекст «Голки в стозі сіна»
+* Специфіка домену
 
-The assessments development will be starting with focus on primary use-cases for RAG flow, such as
-Open Q&A. It will allow for comparison with common industrial evaluations (see Cohere, GPT-4)
+Розробка оцінок розпочнеться з зосередження уваги на основних сценаріях використання потоку РАВ, таких як Open Q&A.  Це дозволить порівняти їх із загальноприйнятими промисловими оцінками (див. Cohere, GPT-4)
 
+## 5. Структура оцінювання
 
-## 5. Grading Structure
+Структура оцінювання OPEA відноситься до конкретних тестів і контрольних показників як до «оцінок» - див. попередній розділ для деталей. «Градація» - це частина оцінювання OPEA, яка об'єднує декілька індивідуальних оцінок в один з трьох рівнів оцінок на одному з трьох рівнів у кожній з чотирьох сфер оцінювання - ефективність, характеристики, надійність і готовність підприємства.
 
-OPEA evaluation structure refers to specific tests and benchmarks as ‘assessments’ – see previous
-section for details. ‘Grading’ is the part of OPEA evaluation that aggregates multiple individual
-assessments into one of three levels, in each of the four evaluation domains – performance, features,
-Trustworthiness and Enterprise readiness.
+Наступний проект системи оцінювання наведено лише для ілюстрації та обговорення. Система оцінювання повинна бути визначена і впроваджена на основі обговорень в органі технічної експертизи і будь-якого іншого механізму управління, який буде визначений для OPEA.
 
-The following draft of a grading system is for illustration and discussion purposes only. A grading
-system should be defined and deployed based on discussions in the technical review body and any other
-governance mechanism that will be defined for OPEA.
+Для забезпечення того, щоб композиційні системи вирішували широкий спектр проблем, пов'язаних з розгортанням підприємства, система класифікації має чотири категорії:
 
-To ensure that compositional systems are addressing the range of care-abouts for enterprise
-deployment, the grading system has four categories:
+* Продуктивність - Орієнтована на загальну продуктивність системи та ефективність/TCO
+* Функції - обов'язкові та додаткові можливості компонентів системи
+* Надійність - здатність гарантувати якість, безпеку і надійність. При цьому враховується відповідна державна або інша політика.
+* Готовність підприємства - можливість використання у виробництві в умовах підприємства.
 
-* Performance – Focused on overall system performance and perf/TCO
-* Features- Mandatory and optional capabilities of system components
-* Trustworthiness – Ability to guarantee quality, security, and robustness. This
-  will take into account relevant government or other policies.
-* Enterprise Readiness – Ability to be used in production in enterprise environments.
+Сьогодні спільноти та промисловість добре розуміють можливості Продуктивності та Функцій, в той час як надійність і готовність підприємства все ще перебувають на ранній стадії аналізу й оцінки, коли мова йде про рішення GenAI. Тим не менш, всі сфери є важливими для забезпечення ефективних, безпечних, надійних рішень, що враховують конфіденційність і готові до широкого розгортання.
 
-The Performance and Features capabilities are well understood by the communities and industry today,
-while Trustworthiness and Enterprise Readiness are still in their early stage for assessment and
-evaluation when it comes to GenAI solutions. Nevertheless, all domains are essential to ensure
-performant, secure, privacy-aware, robust solutions ready for broad deployment.
+Система оцінювання не призначена для додавання будь-яких конкретних тестів або критеріїв. Всі індивідуальні тести повинні бути частиною оцінювання. Скоріше, мета системи оцінювання полягає в тому, щоб надати загальний рейтинг щодо продуктивності, функціональності, надійності та корпоративної готовності потоку GenAI на основі безлічі індивідуальних оцінок. Очікується, що вона надасть абстраговане і спрощене уявлення про потік GenAI, що оцінюється. Буде зроблена спроба відповісти на два основні питання - яким є рівень можливостей потоку GenAI порівняно з іншими потоками, що оцінюються на той час, а також оцінити деякі необхідні вимоги (наприклад, щодо безпеки і готовності підприємства) для надійного розгортання рішень GenAI в масштабі. A система оцінювання встановлює механізм для оцінки різних побудованих рішень ШІ (наприклад, конкретних потоків RAG) в контексті структури OPEA.
 
-The grading system is not intended to add any particular tests or benchmarks. All individual tests are to
-be part of the assessments. Rather, the grading system goal is to provide an overall rating as to the
-performance, functionality, trustworthiness and enterprise readiness of a GenAI flow over a multitude
-of individual assessments. It is expected to provide an abstracted and simplified view of the GenAI flow
-under evaluation. It will attempt to address two basic questions – what is the level of capabilities of a
-flow relative to other flows evaluated at that time, as well as evaluate some necessary requirements
-(such as for security and enterprise readiness) for robust deployment of GenAI solutions at scale. A
-grading system establishes a mechanism to evaluate different constructed AI solutions (such as
-particular RAG flows) in the context of the OPEA framework.
+Для кожної категорії буде встановлено 3 рівні оцінювання:
 
-For each category, the assessments will be set with 3 levels:
+* L1 - Початковий рівень - обмежені можливості. Рішення може розглядатися як менш  просунутим або продуктивним порівняно з іншими рішеннями, оціненими для подібних завдань. Воно може зіткнутися з проблемами при розгортанні (якщо є недоліки в надійності або  готовності підприємства).
+* L2 – Ринковий - Відповідає потребам ринку. Рішення представляє середній діапазон  систем, що розглядаються та оцінюються. Його можна безпечно розгортати у виробничих корпоративних середовищах і, як очікується, відповідатиме поширеним стандартам безпеки та прозорості. 
+* L3 - Просунутий - Перевищує середні ринкові потреби. Рішення представляє найвищий рівень компонентів або наскрізних потоків GenAI, що розглядаються та оцінюються на даний момент. Воно відповідає або перевищує всі вимоги щодо безпеки, конфіденційності, прозорості та розгортання в масштабі.
 
-* L1 – Entry Level – Limited capabilities. The solution might be seen as less
-  advanced or performant relative to other solutions assessed for similar tasks.
-  It might encounter issues in deployment (if deficiencies in trustworthiness or
-  enterprise readiness).
-* L2 – Market – Meets market needs. The solution represents that mid-range of
-  systems being reviewed and assessed. It can be safely deployed in production
-  enterprise environments and is expected to meet prevalent standards on
-  security and transparency.
-* L3 – Advanced – Exceeds average market needs. The solution represents the
-  top-range of components or end-to-end GenAI flows being reviewed and assessed
-  at the time. It meets or exceeds all security, privacy, transparency and
-  deployment-at-scale requirements.
-
-The grading system can be used by GenAI users to ensure that the solution being evaluated is meeting
-the ecosystem expectations in a field that is moving exceptionally fast. It can highlight exceptional
-solutions or point out areas of concern. The structured approach across the four domains ensures that
-the combined learnings of the ecosystem at any given time are being reflected in the feedback to the
-prospective users of a particular GenAI solution. Naturally, the goal posts of what is defined as L1/L2/L3
-need to be updated on regular basis as the industry pushes GenAI State-of-the-Art forward.
-
+Система оцінювання може бути використана користувачами GenAI, щоб переконатися, що рішення, яке оцінюється, відповідає очікуванням екосистеми в галузі, яка розвивається надзвичайно швидко. Вона може виділити виняткові рішення або вказати на проблемні області. Структурований підхід у чотирьох сферах гарантує, що сукупний досвід екосистеми в будь-який момент часу відображається у зворотному зв'язку з потенційними користувачами конкретного рішення GenAI. Природно, що цільові пости того, що визначається як L1/L2/L3 повинні регулярно оновлюватися, оскільки галузь штовхає GenAI до найсучасніших досягнень.
 
 ![Overall view of the grading system across four domains](images/framework-image4.png)
 
-Figure 5-1 Overall view of the grading system across four domains
+Рисунок 5-1 Загальний вигляд системи оцінювання в чотирьох сферах
 
-The grading system can play a different role for the providers of models, building blocks (modules), and
-complete end-to-end GenAI solutions. Providers can get structured and impartial feedback on the
-strengths and weaknesses of their offering compared with the rest of the market. An articulation of all
-key areas for enterprise deployment is expected to guide providers towards a more robust and
-complete delivery and continuous improvement for broad enterprise deployment. It also serves to
-highlight outstanding solutions, providing them tailwinds as the present and differentiate their offering.
+Система оцінювання може відігравати різну роль для постачальників моделей, будівельних блоків (модулів) і повних комплексних рішень GenAI. Постачальники можуть отримати структурований і неупереджений відгук про сильні та слабкі сторони їхньої пропозиції порівняно з рештою ринку. Очікується, що формулювання всіх ключових сфер для розгортання на підприємствах допоможе провайдерам забезпечити більш надійну і повну доставку та постійне вдосконалення для широкого розгортання на підприємствах. Це також допоможе виділити видатні рішення, забезпечивши їм попутні вітри в сьогоденні та диференціюючи їхні пропозиції.
 
-If and when certification becomes part of the framework (discussion and decisions to be made at a later
-stage) it is assumed that a system needs to be at least at Level 2 for every aspect to be “OPEA Certified”.
-Such certification can increase the confidence of both providers and users that the GenAI solution being
-evaluated is competitive and ready for broad deployment – stopping short of promising a guarantee of
-any sort.
+Якщо і коли сертифікація стане частиною структури (обговорення та рішення будуть прийняті на більш пізньому етапі), передбачається, що система повинна бути принаймні на рівні L2 для кожного аспекту, щоб бути «сертифікованою OPEA».
+Така сертифікація може підвищити впевненість як постачальників, так і користувачів у тому, що рішення GenAI, яке оцінюється, є конкурентоспроможним і готовим до широкого розгортання, не надаючи при цьому жодних гарантій.
 
-The assessment test suites and associated grading will allow for ISVs and industry solution adopters to
-self-test, evaluate and grade themselves on the various metrics. The test suite will be comprised of
-applicable tests/benchmarks currently available in the community and where no standard benchmarks
-exist, new tests will be developed. For each of these metrics we will have a grading mechanism to map
-particular score ranges to L1, L2 or L3 for that time. These ranges will be updated periodically to reflect
-the advancements in the field.
+Набори оціночних тестів і пов'язане з ними оцінювання дозволять постачальникам ІТ-послуг і галузевим компаніям, які впроваджують рішення, мати можливість самотестуватися, оцінювати та класифікувати себе за різними показниками. Набір тестів складатиметься з відповідних тестів/бенчмарків, які наразі доступні у спільноті, а за відсутності стандартних бенчмарків, будуть розроблені нові тести. Для кожної з цих метрик ми матимемо механізм оцінювання, щоб зіставити певні діапазони балів до L1, L2 або L3 на цей час. Ці діапазони будуть періодично оновлюватися, щоб відображати прогрес у цій галузі.
 
-Figure 5-2 illustrates some of the aspects to be evaluated in the four domains. Yellow highlighted
-examples show the minimal assessments needed for each of the domains. The blue highlighted
-examples show the next level of assessments that indicate higher level capabilities of the RAG pipeline.
-The next level and the highest level of assessments are indicated by text with no color.
-
-
+Рисунок 5-2 ілюструє деякі з аспектів, що підлягають оцінці в чотирьох сферах. Приклади, виділені жовтим кольором, показують мінімальні оцінки, необхідні для кожної з областей. Приклади, виділені синім кольором, показують наступний рівень оцінок, які вказують на більш високі можливості конвеєра RAG. Наступний і найвищий рівні оцінок позначені текстом без кольору.
 
 ![Capabilities and Testing Phases](images/framework-image5.png)
 
-Figure 5-2 Capabilities and Testing Phases
+Рисунок 5-2 Можливості та етапи тестування
 
-## 6. Reference flows
+## 6. Референтні потоки
 
-Reference flows are end-to-end instantiations of use cases within the OPEA framework. They represent
-a specific selection of interoperable components to create an effective implementation of a GenAI
-solution. Reference flows documentation and links need to include comprehensive information
-necessary for users of the framework to recreate and execute the flow, reproducing the results reported
-for the flow.  The reference flow documentation will provide links to the required components (which
-may come from multiple providers) and the necessary script and other software required to run them.
+Референтні потоки - це наскрізні екземпляри кейсів використання в рамках OPEA. Вони являють собою конкретний вибір сумісних компонентів для створення ефективної реалізації рішення GenAI. Документація та посилання на еталонні потоки повинні містити вичерпну інформацію необхідну користувачам фреймворку для відтворення та виконання потоку, відтворюючи результати, про які повідомляється для потоку.  Документація еталонного потоку повинна містити посилання на необхідні компоненти (які можуть надходити від різних постачальників), а також на необхідні скрипти та інше програмне забезпечення, необхідне для їх запуску.
 
-Several flows will exclusively focus on open models and other components, providing full transparency
-when necessary. Other flows may include proprietary components that can be called/activated within
-those flows. However, the components being referred to in a reference flow must be accessible to OPEA
-users – whether they are open source or proprietary, free to use or fee-based.
+Кілька потоків будуть зосереджені виключно на відкритих моделях та інших компонентах, забезпечуючи повну прозорість коли це необхідно. Інші потоки можуть включати пропрієтарні компоненти, які можна викликати/активувати в рамках цих потоків. Однак компоненти, на які посилаються в довідковому потоці, повинні бути доступними для користувачів OPEA - незалежно від того, чи є вони відкритими або пропрієтарними, безкоштовними для використання або платними.
 
-Reference Flows serve several primary objectives:
+Референтні потоки мають кілька основних цілей:
 
-* Demonstrate representative instantiations: Within OPEA framework, reference
-  flows showcase specific uses and tasks. Given the framework’s inherent
-  flexibility, various combinations of components are possible allowing for
-  maximum flexibility. Reference flows demonstrate how specific paths and
-  combinations can be effectively implemented within the framework.
-* Highlight the framework’s potential: By offering optimized reference flows
-  that excel in performance, features, trustworthiness, and enterprise
-  readiness, users can gain insight into what can be achieved. The experience
-  serves as valuable learning tools towards achieving their AI deployment goals
-  and planning.
-* Facilitate easy deployment: Reference flows are designed to be accessible and
-  easy to instantiate with relatively low effort. It allows replicating a
-  functional flow within their environment with minimal effort, allowing
-  subsequent modifications as needed.
-* Encourage innovation and experimentation: Allow users in the ecosystem to
-  experiment with and innovate with a broad set of flows and maximize the value
-  for their end-to-end use cases.
+* Продемонструвати репрезентативні приклади: В рамках OPEA, еталонні потоки демонструють потоки демонструють конкретне використання та завдання. Враховуючи притаманну системі гнучкість, можливі різні комбінації компонентів, що забезпечує максимальну гнучкість. Еталонні потоки демонструють, як конкретні шляхи та комбінації можуть бути ефективно реалізовані в рамках комбінації можуть бути ефективно реалізовані в рамках фреймворку.
+* Підкреслити потенціал фреймворку: Пропонуючи оптимізовані потоки посилань які вирізняються високою продуктивністю, функціональністю, надійністю та корпоративною готовністю, користувачі можуть отримати уявлення про те, чого можна досягти. Досвід слугує цінним навчальним інструментом для досягнення цілей розгортання ШІ та планування.
+* Сприяти легкому розгортанню: Еталонні потоки розроблені таким чином, щоб бути доступними і легко інстанціювати з відносно невеликими зусиллями. Це дозволяє реплікувати функціональний потік у своєму середовищі з мінімальними зусиллями, що дозволяє подальші модифікації за потреби.
+* Заохочувати інновації та експерименти: Дозвольте користувачам в екосистемі експериментувати та впроваджувати інновації з широким набором потоків і максимізувати цінність для їх наскрізних сценаріїв використання.
 
-OPEA will deploy and evolve a visualization language to capture the blueprint flows (e.g., a base flow for
-RAG chat/Q&A) as well as to document the choices made for every reference flow. The visualization has
-a legend (see Figure 6-1) that illustrates the key choices in the reference flow (e.g., sequence of
-functions or containerization) (see Figure 6-2) as well as the implementation choices for particular
-model and modules (See Appendix A section A6).
-
+OPEA розгорне і розвиватиме мову візуалізації для відображення потоків проекту (наприклад, базовий потік для чату RAG/питання-відповіді), а також для документування вибору, зробленого для кожного еталонного потоку. Візуалізація має легенду (див. Рисунок 6-1), яка ілюструє ключові рішення в еталонному потоці (наприклад, послідовність функцій або контейнеризація) (див. Рисунок 6-2), а також рішення щодо реалізації для конкретної моделі та модулів (див. Додаток А, розділ А6).
 
 ![Legend for Blueprint and Reference Flows](images/framework-image6.png)
 
-Figure 6-1 Legend for Blueprint and Reference Flows
-
-
+Рисунок 6-1 Умовні позначення для схеми та еталонних потоків
 
 ![Example of blueprint RAG flow](images/framework-image7.png)
 
-Figure 6-2 Example of blueprint RAG flow
+Рисунок 6-2 Приклад схеми потоку RAG
 
+Розділ «Еталонні потоки» специфікації (Розділ A6 у Додатку A) містить початковий каталог еталонних потоків, що демонструє загальні завдання та різноманітні комбінації апаратних засобів і компонентів ШІ. Оскільки ця колекція еталонних потоків розширюється, з'являється різноманітний набір постачальників рішень
+постачальників і варіацій апаратного забезпечення (Intel, NVIDIA та інші), а також моделей, модулів і конструкцій.
 
-
-The Reference flows section of the specification (Section A6 in Appendix A) provides an initial catalog of
-reference flows, demonstrating common tasks and diverse combinations of hardware and AI
-components. As this collection of reference flows is extended, there will be diverse set of solution
-providers and variations of HW (Intel, NVIDIA and others) as well as AI models, modules and
-construction.
-
-
-
-## Appendix A – Draft OPEA Specifications
+## Додаток А - Проект Специфікацій OPEA
 
 **Rev 0.1     April 15, 2024**
 
-The draft specifications are intended for illustration and discussion purposes. The appendix has six
-sections:
+Проект специфікацій призначений для ілюстрації та обговорення. Додаток складається з шести розділів:
 
-* A1: System Components - List of ingredients that comprise a composed system,
-  along with their key characteristics.
-* A2: SW architecture - Diagram providing the layering of components in a SW stack
-* A3: System flows – Diagram[s] illustrating the flow of end-to-end operation
-  through the relevant components.
-* A4: Select specifications at system and component level
-* A5: Grading – Grading of systems being evaluated based on performance,
-  features, trustworthiness and enterprise-grade readiness.
-* A6: Reference Flows – List of reference flows that demonstrate key use-cases
-  and allow for downloading and replication for a faster path to create an
-  instantiation of the flow.
+* A1: Компоненти системи - список компонентів, що входять до складу системи,
+  разом з їх ключовими характеристиками.
+* A2: Архітектура SW - Діаграма, що показує рівень компонентів у стеку SW
+* A3: Потоки системи - Діаграма(и), що ілюструє(ють) потік наскрізної операції
+  через відповідні компоненти.
+* A4: Вибір специфікацій на рівні системи та компонентів
+* A5: Градація - Класифікація систем, що оцінюються, на основі продуктивності, функцій, надійності та готовності до роботи на рівні підприємства.
+* A6: Референтні потоки - Список референтних потоків, які демонструють ключові випадки використання і дозволяють завантажувати та реплікувати їх для швидшого створення власної інстанції потоку.
 
-This is an early draft of OPEA framework specification. It provides an initial view of the content and is
-expected to be substantially expanded in future revisions.
+Це попередній проект рамкової специфікації ОЕА. Він дає початкове уявлення про зміст і, як очікується, буде суттєво розширений у майбутніх редакціях.
 
-Disclaimer – The term ‘specification’ is used throughout this draft whitepaper and appendix as a broad
-working term, referring generally to a detailed description of systems and their components. However, it
-is important to note that this term might be replaced or updated based on more precise characterization
-and applying the Linux Foundation licensing considerations.
+Зауваження - Термін «специфікація» використовується в цьому проекті технічної записки та додатку як широкий робочий термін, що загалом відноситься до детального опису систем та їх компонентів. Однак, важливо зазначити, що цей термін може бути замінений або оновлений на основі більш точного опису та застосування ліцензійних міркувань Linux Foundation.
 
-### A1: System Components
+### A1: Компоненти системи
 
-| Components | Description | OSS Examples | Proprietary Examples |
+| Компоненти | Опис | OSS Приклади | Пропрієтарні приклади |
 | ---------- | ----------- | ------------ | -------------------- |
-| Agent framework | Orchestration software for building and deploying workflows combining information retrieval components with LLMs for building AI agents with contextualized information | Langchain, LlamaIndex, Haystack, Semantic Kernel
-| Ingest/Data Processing | Software components that can be used to enhance the data that is indexed for retrieval. For example: process, clean, normalization, information extraction, chunking, tokenization, meta data enhancement.  | NLTK, spaCY, HF Tokenizers, tiktoken, SparkNLP
-| Embedding models/service | Models or services that convert text chunks into embedding vectors to be stored in a vector database | HF Transformers, S-BERT | HF TEI, OpenAI, Cohere, GCP, Azure embedding APIs, JinaAI
-| Indexing/Vector store | A software for indexing information (sparse/vector) and for retrieving given a query | Elasticsearch, Qdrant, Milvus, ChromaDB, Weaviate, FAISS, Vespa, HNSWLib, SVS, PLAID | Pinecone, Redis
-| Retrieval/Ranking | A SW component that can re-evaluate existing contexts relevancy order | S-BERT, HF Transformers, Bi/Cross-encoders, ColBERT | Cohere
-| Prompt engine | A component that creates task specific prompts given queries and contexts, tracks user sessions (maintain history/memory) | Langchain hub
-| Memory | Conversation history in memory and/or persistent database | Langchain Memory module, vLLM (automatic prefix caching)
-| LLM engine/service | LLM inference engine that generate text responses based on given prompts and contexts retrieved | vLLM, Ray, TensorRT-LLM | HF TGI, Deci Infery
-| LLM Models | Open-source and close-source models. | LLama2-7B,13B, Falcon 40B, Mixtral-7b, Gemma etc. | LLama2-70B, OpenAI, Cohere, Gemini, etc.
-| Guardrails | A software component for enforcing compliance, filtering, safe responses| LLM Guard | Purple llama, OpenAI safety control, NEMO-Guardrails
-| Evaluation | Methods to evaluate compliance, Performance, Accuracy, Error rate of the LLM response | Recall, MAP, MTEB, MTBench, MMLU, TriviaQA, TruthfulQA…
+| Agent framework | Оркестрове програмне забезпечення для побудови та розгортання робочих процесів, що поєднує компоненти пошуку інформації з LLM для створення агентів ШІ з контекстною інформацією | Langchain, LlamaIndex, Haystack, Semantic Kernel
+| Ingest/Data Processing | Програмні компоненти, які можна використовувати для покращення даних, що індексуються для пошуку. Наприклад: обробка, очищення, нормалізація, вилучення інформації, розбиття на частини, токенізація, покращення метаданих.  | NLTK, spaCY, HF Tokenizers, tiktoken, SparkNLP
+| Embedding models/service | Моделі або сервіси, які перетворюють фрагменти тексту на вектори вбудовування для зберігання у векторній базі даних | HF Transformers, S-BERT | HF TEI, OpenAI, Cohere, GCP, Azure embedding APIs, JinaAI
+| Indexing/Vector store | Програмне забезпечення для індексування інформації (розрідженої/векторної) та пошуку за запитом | Elasticsearch, Qdrant, Milvus, ChromaDB, Weaviate, FAISS, Vespa, HNSWLib, SVS, PLAID | Pinecone, Redis
+| Retrieval/Ranking | Компонент SW, який може переоцінювати порядок релевантності існуючих контекстів | S-BERT, HF Transformers, Bi/Cross-encoders, ColBERT | Cohere
+| Prompt engine | Компонент, який створює підказки для конкретних завдань відповідно до запитів і контексту, відстежує сеанси користувачів (зберігає історію/пам'ять) | Langchain hub
+| Memory | Історія розмов у пам'яті та/або постійній базі даних | Langchain Memory module, vLLM (automatic prefix caching)
+| LLM engine/service | Механізм логічного висновку LLM, який генерує текстові відповіді на основі заданих підказок і знайдених контекстів | vLLM, Ray, TensorRT-LLM | HF TGI, Deci Infery
+| LLM Models | Моделі з відкритим і закритим кодом. | LLama2-7B,13B, Falcon 40B, Mixtral-7b, Gemma etc. | LLama2-70B, OpenAI, Cohere, Gemini, etc.
+| Guardrails | Програмний компонент для забезпечення відповідності, фільтрації, безпечного реагування | LLM Guard | Purple llama, OpenAI safety control, NEMO-Guardrails
+| Evaluation | Методи оцінки відповідності, продуктивності, точності, частоти помилок відповіді LLM | Recall, MAP, MTEB, MTBench, MMLU, TriviaQA, TruthfulQA…
 
 
-Figure A1.1 List of key components.
+Таблиця A1.1 Перелік ключових компонентів.
 
-### A2: SW Architecture
+### A2: Архітектура SW
 
-Support model selection and data integration across popular user-facing frameworks. It leverages
-popular agent frameworks (aka orchestration frameworks or AI Construction Platforms) for developer
-productivity and availability of platform optimization.
+Підтримує вибір моделі та інтеграцію даних у популярних фреймворках, орієнтованих на користувача. Використовує популярні агентські фреймворки (також відомі як оркестрові фреймворки або платформи для побудови штучного інтелекту) для підвищення продуктивності розробників і доступності оптимізації платформи.
 
-Tuning of the solutions leverage platform optimizations via popular domain frameworks such as Hugging
-Face ecosystem to reduce developer complexity and provide flexibility across platforms.
+Тюнінг рішень використовує оптимізацію платформи за допомогою популярних доменних фреймворків, таких як екосистема Hugging Face, щоб зменшити складність для розробників і забезпечити гнучкість на різних платформах.
 
-![OPEA solution stack](images/framework-image8.png]
+![OPEA solution stack](images/framework-image8.png)
 
-Figure A2.1 – OPEA solution stack.
+Рисунок A2.1 - Стек рішень для OPEA.
 
 
-### A3: System Flows
+### A3: Системні потоки
 
 ![Main OPEA system RAG flow](images/framework-image9.png)
 
-Figure A3.1 – Main OPEA system RAG flow.
+Рисунок A3.1 - Основні потоки RAG в системі OPEA.
 
-### A4: Select Specifications
+### A4: Вибір специфікацій
 
-Evaluating a composite generative AI system requires a view of end-to-end capabilities as well as assessment of individual components.
+Оцінювання складеної генеративної системи штучного інтелекту вимагає як комплексного бачення можливостей, так і оцінки окремих компонентів.
 
-#### A4.1 End-to-end assessment
+#### A4.1 Наскрізне оцінювання
 
-Following are some examples of assessments addressing the four domains - performance, features, trustworthiness and enterprise readiness.
+Нижче наведено кілька прикладів оцінок, що стосуються чотирьох сфер - продуктивності, функцій, надійності та готовності підприємства.
 
-##### Performance
-* Overall System Performance
-  * Latency (first token latency, average token latency, streaming vs non-streaming output)
-  * Throughput
-  * Given a fixed combination of various components of RAG (specific vendor instance for each component), overall system performance.
-  * For a specific task/domain, list the combination that would give the best system performance.
-* Q&A evaluation (accuracy)
-  * Task: Open Q&A
-  * Databases: NQ, TriviaQA and HotpotQA
-  * Metric: Average Accuracy
-  * Indexing: KILT Wikipedia
+##### Продуктивність
+* Загальна продуктивність системи
+  * Затримка (затримка першого токена, середня затримка токена, потоковий і не потоковий вивід)
+  * Пропускна здатність
+  * За умови фіксованої комбінації різних компонентів RAG (конкретний екземпляр постачальника для кожного компонента), загальна продуктивність системи.
+  * Для конкретного завдання/домену перерахуйте комбінацію, яка забезпечить найкращу продуктивність системи.
+* Оцінка Q&A (точність)
+  * Завдання: Відкрите Q&A
+  * Бази даних: NQ, TriviaQA і HotpotQA
+  * Метрика: Середня точність
+  * Індексація: KILT Wikipedia
 
-##### Features / Functionality
+##### Функції / Функціональність
 
-* Functional
-  * Features – multimodal, Multi-LLM, Multiple embedding model choices, multiple Embedding DBs, context length
-  * Context Relevance (context precision/recall)
-  * Groundedness/faithfulness
-  * Answer Relevance
-* Multi-step reasoning
-  * Task: 3-shot multi-hop REACT agents
-  * Databases: Wikipedia (HotPotQA), Internet (Bamboogle)
-  * Metric: Accuracy
-  * Test sets: Reflexion, Ofir Press
-* Multi-lingual
-  * Task: Semantic Search
-  * Search Quality
-  * Metric nDCG @10
-  * 18 languages
-  * Benchmark: MIRCAL
-* Multi-lingual
-  * Tasks: Multilingual MMLU, Machine Translation
-  * Metric: Accuracy, BLEU
-  * French, Spanish, Italian, German, Portuguese, Japanese, Korean, Arabic, and Chinese
-  * Benchmark: FLORES, MMLU
-* Conversational agent and Function calling
-  * Task: conversational tool-use and single-turn function-calling capabilities
-  * Benchmark-1: Microsoft’s ToolTalk
-  * Benchmark-2: Berkeley's Function Calling Leaderboard (BFCL)
-  * Tool-use Metric: Soft Success rate
-  * Function calls: Function Pass rate
-* Human reference on enterprise RAG use cases
-  * Domains: Customer support, Workplace support (Tech), Workplace Assistant (Media), Tech FAQ
-  * Metric: Win ratio vs. Mixtral
+* Функціональність
+  * Функції - мультимодальні, Multi-LLM, кілька варіантів моделей вбудовування, кілька вбудованих БД, довжина контексту
+  * Контекстна релевантність (точність/відповідність контексту)
+  * Заземленість/вірність
+  * Релевантність відповіді
+* Багатокрокова аргументація
+  * Завдання: 3-кратні багатозахідні агенти REACT
+  * Бази даних: Вікіпедія (HotPotQA), Інтернет (Bamboogle)
+  * Метрика: Точність
+  * Тестові набори: Reflexion, Ofir Press
+* Багатомовність
+  * Завдання: Семантичний пошук
+  * Якість пошуку
+  * Метрика: nDCG @10
+  * 18 мов
+  * Бенчмарк: MIRCAL
+* Багатомовність
+  * Завдання: Багатомовний MMLU, машинний переклад
+  * Метрика: Точність, BLEU
+  * Французька, іспанська, італійська, німецька, португальська, японська, корейська, арабська і китайська
+  * Бенчмарк: FLORES, MMLU
+* Діалоговий агент і виклик функцій
+  * Завдання: діалогове використання інструментів і можливість виклику функцій одним поворотом
+  * Бенчмарк-1: Microsoft’s ToolTalk
+  * Бенчмарк-2: Berkeley's Function Calling Leaderboard (BFCL)
+  * Метрика використання інструментів: коефіцієнт успіху софта
+  * Виклики функцій: Швидкість проходження функції
+* Довідка про випадки використання RAG на підприємстві
+  * Домени: Підтримка клієнтів, Підтримка на робочому місці (Тех), Асистент на робочому місці (Медіа), FAQ по техніці
+  * Метрика: Коефіцієнт виграшу проти Mixtral
 
-##### Enterprise readiness
+##### Готовність підприємства
 
-Enterprise Readiness Assessment involving assessing for the following:
+Оцінка готовності підприємства включає в себе оцінку наступних аспектів:
 
-1. Scalability
-2. Production deployability
-3. Updatability
-4. Observability/Debuggability
+1. Масштабованість
+2. Можливість розгортання на виробництві
+3. Оновлюваність
+4. Спостережуваність/налагоджуваність
 
-Scalability is associated with the ability of RAG system to scale the size/dimensions of different components such as the following example metrics:
-* Vector DB size
-* Dimensionality of retriever (the value of K in top-K documents)
-* Maximum context length supported by the generator
-* Parameter size of the generator models
-* Embedding dimension size
+Масштабованість пов'язана зі здатністю системи RAG масштабувати розмір/розміри різних компонентів, таких як наведені нижче приклади метрик:
+* Розмір векторної DB
+* Розмірність ретрівера (значення K у top-K документах)
+* Максимальна довжина контексту, яку підтримує генератор
+* Розмір параметрів генератора моделей
+* Розмір для вбудовування
 
-Production deploy-ability Readiness includes various capabilities such as
-* Efficient inference serving
-* Integrations with different enterprise systems such as Slack/workday/SAP/Databases
-* Enterprise grade RAS capabilities
-* Service Level Agreements (SLAs) on factuality, verifiability, performance enforceability
+Готовність до виробничого розгортання  включає в себе різні можливості, такі як
+* Ефективна подача висновків
+* Інтеграція з різними корпоративними системами, такими як Slack/workday/SAP/Databases
+* Можливості RAS на рівні підприємства
+* Угоди про рівень обслуговування (SLA) щодо фактичності, можливості перевірки та забезпечення виконання
 
-Updatability includes capability for
-* Rolling upgrade
-* Online upgrade
-* Component level upgrade
+Оновлюваність включає в себе можливість
+* Постійне оновлення
+* Оновлення онлайн
+* Оновлення на рівні компонентів
 
-Observability/Debuggability includes capability for
-* Error detection and attribution to component
-* Early detection of component degradation
-* Trace generation to debug failures (functional and performance)
-* Traceability of each intermediate step (prompts for chained LLMs)
+Спостережуваність/налагоджуваність включає в себе можливість для
+* Виявлення помилок і віднесення їх до компонента
+* Раннє виявлення деградації компонентів
+* Відстеження генерації для налагодження збоїв (функціональних і продуктивності)
+* Простежуваність кожного проміжного кроку (підказки для ланцюгових LLM)
 
-Examples for observability include Databricks Inference Tables/Phoenix Open Inference Traces or
-Langsmith Observability/monitoring features.
+Прикладами спостережуваності є таблиці виводу Databricks Inference Tables/Phoenix Open Inference Traces або функції спостережуваності/моніторингу Langsmith.
 
+#### A4.2 Оцінка окремих компонентів
 
-#### A4.2 Individual Components Assessment
+Оцінка окремих компонентів (модулів) буде включати в себе:
+* Трубопровід попередньої обробки даних
+* Вбудовування - якість/зберігання/час обробки
+* Чанкер, ретривер і ре-ранкер
+* Генератор LLM - якість/затримка/довжина контексту/здатність до міркувань/виклик функцій/використання інструментів
+* Автоматична оцінка проти ручної оцінки
+* Спостережуваність
+* Охоронні бар'єри
+* Спонукання
+* Генерація виводу - структурований/граматика/типи виводу(json/текст)
 
-Evaluation of individual components (modules) will include:
-* Data preprocessing pipeline
-* Embedding – Quality/Storage/Processing time
-* Chunker, Retriever & Re-ranker
-* Generator LLM – quality/latency/context length/reasoning ability/function calling/tool usage
-* Auto evaluation vs Manul evaluation
-* Observability
-* Guardrails -
-* Prompting
-* Output Generation – structured/grammar/output types(json/text)
+Ранній приклад наступного рівня формулювання метрик, очікуваних за кожним основним компонентом.
 
-Early example of next level articulation of metrics expected per each major component.
+Назва компонента: Ретривер
+* Метрика:  Normalized Discounted Cumulative Gain@10 з BEIR benchmark datasets або иншими QA наборами даних
+* Метрика: Context Recall@k
+* Метрика: Context Precision@k
+* Метрика: Hit Rate
 
-Component Name: Retriever
-* Metric:  Normalized Discounted Cumulative Gain@10 with BEIR benchmark datasets or other QA datasets
-* Metric: Context Recall@k
-* Metric: Context Precision@k
-* Metric: Hit Rate
+Назва компонента: LLM/Генерація
+* Метрика: Вірність - Наскільки фактично правильною є згенерована відповідь (обчислюється як метрика ragas від 0 до 1)
+* Метрика: Релевантність відповіді - наскільки згенерована відповідь відповідає запиту (обчислюється як метрика ragas від 0 до 1)
 
-Component Name: LLM/Generation
-* Metric: Faithfulness – How factually correct is the generated answer (computed as a ragas metrics between 0 and 1)
-* Metric: Answer Relevance – how relevant generated answer to the query
-  (computed as a ragas metrics between 0 and 1)
+### A5: Градація
 
+Для забезпечення того, щоб композиційні системи вирішували широкий спектр проблем, пов'язаних з розгортанням підприємства, система класифікації має чотири категорії:
 
-### A5: Grading
+* Продуктивність - Орієнтована на загальну продуктивність системи та ефективність/витрати на одиницю продукції
+* Функції - обов'язкові та додаткові можливості компонентів системи
+* Надійність - здатність гарантувати якість, безпеку і надійність.
+* Готовність підприємства - можливість використання у виробництві в умовах підприємства.
 
-To ensure that compositional systems are addressing the range of care-abouts for enterprise
-deployment, the grading system has four categories:
+Для кожної категорії буде встановлено 3 рівні оцінювання
+* L1 - Початковий рівень - обмежені можливості. Рішення прийнятне для PoC, але не для виробництва.
+* L2 - Ринковий - Відповідає потребам ринку. Може бути впроваджений у виробництво.
+* L3 – Просунутий - Перевищує потреби ринку.
 
-* Performance – Focused on overall system performance and perf/TCO
-* Features- Mandatory and optional capabilities of system components
-* Trustworthiness – Ability to guarantee quality, security, and robustness.
-* Enterprise Ready – Ability to be used in production in enterprise environments.
+Частково рекомендація стосується процесу сертифікації (якщо і коли він стане частиною системи). Передбачається, що система повинна бути щонайменше на рівні 2 для кожного аспекту, щоб бути «сертифікованою за стандартом OPEA».
 
-For each category, the assessments will be set with 3 levels
-* L1 – Entry Level – Limited capabilities. Solution acceptable for PoC, but not production.
-* L2 – Market – Meets market needs. Can be deployed in production.
-* L3 – Advanced – Exceeds market needs.
+#### A5.1 Оцінювання продуктивності
 
-Part of the recommendation is to have a certification (if and when it becomes part of the framework)
-process. It is assumed that a system needs to be at least at Level 2 for every aspect to be “OPEA
-Certified”.
+Оцінка продуктивності ґрунтується на виконанні наскрізних вертикальних сценаріїв використання для всієї системи і фіксації відповідних метрик під час виконання.
 
-#### A5.1 Performance Grading
+* E2E / Системний вигляд
+  * Постачальники мають гнучкість для інновацій/диференціації своїх реалізацій в рамках "чорної скриньки"
+* Запуск фіксованого набору кейсів використання
+  * Покриття різних вертикальних сценаріїв
+  * Мінімальний рівень точності та надійності
+* Вхідні набори даних для бенчмарку
+  * Відкриті/загальнодоступні
+  * Автоматичне генерування
+* Масштабні фактори
+  * Підтримує різні розміри вхідної величини
+* Метрики
+  * Затримка першого звернення, загальна затримка, пропускна здатність, вартість, узгодженість
+  * Формула для агрегування метрик для остаточного результату
+  * Вертикально-специфічні метрики
 
-Performance grading is based on running a set of vertical-specific end-to-end use cases on full system
-and capturing the relevant metrics during the run.
+##### Рівень продуктивності
+Оцінка ефективності базується на наборі наскрізних тестів RAG «чорної скриньки», що базуються на реальних прикладах використання кейсів. Кожне рішення, подане до альянсу OpenRag, буде оцінюватися за цим критерієм. Продуктивність включатиме затримку, пропускну здатність, масштабованість, точність і узгодженість.
 
-* E2E/System View
-  * Vendors have flexibility to innovate/differentiate their implementations within the black box
-* Running a fixed set of use cases
-  * Covering different vertical scenarios
-  * Minimum level of accuracy and reliability
-* Input Datasets for benchmark
-  * Open/publicly available
-  * Automatic generation
-* Scale factors
-  * Supports different input magnitude size
-* Metrics
-  * First-token latency, overall latency, throughput, cost, consistency
-  * Formula to aggregate metrics for final score
-  * Vertical-specific metrics
+* Рівень 1 - Базовий бенчмарк завершено
+* Рівень 2 - Відповідає рівням продуктивності, які очікуються для більшості рішень GenAI, що виконують подібні бенчмарки/завдання.
+* Level 3 – Перевершує продуктивність більшості рішень, що оцінюються на той час. Першокласні  рішення для оцінюваних завдань.
 
-##### Performance Grade
-Performance grade is based on a set of ‘black box’ end-to-end RAG benchmarks, based on real use
-cases. Each solution submitted to the OpenRag alliance will be measured against it. Performance
-measurements will include latency, throughput, scalability, accuracy and consistency.
+#### A5.2 Градація функцій
 
-* Level 1 – Baseline benchmark complete
-* Level 2 – Meets performance levels that are expected for the bulk of GenAI solutions performing
-  similar benchmarks/tasks.
-* Level 3 – Exceeds the performance of most solutions being evaluated at that time. Top-tier
-  solutions per the tasks evaluated.
+Оцінка функцій складається з запуску функціональних тестів для перевірки можливостей системи в ряді різних доменів. Кожна область буде мати свій власний бал.
 
-#### A5.2 Features Grading
-
-Feature grading consists of running functional tests to test system capabilities in a number of different
-domains. Each domain will have its own score.
-
-* Interoperability/API
-  * Functional tests for each interface
-  * Different granularity levels for components
-  * Open interfaces for 3rd party data sources
-  * Should enable multiple types of data sources
-* Platform capabilities and AI methods
-  * Ingest, inference, fine tuning
-  * Gen AI and reinforcement learning
-* User experience
-  * Ease of Use
-  * Management tools – single pane, inter-vendor
-  * GUI requirements
-  * Developer tools
-* Deployment models
-  * Orchestration
+* Функціональна сумісність/API
+  * Функціональні тести для кожного інтерфейсу
+  * Різні рівні деталізації для компонентів
+  * Відкриті інтерфейси для сторонніх джерел даних
+  * Повинні підтримувати різні типи джерел даних
+* Можливості платформи і методи ШІ
+  * Поглинання, висновки, тонке налаштування
+  * Gen AI і навчання з підкріпленням
+* Досвід користувача
+  * Простота використання
+  * Інструменти управління - єдина панель, між постачальниками
+  * Вимоги до графічного інтерфейсу
+  * Інструменти для розробників
+* Моделі впровадження
+  * Оркестрування
   * K8, hypervisor
-* Compliance
-  * Potential certification (if and when it becomes part of the framework) based on functional testing
+* Відповідність
+  * Потенційна сертифікація (якщо і коли вона стане частиною фреймворку) на основі функціонального тестування
 
-##### Features Grade
+##### Градація Функцій
 
-Features evaluated for interoperability, platform capabilities, user experience (ease of use), AI
-methods being applied, and specialized functionality.
+Функції оцінюються на предмет сумісності, можливостей платформи, користувацького досвіду (простота використання), методів штучного інтелекту, що застосовуються, і спеціалізованої функціональності.
 
-* Level 1 – Single model and accesses few data sources; Limited data ingest;
-  Basic or no development tools; basic UI; bare metal, manual install.
-* Level 2 - Multiple models, and accesses diverse enterprise data sources; full
-  data ingest; basic fine-tuning; flexible pipelining of modules in the flow;
-  basic agent controls.
-* Level 3 – Natively supports multimodal models and data source; Advanced
-  development tools with SotA fine-tuning and optimizations capabilities;
-  leading specialized features
+* Рівень 1 - Одинична модель і доступ до кількох джерел даних; обмежений доступ до даних;
+  Базові інструменти розробки або їх відсутність; базовий інтерфейс; «голий метал», ручне встановлення.
+* Рівень 2 - Кілька моделей і доступ до різних джерел даних підприємства; повне
+  повне введення даних; базове тонке налаштування; гнучка конвеєризація модулів у потоці;  базове управління агентами.
+* Рівень 3 - Природна підтримка мультимодальних моделей і джерел даних; розширені
+  інструменти розробки з можливостями тонкого налаштування й оптимізації SotA;
+  провідні спеціалізовані функції
 
+#### A5.3 Оцінювання надійності
 
-#### A5.3 Trustworthiness Grading
+Надійність і відповідальність ШІ розвиваються в оперативному сенсі. Дивіться надійний і відповідальний ШІ від NIST та Закон ЄС про ШІ. Поки ці зусилля розвиваються, ми пропонуємо класифікувати надійність рішень за осями безпеки, надійності, прозорості та впевненості:
 
-Trustworthiness and responsible AI are evolving in an operational sense. See NIST trustworthy and
-responsible AI  and the EU AI Act. While these efforts are evolving, for the interim, we propose grading
-solution trustworthiness along the axes of security, reliability, transparency, and confidence:
+* Прозорість
+  * Відкриті вихідні моделі та код. Це забезпечує видимість фактично працюючого коду, можливість перевірки версій і підписаних двійкових файлів.
+  * Відкриті стандарти, повторне використання існуючих стандартів.
+  * Набори даних, які використовуються для навчання моделі, що дозволяє проаналізувати розподіл даних і будь-які упередження в них. Наприклад, якщо модель виявлення раку навчалася на популяціях, які є дуже різноманітними - етнічно (геном) або за умовами навколишнього середовища (вплив канцерогенів), вона несе в собі ризик застосовності при використанні для осіб, які не є репрезентативними для навчальної множини.
+  * Посилання на джерела/документи, використані при формуванні відповідей, захист від галюцинацій. Одна з головних переваг RAG.
+  * Відповідність нормативним вимогам, таким як ISO27001, HIPAA і FedRAMP.
+* Безпека:
+  * Контроль доступу на основі ролей, сегментований доступ за ролями користувачів незалежно від використання однієї моделі. Це може бути етап попередньої або наступної обробки, який відфільтровує дані на основі доступу користувачів до різної інформації. Наприклад, виконавче керівництво може мати доступ до доходів компанії, фінансової звітності та списків клієнтів на відміну від інженера.
+  * Рішення, які працюють з мінімально необхідними привілеями процесу, щоб запобігти використанню експлойтів та підвищенню привілеїв, якщо додаток буде зламано.
+  * Запуск у довірених середовищах виконання, тобто апаратно-підтримуваних конфіденційних обчислювальних середовищах, які захищають використовувані дані, забезпечуючи конфіденційність і цілісність від привілейованих та інших процесів, що виконуються в тій самій інфраструктурі. Цінно особливо в хмарі.
+  * Атестація двійкових файлів, що використовуються, будь то моделі або програмне забезпечення.
+  * Перевірка логів, які вказують, коли і які оновлення були застосовані до моделей або іншого програмного забезпечення, включаючи патчі безпеки.
+  * Забезпечення того, що результати, проміжні та кінцеві, зберігаються лише на зашифрованих носіях і передаються кінцевим користувачам через безпечний транспорт.
+* Надійність
+  * Надає однакову відповідь за інших однакових умов, коли підказки схожі, але відрізняються використанням синонімів.
+  * Повертає правильні відповіді для кожного тесту.
+  * Впевненість
+  * У сценаріях надання відповідей на запитання усвідомлення якості та актуальності даних, використаних у RAG, а також надання цієї інформації разом із відповіддю допомагає кінцевому користувачеві визначити, наскільки він може бути впевненим у відповіді.
+  * Посилання на джерела відповідей. Метадані можуть також використовуватися, щоб показати, наскільки актуальною є вхідна інформація.
+  * Що стосується завдань діагностики/класифікації, таких як виявлення раку, відхилення тестового об'єкта від навчального набору даних є показником ризику застосовності, впевненості у відповіді (про що згадувалося вище в розділі «Прозорість даних»).
 
-* Transparency
-  * Open Source Models and Code. This provides visibility into the actual code running, being able to verify versions and signed binaries.
-  * Open standards, reusing existing standards.
-  * Data sets used in model training, which allows analysis of data distribution and any biases therein. For instance, if a cancer detection model was trained on populations that are very diverse - ethnically (genome), or environments (exposure to carcinogens), it carries with a risk of applicability when used for individuals that are not representative of the training set.
-  * Citing sources/documents used in generating responses, protecting from hallucinations. One of the chief benefits of RAG.
-  * Meeting regulatory requirements such as ISO27001, HIPAA, and FedRAMP as appropriate.
-* Security:
-  * Role-based access control, segmented access per user-role regardless of same model use. This could be a pre or post processing step that filters out data based on user access to different information. For instance, executive leadership may have access to company revenues, financials and customer lists versus an engineer.
-  * Solutions that run at the minimum necessary process privilege to prevent exploits form escalation of privileges should the application be hacked.
-  * Running in trusted execution environments, that is hardware supported confidential compute environments that protect data in use – providing confidentiality and integrity from privileged and other processes running on the same infrastructure. Valuable particularly in the cloud.
-  * Attesting binaries in use, be it models or software.
-  * Audit logs that indicate when and what updates were applied either to models or other software, including security patches.
-  * Ensuring that results, intermediate and final are persisted only on encrypted storage and shared with end users through secure transport.
-* Reliability
-  * Provide the same answer, all else remaining the same, when prompts are similar, differing in their use of synonyms.
-  * Returns correct answers, per tests.
-  * Confidence
-  * In question answering scenarios, awareness of the quality and how current/up-to-date data used in RAG and providing that information along with the response helps an end user in determining how confident they can be with a response.
-  * Cites sources for responses. Meta data can also be used to indicate how up-to-date the input information is.
-  * With respect to diagnosis/classification tasks, such as cancer detection, the divergence of the test subject from the training dataset is an indicator of applicability risk, confidence in the response (alluded to in data transparency above).
+##### Градація надійності
 
-##### Trustworthiness Grade
+Оцінка аспектів прозорості, захисту приватності та безпеки
+* Рівень 1 - Документування аспектів, що вимагаються у сфері довіри
+* Рівень 2 - Підтримує контроль доступу на основі ролей - інформація, до якої здійснюється доступ/вилучення, є  доступна на основі дозволу користувача (навіть якщо всі користувачі мають доступ до тієї самої моделі);
+* Рівень 3 - підтримує функції безпеки (наприклад, запуск конфіденційних обчислень / довіреного середовища виконання). Підтримує атестацію моделей, що запускаються; прозорість вихідного коду для набору даних для попереднього навчання, вагових коефіцієнтів, даних/рецептів точного налаштування.
 
-Evaluating transparency, privacy protection and security aspects
-* Level 1 – Documentation of aspects called for in trustworthiness domain
-* Level 2 - Supports role-based access controls  - information being accessed/retrieved is
-  available based on approval for the user (even if all users access the same model);
-* Level 3 - Supports security features (e.g., running Confidential Computing / Trusted
-  execution Environment). Supports attestation of the models being run; full open-
-  source transparency on pre-training dataset, weights, fine-tuning data/recipes
+#### A5.4 Градація готовності до роботи на підприємствах
 
+Оцінка готовності підприємства складається з оцінки здатності загального рішення до розгортання у виробничому середовищі підприємства. До уваги беруться наступні критерії:
 
+* Можливість локального і хмарного розгортання
+  * Щонайменше два типи екземплярів рішення (локальна інсталяція, хмарна, гібридний варіант)
+  * Готовність до хмарних / периферійних технологій (зверніться до процесу/рекомендацій CNCF)
+* Готовність до безпеки для підприємств
+  * Багаторівневий контроль доступу і реагування (включаючи можливість інтеграції з внутрішніми інструментами)
+  * Захист даних і моделей (наприклад, включаючи GDPR)
+  * Управління життєвим циклом, включаючи оновлення безпеки, виправлення помилок тощо
+  * Рішення, упаковані у вигляді контейнерних додатків, які не запускаються від імені користувача root або мають більше можливостей, ніж потрібно. Найкращі практики використання контейнерів OWASP.
+  * Переконайтеся, що побічні продукти/проміжні результати, якщо вони зберігаються на диску, зберігаються після шифрування.
+* Впевненість в якості
+  * Метрики точності та невизначеності для специфічних завдань підприємства
+  * Документація
+* Високий рівень доступності
+  * Реплікація і захист даних/екземплярів
+  * Стійкість - час перезапуску екземпляра, якщо він згорів до нуля.
+  * Надає підтримку та інструменти для підтримки підприємств у режимі 24/7
+* Модель ліцензування та розповсюдження SW
+  * Масштабування від малих до великих клієнтів
+  * Можливість налаштування під конкретні потреби підприємства
 
-#### A5.4 Enterprise-Ready Grading
+##### Ступінь готовності підприємства
 
-Grading enterprise-readiness consists of evaluating the ability of the overall solution to be deployed in
-production in an enterprise environment. The following criteria will be taken into account:
+Має відповідати мінімальним вимогам щодо продуктивності, функцій та надійності
+* Рівень 1 - Еталонний проєкт та посібник з розгортання
+* Рівень 2 - Вихідні дані готові до розгортання на підприємстві (не потребують етапів після OPEA); контейнерний, підтримка K8; загалом надійний (але не гарантований) для виробництва розгортання в масштабі
+* LРівень 3 - Створення складного моніторингу та інструментарію для підприємства середовища розгортання. Висока відмовостійкість - швидкий час перезапуску екземпляр. Забезпечує режим підтримки L2 + 24/7 "з коробки".
 
-* Ability to have on-prem and cloud deployments
-  * At least two types of solution instances (on-premise installation, cloud, hybrid option)
-  * Cloud/Edge-native readiness (refer to CNCF process/guidelines)
-* Security-ready for enterprise
-  * Multi-level Access Control & Response (including ability to integrate with internal tools)
-  * Data & Model Protection (e.g. including GDPR)
-  * Lifecycle management including security updates, bug fixes, etc
-  * Solutions that are packaged as containerized applications that do not run as root or have
-    more capabilities than necessary. OWASP container best practices.
-  * Ensure by-products/interim results if saved to disk are done so after encrypting.
-* Quality assurance
-  * Accuracy & Uncertainty Metrics for domain-specific enterprise tasks
-  * Documentation
-* High availability
-  * Replication & Data/Instance Protection
-  * Resiliency – time to relaunch an instance when burned down to zero.
-  * Provides support and instrumentation for enterprise 24/7 support
-* Licensing model and SW Distribution
-  * Scalable from small to large customers
-  * Ability to customize for specific enterprise needs
+### A6: Референтні потоки
 
-##### Enterprise Readiness Grade
+Цей розділ містить опис референтних потоків, які будуть доступні для завантаження та відтворення
 
-Must first meet mins across performance, features, and trustworthiness
-* Level 1 – Reference Design and deployment guide
-* Level 2 - Output ready for enterprise deployment (no post-OPEA steps needed);
-  containerized, K8 support; generally robust (but not guaranteed) for production
-  deployment at scale
-* Level 3 – Generating sophisticated monitoring and instrumentation for the enterprise
-  deployment environment. High resiliency – meeting fast time to relaunch an
-  instance. Allows for L2 + 24/7 support mode out-of-the-box
+Потоки посилань слугують чотирьом основним цілям:
 
+* Продемонструвати репрезентативні приклади: В рамках OPEA, референтні потоки демонструють конкретне використання і завдання. Враховуючи притаманну системі гнучкість, можливі різні комбінації компонентів, що забезпечує максимальну гнучкість. Референтні потоки демонструють, як конкретні шляхи і комбінації можуть бути ефективно реалізовані в рамках  фреймворку.
+* Підкресліть потенціал фреймворку: Пропонуючи оптимізовані потоки посилань які вирізняються високою продуктивністю, функціональністю, надійністю і готовностю підприємства, користувачі можуть отримати уявлення про те, чого можна досягти. Досвід слугує цінним навчальним інструментом для досягнення цілей розгортання ШІ та планування.
+* Сприяють легкому розгортанню: Референтні потоки розроблені таким чином, щоб бути доступними і легко інстанціювати з відносно меншими зусиллями. Це дозволяє реплікувати функціональний потік  у своєму середовищі з мінімальними зусиллями, що дозволяє подальші модифікації за потреби.
+* Заохочуйте інновації та експерименти: Дозвольте користувачам в екосистемі експериментувати та впроваджувати інновації з широким набором потоків і максимізувати цінність для їх наскрізних сценаріїв використання.
 
-### A6: Reference Flows
+Поточні приклади референтних потоків наведено для ілюстрації. Очікується, що набір референтних потоків буде розширюватися і охоплюватиме різні комбінації компонентів HW і SW/AI від різних постачальників.
 
-This section includes descriptions of reference flows that will be available for loading and reproducing
-with minimal effort.
-
-Reference flows serve four primary objectives:
-
-* Demonstrate representative instantiations: Within OPEA framework, reference
-  flows showcase specific uses and tasks. Given the framework’s inherent
-  flexibility, various combinations of components are possible allowing for
-  maximum flexibility. Reference flows demonstrate how specific paths and
-  combinations can be effectively implemented within the framework.
-* Highlight the framework’s potential: By offering optimized reference flows
-  that excel in performance, features, trustworthiness, and enterprise
-  readiness, users can gain insight into what can be achieved. The experience
-  serves as valuable learning tools towards achieving their AI deployment goals
-  and planning.
-* Facilitate easy deployment: Reference flows are designed to be accessible and
-  easy to instantiate with relatively lower effort. It allows replicating a
-  functional flow within their environment with minimal effort, allowing
-  subsequent modifications as needed.
-* Encourage innovation and experimentation: Allow users in the ecosystem to
-  experiment with and innovate with a broad set of flows and maximize the value
-  for their end-to-end use cases.
-
-Current examples of reference flows are provided for illustration purposes. The set of reference flows is
-expected to grow and cover various combinations of HW and SW/AI components from multiple
-providers.
-
-The reference flow descriptions need to provide high clarity as to what and how they can be recreated
-and results reproduced at an OPEA user setting. All reference flows will have a visualization that clarifies
-which components are being instantiated and how they are connected in the flow. The graphics legend
-described in Figure 6.1 will be used for all reference flow depictions.
+Описи референтних потоків повинні забезпечувати високу чіткість щодо того, що і як можна відтворити, а також відтворити результати в середовищі користувача OPEA. Всі референтні потоки повинні мати візуалізацію, яка пояснює, які компоненти конкретизуються і як вони пов'язані в потоці. Для всіх зображень референтних потоків буде використовуватися графічна легенда, описана на Рисунку 6.1.
 
 
 ![Reference Design Flows Visualization - legend](images/framework-image10.png)
 
-Figure A6.1 - Reference Design Flows Visualization - legend
+Рисунок A6.1 - Візуалізація потоків еталонного проекту - легенда
 
 
-#### A6.1 – Xeon + Gaudi2 LLM RAG flow for Chat QnA
+#### A6.1 – Xeon + Gaudi2 LLM RAG потік для чату QnA
 
-A reference flow that illustrates an LLM enterprise RAG flow that runs on Xeon (GNR) with vector
-database and an embedding model, and with a Gaudi2 serving backend for LLM model inference.
+Референсний потік, який ілюструє потік RAG LLM підприємства, що працює на Xeon (GNR) з векторною базою даних і моделлю вбудовування, а також з бекендом Gaudi2, що обслуговує виведення моделі LLM.
 
-The reference flow demonstrates a RAG application that provides an AI assistant experience with
-capability of retrieving information from an external source to enhance the context that is provided to
-an LLM. The AI assistant is provided with access to an external knowledge base, consisting of text and
-PDF documents and web pages available via direct URL download.
-The flow enables users to interact with LLMs and query about information that is unknown to the LLMs,
-or for example, consists of proprietary data sources.
+Референсний потік демонструє додаток RAG, який надає асистенту ШІ такі можливості
+можливість отримання інформації із зовнішнього джерела для покращення контексту, який надається LLM. Асистент ШІ має доступ до зовнішньої бази знань, що складається з текстових і PDF-документів і веб-сторінок, доступних через пряме завантаження за URL-адресою.
+Потік дозволяє користувачам взаємодіяти з LLM і запитувати інформацію, яка невідома LLM, або, наприклад, складається з власних джерел даних.
 
-The reference flow consists of the following detailed process: a data storage which is used by a
-retrieving module to retrieve relevant information given a query from the user. The query and external
-data are stored in an encoded vector format that allows for enhance semantic search. The retriever
-module encodes the query and provides the prompt processor the retrieved context and the query to
-create an enhanced prompt to the LLM. An LLM receives the enhanced prompt generates a grounded
-and correct response to the user.
+Референсний потік складається з наступного детального процесу: сховище даних, яке використовується модулем
+модуль пошуку для отримання релевантної інформації за запитом користувача. Запит і зовнішні дані зберігаються в кодованому векторному форматі, що дозволяє покращити семантичний пошук. Модуль retriever
+кодує запит і надає процесору підказок знайдений контекст і запит для створення розширеної підказки для LLM. LLM отримує розширену підказку і генерує обґрунтовану
+і дає користувачеві обґрунтовану та коректну відповідь.
 
-The flow contains the following components:
-* A data ingest flow that uses an embedding model serving platform (TEI) and an
-  embedding model (BGE-base) for encoding text and queries into semantic
-  representations (vectors) which are stored in an index (Redis vector
-  database), both running on Intel Gen6 Xeon GNR for storing and retrieving
-  data.
-* A LLM inference serving flow utilizing TGI-Gaudi for LLM model serving on
-  Gaudi2 platform, which is used generating answers by inputting prompts that
-  combine retrieved relevant documents from Redis vector database and the user
-  query.
-* An orchestration framework based on LangChain that initializes a pipeline with
-  the components above and orchestrates the data processing from the user
-  (query), text encoding, retrieval, prompt generation and LLM inference.
+Потік складається з наступних компонентів:
+* Потік надходження даних, який використовує платформу, що обслуговує модель вбудовування (TEI) та модель вбудовування (BGE-base) для кодування тексту та запитів у семантичні представлення (вектори), які зберігаються в індексі (векторна база даних Redis), обидві працюють на Intel Gen6 Xeon GNR для зберігання s пошуку даних.
+* Потік обслуговування висновків LLM, що використовує TGI-Gaudi для моделі LLM, що обслуговується на Gaudi2, який икористовується для генерації відповідей шляхом введення підказок, які комбінують отримані релевантні документи з векторної бази даних Redis та запит користувача.
+* Фреймворк оркестрування на основі LangChain, який ініціалізує трубопровід з вищезгаданими компонентами та організовує обробку даних від користувача (запит), кодування тексту, пошук, генерація підказок і виведення LLM.
 
-A complete reference implementation of this flow is available in the ChatQnA example in Intel’s GenAI
-examples repository.
-
+Повна еталонна реалізація цього потоку доступна у прикладі ChatQnA у репозиторії прикладів Intel's GenAI.
 
 ![Xeon + Gaudi2 LLM RAG flow for Chat QnA](images/framework-image11.png)
 
-Figure A6-1.2 Xeon + Gaudi2 LLM RAG flow for Chat QnA
+Рисунок A6-1.2 Потік Xeon + Gaudi2 LLM RAG для чату QnA
 
-A demo user Interface looks like below, which also shows the difference with and without RAG.
-
+Демонстраційний користувацький інтерфейс виглядає так, як показано нижче, що також показує різницю з RAG і без нього.
 
 ![Xeon + Gaudi2 LLM RAG flow for Chat QnA – demo screen](images/framework-image12.png)
 
-Figure A6-1.3  Xeon + Gaudi2 LLM RAG flow for Chat QnA – demo screen
+Рисунок A6-1.3 Потік Xeon + Gaudi2 LLM RAG для чату QnA - демонстраційний екран
 
-#### A6.2 - Multimodal Chat Over Images and Videos
+#### A6.2 - Мультимодальний чат через зображення і відео
 
-This reference flow demonstrates a multimodal RAG pipeline which utilizes Intel Labs’ BridgeTower
-vision-language model for indexing and LLaVA for inference, both running on Intel Gaudi AI accelerators.
-The use case for this reference flow is enabling an AI chat assistant to retrieve and comprehend
-multimodal context documents such as images and videos. For example, a user may wish to ask an AI
-assistant questions which require reasoning over images and videos stored on their PC. This solution
-enables such capabilities by retrieving images and video frames relevant to a user’s query and providing
-them as extra context to a Large Vision-Language Model (LVLM), which then answers the user’s
-question.
+Цей потік посилань демонструє мультимодальний конвеєр RAG, який використовує модель мови зору BridgeTower від Intel Labs для індексування і LLaVA для виведення, обидві працюють на прискорювачах Intel Gaudi AI.
+Цей довідковий потік дозволяє чат-асистенту зі штучним інтелектом отримувати і розуміти мультимодальні контекстні документи, такі як зображення і відео. Наприклад, користувач може поставити ШІ-помічнику запитання, які вимагають міркувань над зображеннями та відео, що зберігаються на його комп'ютері. Це рішення
+надає такі можливості, отримуючи зображення та відеокадри, що відповідають запиту користувача, і надаючи їх як додатковий контекст для великої моделі мови зору (LVLM), яка потім відповідає на запитання користувача.
 
-Specifically, this reference solution takes images and video files as input. The inputs are encoded in a
-joint multimodal embedding space by BridgeTower, which is an open-source vision-language
-transformer. Detailed instructions and documentation for this model are available via Hugging Face. The
-multimodal embeddings are then indexed and stored in a Redis vector database.
+Зокрема, це еталонне рішення приймає зображення та відеофайли як вхідні дані. Вхідні дані кодуються в спільному мультимодальному просторі вбудовування BridgeTower, який є трансформатором мови технічного зору з відкритим вихідним кодом.
+Детальні інструкції та документація для цієї моделі доступні на сайті Hugging Face. Потім мультимодальні вбудовування індексуються та зберігаються у векторній базі даних Redis.
 
-At inference time, a user’s query is embedded by BridgeTower and used to retrieve the most relevant
-images & videos from the vector database. The retrieved contexts are then appended to the user’s
-query and passed to LLaVA to generate an answer. Detailed instructions and documentation for the
-LLaVA model are available via Hugging Face.
+Під час виведення BridgeTower вбудовує запит користувача і використовує його для отримання найбільш релевантних зображень і відео з векторної бази даних. 
+Отримані контексти потім додаються до запиту користувача і передаються LLaVA для генерації відповіді. Детальні інструкції та документація для
+LLaVA доступні на сайті Hugging Face.
 
-This reference flow requires Intel Gaudi AI Accelerators for the embedding model and for generating
-responses with the LVLM. All other components of the reference flow can be executed on CPU. A
-complete end-to-end open-source implementation of this reference flow is available via Multimodal
-Cognitive AI.
-
-
+Для цього референтного потоку потрібні прискорювачі Intel Gaudi AI для моделі вбудовування та для генерації відповідей за допомогою LVLM. Всі інші компоненти референсного потоку можуть виконуватися на центральному процесорі. Повна наскрізна реалізація цього еталонного потоку з відкритим вихідним кодом доступна через Multimodal Cognitive AI.
 
 ![Multimodal Chat Over Images and Videos Reference Flow](images/framework-image13.png)
 
-Figure A6-2.1 Multimodal Chat Over Images and Videos Reference Flow
+Малюнок A6-2.1 Мультимодальний чат за допомогою зображень і відео референсного потоку.
 
-Below is an illustration of a user interface constructed for this reference flow, which was showcased at
-Intel Vision:
+Нижче наведено ілюстрацію користувацького інтерфейсу, створеного для цього довідкового потоку, який було продемонстровано на виставці Intel Vision:
 
 ![Multimodal Chat Over Images and Videos – demo screen](images/framework-image14.png)
 
-Figure A6.2.2 Multimodal Chat Over Images and Videos – demo screen
+Малюнок A6.2.2 Мультимодальний чат через зображення та відео - демонстраційний екран
 
+#### A6.3 – Оптимізований текстовий та мультимодальний трубопровід RAG
 
-#### A6.3 – Optimized Text and Multimodal RAG pipeline
+Наведений нижче референсний потік демонструє оптимізований конвеєр текстових і мультимодальних RAG, який може бути використаний корпоративними клієнтами на процесорах Intel Xeon.
 
-The reference flow below demonstrates an optimized Text and Multimodal RAG pipeline which can be
-leveraged by Enterprise customers on Intel Xeon processor.
+Цей потік демонструє потік виведення RAG на неструктурованих даних і зображень на процесорах Intel 4-го та 5-го поколінь Xeon з використанням Haystack. Він базується на fastRAG для оптимізації пошуку.
 
-This flow demonstrates RAG inference flow on unstructured data and images with 4th and 5th Gen Intel
-Xeon processor using Haystack. It is based on fastRAG for optimized retrieval.
+Першим кроком є створення індексу для векторної бази даних (у цьому випадку Qdrant). Для неструктурованих текстових даних використовуються речення-трансформери. Для зображень використовується BridgeTower для кодування вхідних даних.
 
-The first step is to create index for the vector database (i.e. Qdrant in this case). For unstructured text
-data, sentence-transformers  is used. For images, BridgeTower is used to encode the inputs.
+Після налаштування векторної бази даних наступним кроком буде розгортання чату виведення. Моделі LLM та LMM, що використовуються для виведення - це моделі Llama-2-7b-chat-hf, Llama-2-13b-chat-hf та LLaVa відповідно.
 
-Once the vector database is set up, next step is to deploy inference chat. The LLM and LMM models
-used for inference are Llama-2-7b-chat-hf, Llama-2-13b-chat-hf and LLaVa models respectively.
-
-The below diagram shows the end-to-end flow for this optimized text and multimodal chat with RAG.
-
+На діаграмі нижче показано наскрізний потік для цього оптимізованого текстового і мультимодального чату з RAG.
 
 ![Optimized Text and Multimodal RAG pipeline Reference Flow](images/framework-image15.png)
 
-Figure A6-3.1 Optimized Text and Multimodal RAG pipeline Reference Flow
+Рисунок A6-3.1 Референсний потік оптимізованого текстового та мультимодального трубопроводу RAG
 
-Below is a visual snapshot of the chat implemented using this flow. It shows how a RAG-enabled chatbot
-in Figure A6-3.2 improves the response for a Superbowl query over a non-RAG implementation in Figure
-A6-3.3.
+Нижче наведено візуальний знімок чату, реалізованого за допомогою цього потоку. Він показує, як чат-бот з підтримкою RAG на рисунку A6-3.2 покращує відповідь на запит про Суперкубок порівняно з реалізацією без RAG на рисунку A6-3.3.
 
 ![Non-RAG chatbot: Super Bowl Query](images/framework-image16.png)
 
-Figure A6-3.2: Non-RAG chatbot: Super Bowl Query
+Малюнок A6-3.2: Чат-бот без RAG: Запит про Суперкубок
 
 ![RAG enabled chatbot - Super Bowl query](images/framework-image17.png)
 
-Figure A6-3.3: RAG enabled chatbot - Super Bowl query
+Малюнок A6-3.3: Чат-бот з підтримкою RAG - запит про Суперкубок
 
