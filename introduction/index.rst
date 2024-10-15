@@ -1,88 +1,67 @@
 .. _OPEA_intro:
 
-OPEA Overview
-#############
+Огляд OPEA
+##########
 
-OPEA (Open Platform for Enterprise AI) is a framework that enables the creation
-and evaluation of open, multi-provider, robust, and composable generative AI
-(GenAI) solutions. It harnesses the best innovations across the ecosystem while
-keeping enterprise-level needs front and center.
+OPEA (Open Platform for Enterprise AI) - це платформа, яка дозволяє створювати
+і оцінювати відкриті, мультипровайдерні, надійні і комбіновані рішення для генеративного ШІ
+(GenAI). Вона використовує найкращі інновації з усієї екосистеми, водночас
+зберігаючи при цьому потреби на рівні підприємства в центрі уваги.
 
-OPEA simplifies the implementation of enterprise-grade composite GenAI
-solutions, starting with a focus on Retrieval Augmented Generative AI (RAG).
-The platform is designed to facilitate efficient integration of secure,
-performant, and cost-effective GenAI workflows into business systems and manage
-its deployments, leading to quicker GenAI adoption and business value.
+OPEA спрощує впровадження композитних рішень GenAI корпоративного рівня, починаючи з фокусу на пошуковому доповненому генеративному ШІ (Retrieval Augmented Generative AI або RAG).
+Платформа призначена для полегшення ефективної інтеграції безпечних, продуктивних і економічно ефективних робочих процесів GenAI в бізнес-системи та управління їх розгортанням, що сприяє швидшому впровадженню GenAI і підвищенню його цінності для бізнесу.
 
-The OPEA platform includes:
+Платформа OPEA включає в себе:
 
-* Detailed framework of composable microservices building blocks for
-  state-of-the-art GenAI systems including LLMs, data stores, and prompt engines
+* Детальний фреймворк комбінованих будівельних блоків мікросервісів для найсучасніших систем GenAI, включаючи LLM, сховища даних та механізми підказок
 
-* Architectural blueprints of retrieval-augmented GenAI component stack
-  structure and end-to-end workflows
+* Архітектурні схеми доповнених пошуком GenAI стеку компонентів структури і наскрізних робочих процесів
 
-* Multiple micro- and megaservices to get your GenAI into production and
-  deployed
+* Численні мікро- і мегасервіси для запуску вашого GenAI у виробництво і розгортання
 
-* A four-step assessment for grading GenAI systems around performance, features,
-  trustworthiness and enterprise-grade readiness
+* Чотирьохетапне оцінювання систем GenAI за продуктивністю, функціями, надійністю і готовністю до роботи на рівні підприємства
 
-OPEA Project Architecture
-*************************
+Архітектура проєкту OPEA
+************************
 
-OPEA uses microservices to create high-quality GenAI applications for
-enterprises, simplifying the scaling and deployment process for production.
-These microservices leverage a service composer that assembles them into a
-megaservice thereby creating real-world Enterprise AI applications.
+OPEA використовує мікросервіси для створення високоякісних додатків GenAI для підприємств, спрощуючи процес масштабування та розгортання на виробництві.
+Ці мікросервіси використовують композитор сервісів, який об'єднує їх у мегасервіс, створюючи таким чином реальні корпоративні програми штучного інтелекту.
 
-Microservices: Flexible and Scalable Architecture
-=================================================
+Мікросервіси: Гнучка і масштабована архітектура
+===============================================
 
-The :ref:`GenAIComps` documentation describes
-a suite of microservices. Each microservice is designed to perform a specific
-function or task within the application architecture. By breaking down the
-system into these smaller, self-contained services, microservices promote
-modularity, flexibility, and scalability. This modular approach allows
-developers to independently develop, deploy, and scale individual components of
-the application, making it easier to maintain and evolve over time. All of the
-microservices are containerized, allowing cloud native deployment.
+Документація :ref:`GenAIComps` описує набір мікросервісів. Кожен мікросервіс призначений для виконання певної функції або завдання в архітектурі програми.
+Розбиваючи систему на ці менші, автономні сервіси, мікросервіси сприяють модульності, гнучкості та масштабованості.
+Такий модульний підхід дозволяє розробникам самостійно розробляти, розгортати і масштабувати окремі компоненти
+додатку, що полегшує його підтримку і розвиток з часом. Всі мікросервіси є контейнерними, що дозволяє розгортати їх у хмарі.
 
-Megaservices: A Comprehensive Solution
-======================================
+Мегасервіси: Комплексне рішення
+===============================
 
-Megaservices are higher-level architectural constructs composed of one or more
-microservices. Unlike individual microservices, which focus on specific tasks or
-functions, a megaservice orchestrates multiple microservices to deliver a
-comprehensive solution. Megaservices encapsulate complex business logic and
-workflow orchestration, coordinating the interactions between various
-microservices to fulfill specific application requirements. This approach
-enables the creation of modular yet integrated applications. You can find a
-collection of use case-based applications in the :ref:`GenAIExamples`
-documentation
+Мегасервіси - це архітектурні конструкції вищого рівня, що складаються з одного або декількох мікросервісів.
+На відміну від окремих мікросервісів, які зосереджені на конкретних завданнях або функціях, мегасервіс організовує кілька мікросервісів для надання комплексного рішення.
+Мегасервіси інкапсулюють складну бізнес-логіку та організацію робочих процесів, координуючи взаємодію між різними мікросервісами для виконання конкретних вимог додатків.
+Такий підхід дозволяє створювати модульні, але інтегровані додатки. Ви можете знайти колекцію додатків на основі варіантів використання у :ref:`GenAIExamples` документації.
 
-Gateways: Customized Access to Mega- and Microservices
+Шлюзи: Індивідуальний доступ до мега- та мікросервісів
 ======================================================
 
-The Gateway serves as the interface for users to access a megaservice, providing
-customized access based on user requirements. It acts as the entry point for
-incoming requests, routing them to the appropriate microservices within the
-megaservice architecture.
+Шлюз слугує інтерфейсом для доступу користувачів до мегасервісу, забезпечуючи
+індивідуальний доступ на основі вимог користувача. Він діє як точка входу для
+вхідних запитів, перенаправляючи їх до відповідних мікросервісів в рамках
+архітектури мегасервісу.
 
-Gateways support API definition, API versioning, rate limiting, and request
-transformation, allowing for fine-grained control over how users interact with
-the underlying Microservices. By abstracting the complexity of the underlying
-infrastructure, Gateways provide a seamless and user-friendly experience for
-interacting with the Megaservice.
+Шлюзи підтримують визначення API, версіювання API, обмеження швидкості та трансформацію запитів, що дозволяє тонко контролювати взаємодію користувачів з
+базовими мікросервісами. Абстрагуючись від складності базової інфраструктури, шлюзи забезпечують безперебійну та зручну взаємодію з мегасервісом.
 
-Next Step
-*********
+Наступний крок
+**************
 
-Links to:
+Посилання на:
 
-* Getting Started Guide
-* Get Involved with the OPEA Open Source Community
-* Browse the OPEA wiki, mailing lists, and working groups: https://wiki.lfaidata.foundation/display/DL/OPEA+Home
+* Посібник з початку роботи
+* Долучайтеся до спільноти OPEA з відкритим вихідним кодом
+* Перегляньте вікі-сторінку OPEA, списки розсилки і робочі групи: https://wiki.lfaidata.foundation/display/DL/OPEA+Home
 
 .. toctree::
    :maxdepth: 1

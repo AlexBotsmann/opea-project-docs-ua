@@ -1,9 +1,9 @@
 .. _release_notes:
 
-Release Notes
-#############
+Примітки до випуску
+###################
 
-Release notes for the current and previous releases are archived here.
+Примітки до випуску поточного і попередніх випусків заархівовано тут.
 
 .. rst-class:: rst-columns3
 

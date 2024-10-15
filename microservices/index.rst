@@ -1,16 +1,14 @@
 .. _GenAIComps:
 .. _GenAIMicroservices:
 
-GenAI Microservices
-###################
+Мікросервіси GenAI
+##################
 
-GenAI microservices leverag a service composer to
-assemble a mega-service tailored for real-world Enterprise AI applications. All
-the microservices are containerized, allowing cloud native deployment. Checkout
-how the microservices are used in :ref:`GenAIExamples`.
+Мікросервіси GenAI використовують композитор послуг, щоб зібрати мегасервіс,
+адаптований для реальних застосунків корпоративного ШІ. Всі мікросервіси контейнеризовані,
+що дозволяє розгортати їх у хмарі. Дізнайтеся, як використовуються мікросервіси в :ref:`GenAIExamples`.
 
-We're building this microservices documentation from content in the
-:GenAIComps_blob:`GenAIComps<README.md>` GitHub repository.
+Ми створюємо цю документацію мікросервісів з вмісту в :GenAIComps_blob:`GenAIComps<README.md>` репозиторію GitHub.
 
 
 .. toctree::
@@ -20,7 +18,7 @@ We're building this microservices documentation from content in the
    /GenAIComps/README
    /GenAIComps/*
 
-**Microservices Table of Contents**
+**Мікросервіси. Зміст**
 
 .. rst-class:: rst-columns
 
@@ -30,7 +28,6 @@ We're building this microservices documentation from content in the
 
 ----
 
-.. comment This include file is generated in the Makefile during doc build
-   time from all the directories found in the GenAIComps/comps directory
+.. comment Цей include-файл генерується у Makefile під час збірки doc з усіх каталогів, знайдених у каталозі GenAIComps/comps
 
 .. include:: microservices.txt

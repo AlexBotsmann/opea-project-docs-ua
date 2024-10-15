@@ -1,35 +1,34 @@
-# Test markdown file with cross-repo links
+# Тестовий файл розмітки з перехресними посиланнями
 
-This folder contains a collection of Kubernetes manifest files for deploying the ChatQnA service across scalable nodes. It includes a comprehensive [benchmarking tool](/GenAIEval/evals/benchmark/README.md) that enables throughput analysis to assess inference performance.
+Ця папка містить колекцію маніфест файлів Kubernetes для розгортання сервісу ChatQnA на масштабованих вузлах. Вона включає комплексний [інструмент для бенчмаркінгу] (/GenAIEval/evals/benchmark/README.md), який дозволяє проводити аналіз пропускної здатності для оцінки продуктивності виводу.
 
-We have created the [BKC manifest](https://github.com/opea-project/GenAIExamples/tree/main/ChatQnA/benchmark) for single node, two nodes and four nodes K8s cluster. In order to apply, we need to check out and configure some values.
+Ми створили [BKC маніфест](https://github.com/opea-project/GenAIExamples/tree/main/ChatQnA/benchmark) для одновузлового, двовузлового і чотиривузлового кластерів K8s. Для того, щоб застосувати, нам потрібно перевірити і налаштувати деякі значення.
 
-The test uses the [benchmark tool](https://github.com/opea-project/GenAIEval/tree/main/evals/benchmark) to do performance test. We need to set up benchmark tool at the master node of Kubernetes which is k8s-master.
+Для тестування продуктивності використовується [інструмент бенчмарку](https://github.com/opea-project/GenAIEval/tree/main/evals/benchmark). Нам потрібно встановити інструмент бенчмарку на головному вузлі Kubernetes, яким є k8s-master.
 
-This document outlines the deployment process for a CodeGen application utilizing the [GenAIComps](https://github.com/opea-project/GenAIComps.git) microservice pipeline on Intel Gaudi2 server. The steps include Docker images creation, container deployment via Docker Compose, and service execution to integrate microservices such as `llm`. We will publish the Docker images to the Docker Hub soon, further simplifying the deployment process for this service.
+У цьому документі описано процес розгортання програми CodeGen з використанням трубопроводу мікросервісів [GenAIComps](https://github.com/opea-project/GenAIComps.git) на сервері Intel Gaudi2. Кроки включають створення образів Docker, розгортання контейнера за допомогою Docker Compose і виконання сервісів для інтеграції мікросервісів, таких як `llm`. Незабаром ми опублікуємо образи Docker на Docker Hub, що ще більше спростить процес розгортання цього сервісу.
 
-Install GMC in your Kubernetes cluster, if you have not already done so, by following the steps in Section "Getting Started" at [GMC Install](https://github.com/opea-project/GenAIInfra/tree/main/microservices-connector#readme). We will soon publish images to Docker Hub, at which point no builds will be required, further simplifying install.
+Встановіть GMC у кластері Kubernetes, якщо ви цього ще не зробили, виконавши кроки з розділу «Початок роботи» на сторінці [Встановлення GMC](https://github.com/opea-project/GenAIInfra/tree/main/microservices-connector#readme). Незабаром ми опублікуємо образи на Docker Hub, після чого збірки не знадобляться, що ще більше спростить встановлення.
 
-If you get errors like "Access Denied", [validate micro service](https://github.com/opea-project/GenAIExamples/tree/main/CodeGen/docker_compose/intel/cpu/xeon#validate-microservices) first.
+Якщо ви отримуєте помилки на кшталт «Доступ заборонено», спочатку [перевірте мікросервіс](https://github.com/opea-project/GenAIExamples/tree/main/CodeGen/docker_compose/intel/cpu/xeon#validate-microservices).
 
-Update Knowledge Base via Local File [nke-10k-2023.pdf](https://github.com/opea-project/GenAIComps/blob/main/comps/retrievers/redis/data/nke-10k-2023.pdf)
+Оновіть базу знань через локальний файл [nke-10k-2023.pdf](https://github.com/opea-project/GenAIComps/blob/main/comps/retrievers/redis/data/nke-10k-2023.pdf)
 
-Please refer to [Xeon README](/GenAIExamples/AudioQnA/docker_compose/intel/cpu/xeon/README.md) or [Gaudi README](/GenAIExamples/AudioQnA/docker_compose/intel/hpu/gaudi/README.md) to build the OPEA images. These too will be available on Docker Hub soon to simplify use.
+Будь ласка, зверніться до [Xeon README](/GenAIExamples/AudioQnA/docker_compose/intel/cpu/xeon/README.md) або [Gaudi README](/GenAIExamples/AudioQnA/docker_compose/intel/hpu/gaudi/README.md) для створення образів OPEA. Незабаром вони також будуть доступні на Docker Hub для спрощення використання.
 
-Here's a [Link](https://github.com/opea-project/GenAIComps/blob/main/comps/reranks/tei/Dockerfile) to a Docker file.
+Ось [посилання](https://github.com/opea-project/GenAIComps/blob/main/comps/reranks/tei/Dockerfile) на файл Docker.
 
-You can take a look at the tools yaml and python files in this example. For more details, please refer to the "Provide your own tools" section in the instructions [here](https://github.com/opea-project/GenAIComps/tree/main/comps/agent/langchain#5-customize-agent-strategy).
+У цьому прикладі ви можете ознайомитися з інструментами yaml і python-файлів. Для більш детальної інформації, будь ласка, зверніться до розділу «Provide your own tools» інструкції [тут](https://github.com/opea-project/GenAIComps/tree/main/comps/agent/langchain#5-customize-agent-strategy).
 
-Here's another [Link](https://github.com/opea-project/GenAIExamples/blob/main/ChatQnA/ui/docker/Dockerfile.react) to examine.
+Ось інше [посилання](https://github.com/opea-project/GenAIExamples/blob/main/ChatQnA/ui/docker/Dockerfile.react) для вивчення.
 
-Here is a nice one [Docker Xeon README](/GenAIExamples/DocSum/docker_compose/intel/cpu/xeon/README.md) and that with a section reference [Docker Xeon README](/GenAIExamples/DocSum/docker_compose/intel/cpu/xeon/README.md#section)
+Ось гарний [Docker Xeon README](/GenAIExamples/DocSum/docker_compose/intel/cpu/xeon/README.md) і з посиланням на розділ [Docker Xeon README](/GenAIExamples/DocSum/docker_compose/intel/cpu/xeon/README.md#section)
 
-And a reference to a python file [finetune_config](https://github.com/opea-project/GenAIComps/blob/main/comps/finetuning/finetune_config.py) to keep things interesting.
+І посилання на python-файл [finetune_config](https://github.com/opea-project/GenAIComps/blob/main/comps/finetuning/finetune_config.py), щоб було цікавіше.
 
-Here's an [issue](https://github.com/opea-project/GenAIExamples/issues/763)
-reference and
-[Actions](https://github.com/opea-project/GenAIExamples/actions) reference too.
-Might as well test [PRs](https://github.com/opea-project/GenAIExamples/pulls)
-and [Projects](https://github.com/opea-project/GenAIExamples/projects) too.
+Ось [issue](https://github.com/opea-project/GenAIExamples/issues/763)
+і [Actions](https://github.com/opea-project/GenAIExamples/actions) також.
+Можна також перевірити [PR](https://github.com/opea-project/GenAIExamples/pulls)
+і [Projects](https://github.com/opea-project/GenAIExamples/projects).
 
-In release notes will find [88b3c1](https://github.com/opea-project/GenAIInfra/commit/88b3c108e5b5e3bfb6d9346ce2863b69f70cc2f1) commit references.
+У примітках до випуску ви знайдете [88b3c1](https://github.com/opea-project/GenAIInfra/commit/88b3c108e5b5e3bfb6d9346ce2863b69f70cc2f1) посилання на комміти.

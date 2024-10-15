@@ -1,10 +1,10 @@
 # opea-project.github.io
 
-This is the OPEA Project Documentation Publishing site for GitHub Pages.
-Content changes are not made directly in this repo.  Instead, edit content in
-the opea-project/docs and other repos, re-generate the HTML with Sphinx (make
-html), and with the right permissions, push the updated content here for
-publishing (make publish).
+Це сайт для публікації документації проекту OPEA на GitHub Pages.
+Зміни вмісту не вносяться безпосередньо в цей репозиторій.  Замість цього відредагуйте вміст у
+opea-project/docs та інших репозиторіях, перегенеруйте HTML за допомогою Sphinx (make
+html), і з відповідними правами доступу перемістіть оновлений вміст сюди для
+публікації (make publish).
 
-Read the published documentation on
+Ознайомтеся з опублікованою документацією на
 [https://opea-project.github.io](https://opea-project.github.io).
