@@ -83,26 +83,19 @@ Scalable Processors, сервери Gaudi, графічні процесори N
 
 Архітектура виконує низку кроків для обробки запитів користувачів і генерування відповідей:
 
-1. **Embedding**: The user query is first transformed into a numerical
-   representation called an embedding. This embedding captures the semantic
-   meaning of the query and allows for efficient comparison with other
-   embeddings.
-#. **Vector Database**: The embedding is then used to search a vector database,
-   which stores relevant data points as vectors. The vector database enables
-   efficient and semantic retrieval of information based on the similarity
-   between the query embedding and the stored vectors.
-#. **Re-ranker**: Uses a model to rank the retrieved data on their saliency.
-   The vector database retrieves the most relevant data
-   points based on the query embedding. These data points can include documents,
-   articles, or any other relevant information that can help generate accurate
-   responses.
-#. **LLM**: The retrieved data points are then passed to large language models
-   (LLM) for further processing. LLMs are powerful generative models that have
-   been trained on a large corpus of text data. They can generate human-like
-   responses based on the input data.
-#. **Generate Response**: The LLMs generate a response based on the input data
-   and the user query. This response is then returned to the user as the
-   chatbot's answer.
+1. **Embedding (Вбудовування)**: Запит користувача спочатку перетворюється в числове представлення, яке називається вбудовуванням.
+   Це вбудовування фіксує семантичне значення запиту і дозволяє ефективно порівнювати його з іншими вбудовуваннями.
+#. **Vector Database (Векторна база даних)**: Далі вбудовування використовується для пошуку у векторній базі даних,
+   яка зберігає відповідні точки даних у вигляді векторів. Векторна база даних дозволяє ефективний і
+   семантичний пошук інформації на основі подібності між вбудовуванням запиту та збереженими векторами.
+#. **Re-ranker (Переранжування)**: Використовує модель для ранжування знайдених даних за їхньою корисністю.
+   Векторна база даних отримує найбільш релевантні дані на основі вкладеного запиту.
+   Ці дані можуть включати документи, статті або будь-яку іншу релевантну інформацію, яка може допомогти генерувати точні відповіді.
+#. **LLM**: Отримані точки даних потім передаються до великих мовних моделей (LLM) для подальшої обробки.
+   LLM - це потужні генеративні моделі, які були були навчені на великому масиві текстових даних.
+   Вони можуть генерувати людські відповіді на основі вхідних даних.
+#. **Generate Response (Сформована відповідь)**: LLM генерують відповідь на основі вхідних даних і запиту користувача.
+   Потім ця відповідь повертається користувачеві як відповідь чат-бота.
 
 Очікуваний вивід
 ================
