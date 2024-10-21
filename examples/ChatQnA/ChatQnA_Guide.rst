@@ -74,7 +74,7 @@ Scalable Processors, сервери Gaudi, графічні процесори N
 починаючи з введення користувачем і проходячи через компоненти отримання, переранжування і
 генерування компонентів, що в кінцевому підсумку призводить до виводу бота.
 
-.. figure:: /GenAIExamples/ChatQnA/assets/img/chatqna_architecture.png
+.. figure:: ChatQnA/assets/img/chatqna_architecture.png
    :alt: ChatQnA Architecture Diagram
 
    Ця діаграма ілюструє потік інформації в системі чат-ботів,
@@ -112,7 +112,7 @@ TBD
 
 Архітектура ChatQnA показана нижче:
 
-.. figure:: /GenAIExamples/ChatQnA/assets/img/chatqna_flow_chart.png
+.. figure:: ChatQnA/assets/img/chatqna_flow_chart.png
    :alt: ChatQnA Architecture Diagram
 
 План і схема мікросервісу

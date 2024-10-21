@@ -305,7 +305,7 @@ OPEA Mega Service - це основний вхід, до якого корист
    * - **POST**
      - ``response_format``
      - ``object``
-     - optional
+     - необов'язковий
      -
    * - **POST**
      - ``seed``
